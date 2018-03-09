@@ -7,7 +7,9 @@ The infrastructure is very basic and meant for a proof of concept.
 instructions : 
 
 git clone https://github.com/TheCodingLand/neural-net-ctg.git
+
 cd neural-net-ctg
+
 docker-compose up
 
 Currently the ports are all over the place as the reverse proxy/load balancer is not yet configured.
