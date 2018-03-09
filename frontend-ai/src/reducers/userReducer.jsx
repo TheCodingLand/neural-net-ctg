@@ -39,6 +39,19 @@ export default function userReducer(state = initialState
             console.log(state)
             return state
         }
+        case "PREDICTION_FAILED": {
+            console.log("PREDICTON FAILED")
+            //CALL API
+            
+
+            state = { ...state, 
+                conversationHistory: state.conversationHistory.concat({
+                    id:state.conversationHistory.length,
+                    user:'Tina',
+                    content:'sorry, api is not yet available for this question. please come back later !'}) }
+            console.log(state)
+            return state
+        }
         default:
             return state
     }
