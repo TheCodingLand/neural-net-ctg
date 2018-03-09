@@ -20,7 +20,7 @@ class AiManager(object):
         self.trainingfile = "train.txt"
         self.testfile= "test.txt"
         self.completefile = "data.txt"
-        self.epochs=50
+        self.epochs=100
         self.learningRate=0.7
         self.wordNgrams=3
         self.ts = ts()
