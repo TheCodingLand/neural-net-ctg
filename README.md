@@ -12,10 +12,16 @@ docker-compose up
 
 Currently the ports are all over the place as the reverse proxy/load balancer is not yet configured.
 
-localhost:5005 for the rest api
 localhost:5102 for swagger
+localhost:5005 for the rest api
+
+![alt text](https://github.com/TheCodingLand/neural-net-ctg/blob/master/restapi.png?raw=true)
+
+
+
 localhost:5011 for the ai front end
 
+![alt text](https://github.com/TheCodingLand/neural-net-ctg/blob/master/tinaaifrontend-wip.png?raw=true)
 
 Done : 
 API :
