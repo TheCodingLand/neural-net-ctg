@@ -49,7 +49,8 @@ class Tina extends Component {
       };
 
     handleSend() {
-        
+        this.props.sendTextAi("julien",this.state.multiline)
+        this.setState(...this.state, {multiline:""})
     }
   render() {
       console.log(this.props)
@@ -57,7 +58,7 @@ class Tina extends Component {
     
       <div className={this.props.classes.root} >
        
-        <TinaReplies convesation ={this.props.user.conversaionHistory} />
+        <TinaReplies conversation ={this.props.user.conversationHistory} />
 
        <TextField
           id="multiline-flexible"
@@ -73,7 +74,7 @@ class Tina extends Component {
                     <Button
                         variant="raised"
                         color="secondary"
-                        onClick={this.props.sentTextAi}
+                        onClick={this.handleSend.bind(this)}
                     >
                         Send
                     </Button>
