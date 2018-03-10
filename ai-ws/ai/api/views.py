@@ -149,7 +149,7 @@ class Chat(Resource):
             build = recastai.Build(RECAST_TOKEN, 'en')
             response = build.dialog({'type': 'text', 'content': text }, 'CONVERSATION_ID')
             
-            logging.error(f'{response!s}')
+            logging.error(f'{dir(response)!s}')
 
             txt = response.messages.content
             logging.error(response.messages)
