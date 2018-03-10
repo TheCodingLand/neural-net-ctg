@@ -26,8 +26,8 @@ export default function userReducer(state = initialState
             console.log(state)
             return state
         }
-        case "PREDICTION_SUCEEDED": {
-            console.log("PREDICTON RECIEVED")
+        case "PREDICTION_SUCCEDED": {
+            console.log("PREDICTION RECIEVED, updating chat")
             //CALL API
             
 
@@ -35,7 +35,7 @@ export default function userReducer(state = initialState
                 conversationHistory: state.conversationHistory.concat({
                     id:state.conversationHistory.length,
                     user:'Tina',
-                    content:action.payload.text}) }
+                    content: 'I found a category with label ' + action.prediction.category + ' corresponding at your request'}) }
             console.log(state)
             return state
         }

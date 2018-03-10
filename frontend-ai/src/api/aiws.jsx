@@ -1,13 +1,19 @@
-
-let Api= ((text) =>{
-    fetch('http://julien.tech:5005/api/predict',{
+import { call, put } from 'redux-saga/effects'
+function* Api(text) { 
+    const response= yield call(
+        fetch,'http://julien.tech:5005/api/predict',
+        {
         body: JSON.stringify({text:text}),
         method:'POST',
         headers: {
             'content-type': 'application/json'
           },
+          mode: 'cors', // no-cors, cors, *same-origin
     } )
-.then(result=>result.json())
-})
+
+    let result = yield response.json()
+    result = result.results
+return result
+}
 
 export default Api

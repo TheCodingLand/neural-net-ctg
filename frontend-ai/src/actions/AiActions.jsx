@@ -6,9 +6,11 @@ export const PREDICTION_REQUESTED = 'PREDICTION_REQUESTED'
 
 
 export function predictionSucceeded(data) {
+  console.log('called action on prediction success')
     return {
       type: PREDICTION_SUCCEDED,
       payload : data
+      
     }
   }
 
