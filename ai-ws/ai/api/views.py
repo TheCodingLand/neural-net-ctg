@@ -157,7 +157,7 @@ class Chat(Resource):
             
             logging.error(f'{response!s}')
 
-           txt = response.messages.content
+            txt = response.messages.content
 
             if txt:
                 response_object = {
