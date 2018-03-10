@@ -6,7 +6,8 @@ log = logging.getLogger(__name__)
 log.setLevel(logging.WARNING)
 
 from flask import request
-
+import recastai
+RECAST_TOKEN="390bb9d5c01ddab4d26b17ec53a559d1"
 from ai.api.restplus import api
 from ai.api.models.apimodels import prediction
 
@@ -91,7 +92,13 @@ class Prediction(Resource):
             # predict goes here
             logging.error(text)
 
+
+
             items = am.predict(text)
+            #here we will establish a context for the bot to talk into
+            #user can guide the bot into several contexts. context will be displayed. 
+            # starting with small talk
+
 
             logging.error(items)
 
@@ -99,13 +106,62 @@ class Prediction(Resource):
             d.update({'category': items[0]})
             d.update({'confidence': items[1]})
 
-            d
+            
            
 
             if d:
                 response_object = {
                     'status': 'success',
                     'results': d
+                }
+                return response_object, 201
+            else:
+                response_object = {
+                    'status': 'fail',
+                    'message': 'Sorry. failed.'
+                }
+                return response_object, 400
+        except:
+            response_object = {
+                'status': 'fail',
+                'message': 'Invalid payload.'
+            }
+            return response_object, 400
+
+@api.response(400, 'failed.')
+@ns.route('/chat', methods=['POST'])
+class Chat(Resource):
+    @api.response(201, 'prediction : ok')
+    @api.expect(prediction)
+    def post(self):
+
+        post_data = request.get_json()
+        # log.info(request.get_json())
+        try:
+            
+            
+            text = post_data.get('text')
+            # predict goes here
+            logging.error(text)
+
+            
+
+           
+            #here we will establish a context for the bot to talk into
+            #user can guide the bot into several contexts. context will be displayed. 
+            # starting with small talk
+            build = recastai.Build(RECAST_TOKEN, 'en')
+            response = build.dialog({'type': 'text', 'content': text }, 'CONVERSATION_ID')
+
+
+            txt = response['message']
+
+           
+
+            if txt:
+                response_object = {
+                    'status': 'success',
+                    'results': txt
                 }
                 return response_object, 201
             else:

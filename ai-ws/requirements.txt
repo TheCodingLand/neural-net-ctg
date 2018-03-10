@@ -10,3 +10,4 @@ pybind
 pybind11
 cython
 fastText
+recastai
