@@ -143,26 +143,26 @@ class Chat(Resource):
             text = post_data.get('text')
             # predict goes here
             logging.error(text)
-
-            
-
-           
             #here we will establish a context for the bot to talk into
             #user can guide the bot into several contexts. context will be displayed. 
             # starting with small talk
             build = recastai.Build(RECAST_TOKEN, 'en')
             response = build.dialog({'type': 'text', 'content': text }, 'CONVERSATION_ID')
-
-
             
             logging.error(f'{response!s}')
 
             txt = response.messages.content
+            logging.error(response.messages)
+            d = {}
+            d.update({'category': "txt")
+            
+
 
             if txt:
                 response_object = {
                     'status': 'success',
-                    'results': txt
+                    'results': d,
+                    
                 }
                 return response_object, 201
             else:
