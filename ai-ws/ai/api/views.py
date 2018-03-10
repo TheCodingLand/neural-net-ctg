@@ -157,7 +157,7 @@ class Chat(Resource):
             try:
                 txt = response.messages[0].content
             except:
-                txt = "sorry, i couldnt understand or the api is down")
+                txt = "sorry, i couldnt understand or the api is down"
 
             
             d.update({'category': txt})
