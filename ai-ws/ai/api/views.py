@@ -154,7 +154,7 @@ class Chat(Resource):
             txt = response.messages.content
             logging.error(response.messages)
             d = {}
-            d.update({'category': "txt")
+            d.update({'category': "txt"})
             
 
 
