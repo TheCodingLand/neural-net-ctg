@@ -152,7 +152,7 @@ class Chat(Resource):
             logging.error(f'{dir(response)!s}')
 
             
-            logging.error(f'{dir(response.messages)}'')
+            logging.error(f'{dir(response.messages)}')
             d = {}
             try:
                 txt = response.messages[0].content
