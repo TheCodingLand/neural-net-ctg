@@ -4,7 +4,7 @@ import { withStyles } from 'material-ui/styles';
 import Button from 'material-ui/Button';
 import TextField from 'material-ui/TextField';
 import TinaReplies from './TinaReplies'
-import { sendTextAi } from '../actions/AiActions'
+import { sendTextAi,clearChat } from '../actions/AiActions'
 import { bindActionCreators } from "redux"
 import { connect } from "react-redux"
 
@@ -78,6 +78,14 @@ class Tina extends Component {
                     >
                         Send
                     </Button>
+                    <Button
+                        variant="raised"
+                        color="secondary"
+                        onClick={this.props.clearChat.bind(this)}
+                    >
+                        Clear
+                    </Button>
+
       </div>
     );
   }
@@ -94,6 +102,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return bindActionCreators({
         sendTextAi,
+        clearChat
     }, dispatch)
 
 

@@ -24,11 +24,13 @@ class AiManager(object):
         self.learningRate=0.7
         self.wordNgrams=3
         self.ts = ts()
+        self.training=False
         if mode =="training":
             self.train()
         else:
             self.model = load_model("/usr/src/app/ai/model.ftz")
-       
+    
+    
 
     def getData(self):
         if self.tool == "ot":
@@ -36,7 +38,7 @@ class AiManager(object):
         return raw
 
     def train(self):
-        
+        self.training=True
         model = train_supervised(input=self.trainingfile, epoch=self.epochs, lr=self.learningRate, wordNgrams=self.wordNgrams, verbose=2, minCount=1)
         self.print_results(*model.test(self.testfile))
         model = train_supervised(input=self.trainingfile, epoch=self.epochs, lr=self.learningRate, wordNgrams=self.wordNgrams, verbose=2, minCount=1, loss="hs")
@@ -45,6 +47,7 @@ class AiManager(object):
         model.quantize(input=self.trainingfile, qnorm=True, retrain=True, cutoff=100000)
         self.print_results(*model.test(self.testfile))
         model.save_model("model.ftz")
+        self.training=False
 
 
     def print_results(self, N, p, r):
@@ -80,7 +83,7 @@ class AiManager(object):
         logging.error(f"trying to predict {text!s}")
         logging.error(f"{self.model!s}")
         text=self.preparedata(text)
-        prediction = self.model.predict(text, k=1)
+        prediction = self.model.predict(text, k=2)
         logging.error(f"{prediction!s}")
         cat = prediction[0][0]
         confidence = prediction[1][0]

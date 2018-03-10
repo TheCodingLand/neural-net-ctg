@@ -25,6 +25,16 @@ export default function userReducer(state = initialState
                     content:action.payload.text}) }
             console.log(state)
             return state
+        
+        }
+        case "CLEAR_CHAT": {
+            state = { ...state, conversationHistory : [ {
+                id:0,
+                user:'Tina',
+                content:'Hello !'
+            }]
+            }
+            return state
         }
         case "PREDICTION_SUCCEDED": {
             console.log("PREDICTION RECIEVED, updating chat")

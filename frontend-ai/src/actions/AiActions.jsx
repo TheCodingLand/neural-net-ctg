@@ -3,7 +3,7 @@ export const SEND_TEXT_AI = 'SEND_TEXT_AI'
 export const PREDICTION_SUCCEDED = 'PREDICTION_SUCCEDED'
 export const PREDICTION_FAILED = 'PREDICTION_FAILED'
 export const PREDICTION_REQUESTED = 'PREDICTION_REQUESTED'
-
+export const CLEAR_CHAT = 'CLEAR_CHAT'
 
 export function predictionSucceeded(data) {
   console.log('called action on prediction success')
@@ -13,7 +13,11 @@ export function predictionSucceeded(data) {
       
     }
   }
-
+export function clearChat(){
+  return {
+    type: CLEAR_CHAT
+  }
+}
 
 export function predictionFailed(data) {
     return {
