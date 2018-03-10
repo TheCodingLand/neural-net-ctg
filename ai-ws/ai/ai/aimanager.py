@@ -79,6 +79,7 @@ class AiManager(object):
     def predict(self, text):
         logging.error(f"trying to predict {text!s}")
         logging.error(f"{self.model!s}")
+        text=self.preparedata(text)
         prediction = self.model.predict(text, k=1)
         logging.error(f"{prediction!s}")
         cat = prediction[0][0]
