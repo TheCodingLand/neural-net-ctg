@@ -55,4 +55,15 @@ API:
 AI:
 - model selection
  
+Future :
 
+As deep learning is imperfect for text classification yet :
+
+- collect information from API.ai chat 
+- submit data to algorithm
+- return 2 or 3 category/topic to user to chose from
+- let user choose the right topic with links in the chat window.
+- collect info for future training
+
+
+Problem solved
