@@ -152,13 +152,19 @@ class Chat(Resource):
             logging.error(f'{dir(response)!s}')
 
             
-            logging.error(response.messages)
+            logging.error(f'{dir(response.messages)}'')
             d = {}
-            d.update({'category': "txt"})
-            txt=""
+            try:
+                txt = response.messages[0].content
+            except:
+                txt = "sorry, i couldnt understand or the api is down")
+
+            
+            d.update({'category': txt})
+            
 
 
-            if txt:
+            if d:
                 response_object = {
                     'status': 'success',
                     'results': d,
