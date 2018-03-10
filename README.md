@@ -1,5 +1,9 @@
 This is a complete infrastructure for hosting a fasttext based text classification algorithm.
 
+Progress can be seen at http://julien.tech:5011
+
+API at http://julien.tech:5005
+
 ![alt text](https://github.com/TheCodingLand/neural-net-ctg/blob/master/architecture.png?raw=true)
 
 The infrastructure is very basic and meant for a proof of concept.
@@ -55,15 +59,4 @@ API:
 AI:
 - model selection
  
-Future :
 
-As deep learning is imperfect for text classification yet :
-
-- collect information from API.ai chat 
-- submit data to algorithm
-- return 2 or 3 category/topic to user to chose from
-- let user choose the right topic with links in the chat window.
-- collect info for future training
-
-
-Problem solved
