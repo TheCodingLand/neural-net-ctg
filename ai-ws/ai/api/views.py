@@ -154,7 +154,8 @@ class Chat(Resource):
             response = build.dialog({'type': 'text', 'content': text }, 'CONVERSATION_ID')
 
 
-            txt = response['message']
+            txt = response
+            logging.error(txt)
 
            
 
