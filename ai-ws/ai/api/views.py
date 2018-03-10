@@ -155,7 +155,7 @@ class Chat(Resource):
             logging.error(response.messages)
             d = {}
             d.update({'category': "txt"})
-            
+            txt=""
 
 
             if txt:
