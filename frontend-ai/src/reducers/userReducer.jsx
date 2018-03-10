@@ -45,7 +45,7 @@ export default function userReducer(state = initialState
                 conversationHistory: state.conversationHistory.concat({
                     id:state.conversationHistory.length,
                     user:'Tina',
-                    content: 'I found a category with label ' + action.prediction.category + ' corresponding at your request'}) }
+                    content: action.prediction.category }) }
             console.log(state)
             return state
         }

@@ -1,7 +1,7 @@
 import { call, put } from 'redux-saga/effects'
 function* Api(text) { 
     const response= yield call(
-        fetch,'http://julien.tech:5005/api/predict',
+        fetch,'http://julien.tech:5005/api/chat',
         {
         body: JSON.stringify({text:text}),
         method:'POST',
