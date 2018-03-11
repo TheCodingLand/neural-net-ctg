@@ -79,13 +79,22 @@ class AiManager(object):
         txt= f'{subject!s} {body!s}'
         return txt
           
+    def getCategory(self,text):
+        data = self.predict(text)
+        try:
+            data[0]=ts.getCategoryTitle(data[0])
+        except:
+            logging.error('getting category failed')
+
+        return data
+
     def predict(self, text):
         logging.error(f"trying to predict {text!s}")
         logging.error(f"{self.model!s}")
         text=self.preparedata(text)
         prediction = self.model.predict(text, k=2)
         logging.error(f"{prediction!s}")
-        cat = prediction[0][0]
+        cat = prediction[0][0].replace('__label__','')
         confidence = prediction[1][0]
         logging.error(f"{cat!s} / {confidence!s}")
         data = [cat, confidence]

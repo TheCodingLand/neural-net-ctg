@@ -86,29 +86,18 @@ class Prediction(Resource):
         post_data = request.get_json()
         # log.info(request.get_json())
         try:
-            
-            
             text = post_data.get('text')
             # predict goes here
             logging.error(text)
-
-
-
             items = am.predict(text)
             #here we will establish a context for the bot to talk into
             #user can guide the bot into several contexts. context will be displayed. 
             # starting with small talk
 
-
             logging.error(items)
-
             d = {}
             d.update({'category': items[0]})
             d.update({'confidence': items[1]})
-
-            
-           
-
             if d:
                 response_object = {
                     'status': 'success',
@@ -184,3 +173,45 @@ class Chat(Resource):
             }
             return response_object, 400
 
+
+
+
+@api.response(400, 'failed.')
+@ns.route('/categorize', methods=['POST'])
+class getCategory(Resource):
+    @api.response(201, 'prediction : ok')
+    @api.expect(prediction)
+    def post(self):
+
+        post_data = request.get_json()
+        # log.info(request.get_json())
+        try:
+            text = post_data.get('text')
+            # predict goes here
+            logging.error(text)
+            items = am.getCategory(text)
+            #here we will establish a context for the bot to talk into
+            #user can guide the bot into several contexts. context will be displayed. 
+            # starting with small talk
+            logging.error(items)
+            d = {}
+            d.update({'category': items[0]})
+            d.update({'confidence': items[1]})
+            if d:
+                response_object = {
+                    'status': 'success',
+                    'results': d
+                }
+                return response_object, 201
+            else:
+                response_object = {
+                    'status': 'fail',
+                    'message': 'Sorry. failed.'
+                }
+                return response_object, 400
+        except:
+            response_object = {
+                'status': 'fail',
+                'message': 'Invalid payload.'
+            }
+            return response_object, 400

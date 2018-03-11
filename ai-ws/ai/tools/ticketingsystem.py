@@ -67,4 +67,15 @@ class ot(object):
         if result['status'] == "success":
             data = result['data']    
             return data
+    
+    def getCategoryTitle(self, cat):
+
+        payload = {'requiredfields': ['Title']}
+        predicted_url = f'{self.getObjectUrl!s}{cat!s}'
+
+        r = requests.post(url=predicted_url, json=payload, headers=self.headers)
+        data = r.json()
+        if data['status'] == "success":
+            title = data['data']['Title']
+            return title
         
