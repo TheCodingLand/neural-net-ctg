@@ -19,11 +19,12 @@ return result
 }
 
 
-export function* update_brain_api(text) { 
+export function* update_brain_api(conversation) { 
+    const convstring = conversation.map((s) => {return s.content})
     const response = yield call(
-        fetch,'http://julien.tech:5005/api/predict',
+        fetch,'http://julien.tech:5005/api/updatebrain',
         {
-        body: JSON.stringify({text:text}),
+        body: JSON.stringify({text:convstring}),
         method:'POST',
         headers: {
             'content-type': 'application/json'

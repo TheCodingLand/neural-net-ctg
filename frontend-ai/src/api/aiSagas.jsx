@@ -1,4 +1,4 @@
-import { call, put, takeEvery, takeLatest } from 'redux-saga/effects'
+import { select, call, put, takeEvery, takeLatest } from 'redux-saga/effects'
 import { chat_api, update_brain_api } from '../api/aiws'
 
 // worker Saga: will be fired on USER_FETCH_REQUESTED actions
@@ -12,13 +12,11 @@ function* chat(action) {
 }
 
 function* updateBrain(action) {
-  try {
-     const prediction = yield call(update_brain_api, action.payload.text);
-     yield put({type: "UPDATE_BRAIN_SUCCESS", prediction: prediction});
-  } catch (e) {
-     yield put({type: "UPDATE_BRAIN_FAILED", message: e.message});
-  }
+     const conv = yield select();
+     const updatedBrain = yield call(update_brain_api, conv.conversationHistory)
+     yield put({type: "UPDATE_BRAIN", payload: updatedBrain});
 }
+
 
 /*
   Starts fetchUser on each dispatched `USER_FETCH_REQUESTED` action.

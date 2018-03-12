@@ -1,7 +1,7 @@
 const initialState = {
     userName: "",
     model: "",
-
+    brain: [ { id:0, category:"none", confidence :"0"}, ], 
     conversationHistory: [
         {
         id: 0, 
@@ -16,19 +16,27 @@ export default function userReducer(state = initialState
         case "SEND_TEXT_CHAT": {
             console.log("SENDING TEXT")
             //CALL API
-            
-
             state = { ...state, 
                 conversationHistory: state.conversationHistory.concat({
                     id:state.conversationHistory.length,
                     user:action.payload.user,
                     content:action.payload.text}) }
+
             console.log(state)
             return state
         
         }
         case "CLEAR_CHAT": {
             state = { ...state, conversationHistory : [ {
+                id:0,
+                user:'Tina',
+                content:'Hello !'
+            }]
+            }
+            return state
+        }
+        case "CLEAR_CHAT": {
+            state = { ...state, brain : [ {
                 id:0,
                 user:'Tina',
                 content:'Hello !'

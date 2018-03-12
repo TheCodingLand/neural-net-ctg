@@ -127,6 +127,26 @@ class AiManager(object):
         logging.error(f"{cat!s} / {confidence!s}")
         data = [cat, confidence, cat2]
         return data
+
+    def updatebrain(self, text):
+        logging.error(f"trying to predict {text!s}")
+        logging.error(f"{self.model!s}")
+        text=self.preparedata(text)
+        prediction = self.model.predict(text, k=5)
+        logging.error(f"{prediction!s}")
+        results =[]
+      
+        i=0
+        for cat in prediction[0]:
+            d= {}
+            catid = cat.replace('__label__','')
+            cattitle=ts.getCategoryTitle(catid)
+            d.update({"id",i})
+            d.update({"category",cattitle})
+            d.update({"confidence",prediction[1][i]})
+            i=i+1
+            results.append(d)
+        return results
             
     def preparedata(self, s):
         """
