@@ -25,6 +25,7 @@ class AiManager(object):
         self.wordNgrams=4
         self.ts = ts()
         self.training=False
+
         if mode =="training":
             self.train()
         else:
@@ -65,7 +66,10 @@ class AiManager(object):
 
     def buildTrainingData(self):
         #raw should be an array with the fields dict["Title"] dict["Description"] and dict["AssociatedCategory"]
+
+        
         raw = self.ts.getTrainingData()
+        
         
         ftdata = open('data.txt', 'w')
         logging.error('created file')
