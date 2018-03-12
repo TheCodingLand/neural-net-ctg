@@ -77,7 +77,13 @@ class AiManager(object):
             category= entry['data']['AssociatedCategory']
             subject = self.preparedata(subject)
             body = self.preparedata(body)
-            txt= f'__label__{category!s} {subject!s} {body!s}'
+            fulltext= f'{subject!s} {body!s}'
+            #we will not need all the email. Taking 75% of the words should cut most signatures / end of email garbage
+            linearray = fulltext.split(' ')
+            lwords = len(linearray)
+            nbWords= int(lwords*75/100)
+            fulltext = ' '.join(linearray[0:nbWords])
+            txt= f'__label__{category!s} {fulltext!s}'
             ftdata.write(txt)
         ftdata.close()
 
