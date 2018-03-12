@@ -136,6 +136,7 @@ class AiManager(object):
         # Isolate punctuation
         s = re.sub(r'([\'\"\.\(\)\!\?\-\\\/\,])', r' \1 ', s)
         s = s.replace('*', '')
+        s = s.replace('_', '')
         # Remove some special characters
         s = re.sub(r'([\;\:\|•«\n])', ' ', s)
         # Replace numbers and symbols with language
