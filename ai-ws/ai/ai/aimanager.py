@@ -29,7 +29,12 @@ class AiManager(object):
         if mode =="training":
             self.train()
         else:
-            self.model = load_model("/usr/src/app/ai/model.ftz")
+            try:
+                self.model = load_model("/usr/src/app/ai/model.ftz")
+            except:
+                logging.error('no trained model available, training started')
+                self.train()
+                self.model = load_model("/usr/src/app/ai/model.ftz")
     
     
 
