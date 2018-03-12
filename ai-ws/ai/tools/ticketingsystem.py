@@ -83,6 +83,7 @@ class ot(object):
         self.handleResult() 
 
     def handleResult(self):
+        logging.error(dir(self.request))
         result = self.request.json()
         logging.error(result)
         if result['status'] == "success":
