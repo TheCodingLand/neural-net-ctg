@@ -35,6 +35,7 @@ API :
 - returning predicted category based on loaded models
 - implement the possibility to support several ticketing backends for data importing.
 
+
 AI:
 - make it possible to start in predicting mode, or in training mode
 - added sample trained model
@@ -53,8 +54,10 @@ Frontend :
 
 
 API:
+- HTTPS implementation for webhook support
 - model selection
 - return meaningful data for the client instead of labels and confidence
+
 
 AI:
 - model selection
