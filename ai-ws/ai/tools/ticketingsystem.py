@@ -5,7 +5,7 @@
 
 
 # some other utility fonction to help with data can be defined. I needed for example to get the category object's title for omnitracker.
-
+import logging
 import requests
 
 class ot(object):
@@ -30,7 +30,10 @@ class ot(object):
             "requiredfields": fields
         }
         
-        self.request=requests.post(url=self.queryObjectsUrl, json=payload, headers=self.headers)
+        try:
+            self.request=requests.post(url=self.queryObjectsUrl, json=payload, headers=self.headers)
+        except:
+            logging.error(f'failed to get tickets return code : {self.request.status_code!s}')
         self.handleResult()
 
 
