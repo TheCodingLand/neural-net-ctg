@@ -36,18 +36,10 @@ class SanityCheck(Resource):
         }
 
 
-
-
-
-
-
-
-@api.response(400, 'failed.')
-@ns.route('/train', methods=['GET'])
+@ns.route('/train')
 class Train(Resource):
     @api.response(201, 'train : ok')
     def get(self):
-        
         try: 
             d = {} 
             if am.training==False:
@@ -55,7 +47,7 @@ class Train(Resource):
                 d.update({'training': 'Started !'})
             else:
                 d.update({'training': 'Already in progress !'})
-           
+
             if d:
                 response_object = {
                     'status': 'success',
