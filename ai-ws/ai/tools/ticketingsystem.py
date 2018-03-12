@@ -39,6 +39,7 @@ class ot(object):
             return False
         logging.error(f'request result : {self.request.text!s} , {self.request.status_code!s}')
         self.handleResult()
+        
         return True
 
 
