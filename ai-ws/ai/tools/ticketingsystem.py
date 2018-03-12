@@ -84,9 +84,12 @@ class ot(object):
 
     def handleResult(self):
         result = self.request.json()
+        logging.error(result)
         if result['status'] == "success":
             data = result['data']    
             return data
+        
+        return result
     
     def getCategoryTitle(self, cat):
 
