@@ -226,7 +226,7 @@ class Prediction(Resource):
 
             logging.error(items)
             
-            if d:
+            if items:
                 response_object = {
                     'status': 'success',
                     'results': items
