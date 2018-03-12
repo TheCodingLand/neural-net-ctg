@@ -38,7 +38,9 @@ class AiManager(object):
         return raw
 
     def train(self):
+        
         self.training=True
+        self.buildTrainingData()
         model = train_supervised(input=self.trainingfile, epoch=self.epochs, lr=self.learningRate, wordNgrams=self.wordNgrams, verbose=2, minCount=1)
         self.print_results(*model.test(self.testfile))
         model.save_model("model.bin")
