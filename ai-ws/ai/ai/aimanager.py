@@ -21,11 +21,11 @@ class AiManager(object):
         self.testfile= "test.txt"
         self.completefile = "data.txt"
         self.epochs=100
-        self.learningRate=0.2
+        self.learningRate=0.1
         self.wordNgrams=4
         self.ts = ts()
         self.training=False
-
+        self.rebuildData=True
         if mode =="training":
             self.train()
         else:
@@ -46,17 +46,18 @@ class AiManager(object):
     def train(self):
         
         self.training=True
-        try:
-            self.buildTrainingData()
-        except:
-            logging.error("failed to build training data")
-            self.training=False
-        
-        
-       
+        if self.rebuildData ==True:
+            try:
+                self.buildTrainingData()
+            except:
+                logging.error("failed to build training data")
+                self.training=False
 
-        model = train_supervised(input=self.completefile, epoch=self.epochs, lr=self.learningRate, wordNgrams=self.wordNgrams, verbose=2, minCount=1)
-        self.print_results(*model.test(self.completefile))
+        print (f'Training started with : learningRate:{self.learningRate!s}, epochs:{self.epochs!s}, ngrams :{self.wordNgrams!s}')
+
+        model = train_supervised(input=self.completefile, epoch=200, lr=0.1, wordNgrams=self.wordNgrams, verbose=2, minCount=1)
+        #self.print_results(*model.test(self.completefile))
+        print (f'finished training model with : learningRate:{self.learningRate!s}, epochs:{self.epochs!s}, ngrams :{self.wordNgrams!s}')
         model.save_model("model.bin")
         model.quantize(input=self.completefile, qnorm=True, retrain=True, cutoff=100000)
         self.print_results(*model.test(self.completefile))
