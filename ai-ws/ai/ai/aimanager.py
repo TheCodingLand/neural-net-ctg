@@ -21,8 +21,8 @@ class AiManager(object):
         self.testfile= "test.txt"
         self.completefile = "data.txt"
         self.epochs=100
-        self.learningRate=0.7
-        self.wordNgrams=3
+        self.learningRate=0.2
+        self.wordNgrams=4
         self.ts = ts()
         self.training=False
         if mode =="training":
@@ -39,7 +39,6 @@ class AiManager(object):
 
     def train(self):
         self.training=True
-        
         model = train_supervised(input=self.trainingfile, epoch=self.epochs, lr=self.learningRate, wordNgrams=self.wordNgrams, verbose=2, minCount=1)
         self.print_results(*model.test(self.testfile))
         model.save_model("model.bin")
