@@ -46,7 +46,7 @@ class SanityCheck(Resource):
 @ns.route('/train', methods=['GET'])
 class Train(Resource):
     @api.response(201, 'train : ok')
-    def post(self):
+    def get(self):
         
         try: 
             d = {} 
@@ -147,11 +147,7 @@ class Chat(Resource):
                 txt = response.messages[0].content
             except:
                 txt = "sorry, i couldnt understand or the api is down"
-
-            
             d.update({'category': txt})
-            
-
 
             if d:
                 response_object = {
