@@ -39,9 +39,8 @@ class AiManager(object):
 
     def train(self):
         self.training=True
+        
         model = train_supervised(input=self.trainingfile, epoch=self.epochs, lr=self.learningRate, wordNgrams=self.wordNgrams, verbose=2, minCount=1)
-        self.print_results(*model.test(self.testfile))
-        model = train_supervised(input=self.trainingfile, epoch=self.epochs, lr=self.learningRate, wordNgrams=self.wordNgrams, verbose=2, minCount=1, loss="hs")
         self.print_results(*model.test(self.testfile))
         model.save_model("model.bin")
         model.quantize(input=self.trainingfile, qnorm=True, retrain=True, cutoff=100000)
