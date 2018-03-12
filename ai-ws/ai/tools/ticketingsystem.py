@@ -20,7 +20,7 @@ class ot(object):
 
     def getTrainingData(self):
 
-        filtername="last 2 years"
+        filtername="emails last 2 years"
         fields = ["Title","Description","AssociatedCategory"]
         payload = {"objectclass": "Ticket",
             "filter": f"{filtername!s}",
