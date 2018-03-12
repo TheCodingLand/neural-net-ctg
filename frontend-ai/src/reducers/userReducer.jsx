@@ -45,7 +45,7 @@ export default function userReducer(state = initialState
                 conversationHistory: state.conversationHistory.concat({
                     id:state.conversationHistory.length,
                     user:'Tina',
-                    content: action.prediction.category }) }
+                    content: action.chat.response }) }
             console.log(state)
             return state
         }

@@ -140,7 +140,7 @@ class Chat(Resource):
                 txt = response.messages[0].content
             except:
                 txt = "sorry, i couldnt understand or the api is down"
-            d.update({'category': txt})
+            d.update({'response': txt})
 
             if d:
                 response_object = {

@@ -1,14 +1,23 @@
 import { call, put, takeEvery, takeLatest } from 'redux-saga/effects'
-import Api from '../api/aiws'
+import { chat_api, update_brain_api } from '../api/aiws'
 
 // worker Saga: will be fired on USER_FETCH_REQUESTED actions
-function* predict(action) {
+function* chat(action) {
    try {
-      const prediction = yield call(Api, action.payload.text);
-      yield put({type: "CHAT_SUCCEEDED", prediction: prediction});
+      const chat = yield call(chat_api, action.payload.text);
+      yield put({type: "CHAT_SUCCEEDED", chat: chat});
    } catch (e) {
       yield put({type: "CHAT_FAILED", message: e.message});
    }
+}
+
+function* updateBrain(action) {
+  try {
+     const prediction = yield call(update_brain_api, action.payload.text);
+     yield put({type: "UPDATE_BRAIN_SUCCESS", prediction: prediction});
+  } catch (e) {
+     yield put({type: "UPDATE_BRAIN_FAILED", message: e.message});
+  }
 }
 
 /*
@@ -16,7 +25,9 @@ function* predict(action) {
   Allows concurrent fetches of user.
 */
 function* aiSaga() {
-  yield takeEvery("SEND_TEXT_CHAT", predict);
+  yield takeEvery("SEND_TEXT_CHAT", chat);
+  yield takeLatest("CHAT_SUCCEEDED", updateBrain);
+  
 }
 
 /*
