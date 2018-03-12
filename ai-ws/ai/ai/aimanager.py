@@ -71,6 +71,7 @@ class AiManager(object):
         logging.error('created file')
 
         for entry in raw:
+            logging.error(entry)
             subject = entry['Title']
             body = entry['Description']
             category= entry['AssociatedCategory']
