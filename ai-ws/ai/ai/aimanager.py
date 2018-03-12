@@ -140,7 +140,9 @@ class AiManager(object):
         for cat in prediction[0]:
             d= {}
             catid = cat.replace('__label__','')
+            logging.error(catid)
             cattitle=ts.getCategoryTitle(catid)
+            logging.error(cattitle)
             d.update({"id",i})
             d.update({"category",cattitle})
             d.update({"confidence",prediction[1][i]})
@@ -150,7 +152,7 @@ class AiManager(object):
             
     def preparedata(self, s):
         """
-        Given a text, cleans and normalizes it. Feel free to add your own stuff.
+        Given a text, cleans and normalizes it.
         """
         s = s.lower()
         # Replace ips
