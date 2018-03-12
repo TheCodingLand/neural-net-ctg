@@ -144,9 +144,9 @@ class AiManager(object):
             #cattitle=ts.getCategoryTitle(catid)
             cattitle = catid
             logging.error(cattitle)
-            d.update({"id",i})
-            d.update({"category",cattitle})
-            d.update({"confidence",prediction[1][i]})
+            d.update({"id":i})
+            d.update({"category":cattitle})
+            d.update({"confidence":prediction[1][i]})
             i=i+1
             results.append(d)
         return results
