@@ -25,7 +25,7 @@ class AiManager(object):
         self.wordNgrams=4
         self.ts = ts()
         self.training=False
-        self.rebuildData=True
+        self.rebuildData=False
         if mode =="training":
             self.train()
         else:
