@@ -19,6 +19,7 @@ class ot(object):
         self.request = None
 
     def getTrainingData(self):
+
         filtername="all email tickets"
         fields = ['Title','Description','AssignedCategory']
         payload = {"objectclass": "Ticket",
@@ -32,10 +33,12 @@ class ot(object):
         
         try:
             self.request=requests.post(url=self.queryObjectsUrl, json=payload, headers=self.headers)
+
         except:
             logging.error(f'failed to get tickets return code : {self.request.status_code!s}')
+            return False
         self.handleResult()
-
+        return True
 
 
     def getEmails(self, filtername, fields):

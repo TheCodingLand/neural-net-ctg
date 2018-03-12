@@ -40,11 +40,10 @@ class AiManager(object):
     def train(self):
         
         self.training=True
-        try:
-            self.buildTrainingData()
-        except:
-            self.training=False
-            logging.error("failed to build training data")
+        self.training = self.buildTrainingData()
+        
+        
+       
 
         model = train_supervised(input=self.trainingfile, epoch=self.epochs, lr=self.learningRate, wordNgrams=self.wordNgrams, verbose=2, minCount=1)
         self.print_results(*model.test(self.testfile))
