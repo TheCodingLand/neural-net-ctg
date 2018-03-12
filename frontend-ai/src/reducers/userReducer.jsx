@@ -35,12 +35,8 @@ export default function userReducer(state = initialState
             }
             return state
         }
-        case "CLEAR_CHAT": {
-            state = { ...state, brain : [ {
-                id:0,
-                user:'Tina',
-                content:'Hello !'
-            }]
+        case "UPDATE_BRAIN": {
+            state = { ...state, brain : action.payload
             }
             return state
         }

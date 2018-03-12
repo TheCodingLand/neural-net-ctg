@@ -4,7 +4,7 @@ import Header from './Header'
 
 import Tina from './Tina'
 
-
+import Brain from './Brain'
 
 class App extends Component {
   render() {
@@ -13,6 +13,7 @@ class App extends Component {
         <Reboot />
         <Header />
         <Tina />
+        <Brain />
       </div>
     );
   }
