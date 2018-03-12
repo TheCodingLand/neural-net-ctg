@@ -37,7 +37,7 @@ class ot(object):
         except:
             logging.error(f'failed to get tickets return code : {self.request.status_code!s}')
             return False
-        logging.error(f'request result : {self.request.status_code!s}')
+        logging.error(f'request result : {self.request.text!s} , {self.request.status_code!s}')
         self.handleResult()
         return True
 
