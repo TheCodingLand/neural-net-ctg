@@ -140,6 +140,7 @@ class AiManager(object):
         s = s.replace('_', '')
         # Remove some special characters
         s = re.sub(r'([\;\:\|•«\n])', ' ', s)
+        
         # Replace numbers and symbols with language
         s = s.replace('&', ' and ')
         s = s.replace('@', ' at ')
