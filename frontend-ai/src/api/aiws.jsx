@@ -20,7 +20,7 @@ return result
 
 
 export function* update_brain_api(text) { 
-    const response= yield call(
+    const response = yield call(
         fetch,'http://julien.tech:5005/api/predict',
         {
         body: JSON.stringify({text:text}),
