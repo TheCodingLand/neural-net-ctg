@@ -92,7 +92,7 @@ class AiManager(object):
             lwords = len(linearray)
             nbWords= int(lwords*75/100)
             fulltext = ' '.join(linearray[0:nbWords])
-            txt= f'__label__{category!s} {fulltext!s}'
+            txt= f'__label__{category!s} {fulltext!s} \n'
             ftdata.write(txt)
         ftdata.close()
 
@@ -134,7 +134,8 @@ class AiManager(object):
         # Replace ips
         s = re.sub(r'\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}', ' _ip_ ', s)
         # Isolate punctuation
-        s = re.sub(r'([\'\"\.\*\(\)\!\?\-\\\/\,])', r' \1 ', s)
+        s = re.sub(r'([\'\"\.\(\)\!\?\-\\\/\,])', r' \1 ', s)
+        s = s.replace('*', '')
         # Remove some special characters
         s = re.sub(r'([\;\:\|•«\n])', ' ', s)
         # Replace numbers and symbols with language
