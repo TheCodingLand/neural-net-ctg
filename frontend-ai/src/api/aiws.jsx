@@ -20,7 +20,10 @@ return result
 
 
 export function* update_brain_api(conversation) { 
-    const convstring = conversation.map((s) => {return s.content})
+    let convstring = conversation.map((s) => {return s.content})
+    
+    convstring = convstring.join(' ')
+    console.log(convstring)
     const response = yield call(
         fetch,'http://julien.tech:5005/api/updatebrain',
         {

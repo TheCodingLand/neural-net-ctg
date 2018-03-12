@@ -13,7 +13,8 @@ function* chat(action) {
 
 function* updateBrain(action) {
      const conv = yield select();
-     const updatedBrain = yield call(update_brain_api, conv.conversationHistory)
+     console.log(conv)
+     const updatedBrain = yield call(update_brain_api, conv.user.conversationHistory)
      yield put({type: "UPDATE_BRAIN", payload: updatedBrain});
 }
 
