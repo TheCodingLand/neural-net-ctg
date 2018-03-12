@@ -119,7 +119,7 @@ class AiManager(object):
         # Replace ips
         s = re.sub(r'\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}', ' _ip_ ', s)
         # Isolate punctuation
-        s = re.sub(r'([\'\"\.\(\)\!\?\-\\\/\,])', r' \1 ', s)
+        s = re.sub(r'([\'\"\.\*\(\)\!\?\-\\\/\,])', r' \1 ', s)
         # Remove some special characters
         s = re.sub(r'([\;\:\|•«\n])', ' ', s)
         # Replace numbers and symbols with language
