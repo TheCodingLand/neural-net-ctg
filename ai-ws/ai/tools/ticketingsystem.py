@@ -12,7 +12,7 @@ class ot(object):
     def __init__(self):
         self.url = 'http://148.110.107.15:5001/api/ot/'
         self.getObjectUrl=  f"{self.url!s}object/"
-        self.queryObjectsUrl= f'{self.url}objects/'
+        self.queryObjectsUrl= f'{self.url!s}objects'
         self.updateObjectUrl = f"{self.url!s}objectmod/"
         self.headers = {'Content-type': 'application/json',
                     'Accept': 'text/plain'}
@@ -21,7 +21,7 @@ class ot(object):
     def getTrainingData(self):
 
         filtername="all email tickets"
-        fields = ['Title','Description','AssignedCategory']
+        fields = ["Title","Description","AssignedCategory"]
         payload = {"objectclass": "Ticket",
             "filter": f"{filtername!s}",
             "variables": [
@@ -30,6 +30,18 @@ class ot(object):
             ],
             "requiredfields": fields
         }
+        #DEBcurl -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' -d '{ \ 
+   #"objectclass": "Ticket", \ 
+   #"filter": "all email tickets", \ 
+   #"variables": [ \ 
+   #  { \ 
+   #   } \ 
+   #], \ 
+   #"requiredfields": [ \ 
+  #"Title","Description","AssociatedCategory" \ 
+  # ] \ 
+ #}' 'http://148.110.107.15:5001/api/ot/objects'
+        logging.error(self.queryObjectsUrl)
         
         try:
             self.request=requests.post(url=self.queryObjectsUrl, json=payload, headers=self.headers)
