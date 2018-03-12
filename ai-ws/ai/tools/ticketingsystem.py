@@ -41,15 +41,15 @@ class ot(object):
   #"Title","Description","AssociatedCategory" \ 
   # ] \ 
  #}' 'http://148.110.107.15:5001/api/ot/objects'
-        logging.error(self.queryObjectsUrl)
+        #logging.error(self.queryObjectsUrl)
         
         try:
             self.request=requests.post(url=self.queryObjectsUrl, json=payload, headers=self.headers)
 
         except:
-            logging.error(f'failed to get tickets return code : {self.request.status_code!s}')
+            #logging.error(f'failed to get tickets return code : {self.request.status_code!s}')
             return False
-        logging.error(f'request result : {self.request.text!s} , {self.request.status_code!s}')
+        #logging.error(f'request result : {self.request.text!s} , {self.request.status_code!s}')
         data = self.handleResult()
         
         return data
@@ -83,9 +83,9 @@ class ot(object):
         self.handleResult() 
 
     def handleResult(self):
-        logging.error(dir(self.request))
+        #logging.error(dir(self.request))
         result = self.request.json()
-        logging.error(result)
+        #logging.error(result)
         if result['status'] == "success":
             data = result['Ticket']    
             return data

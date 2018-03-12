@@ -53,11 +53,11 @@ class AiManager(object):
                 logging.error("failed to build training data")
                 self.training=False
 
-        print (f'Training started with : learningRate:{self.learningRate!s}, epochs:{self.epochs!s}, ngrams :{self.wordNgrams!s}')
+        logging.error(f'Training started with : learningRate:{self.learningRate!s}, epochs:{self.epochs!s}, ngrams :{self.wordNgrams!s}')
 
         model = train_supervised(input=self.completefile, epoch=200, lr=0.1, wordNgrams=self.wordNgrams, verbose=2, minCount=1)
         #self.print_results(*model.test(self.completefile))
-        print (f'finished training model with : learningRate:{self.learningRate!s}, epochs:{self.epochs!s}, ngrams :{self.wordNgrams!s}')
+        logging.error(f'finished training model with : learningRate:{self.learningRate!s}, epochs:{self.epochs!s}, ngrams :{self.wordNgrams!s}')
         model.save_model("model.bin")
         model.quantize(input=self.completefile, qnorm=True, retrain=True, cutoff=100000)
         self.print_results(*model.test(self.completefile))
@@ -81,7 +81,7 @@ class AiManager(object):
         logging.error('created file')
 
         for entry in raw:
-            logging.error(entry)
+            #logging.error(entry)
             subject = entry['data']['Title']
             body = entry['data']['Description']
             category= entry['data']['AssociatedCategory']
