@@ -40,7 +40,11 @@ class AiManager(object):
     def train(self):
         
         self.training=True
-        self.training = self.buildTrainingData()
+        try:
+            self.buildTrainingData()
+        except:
+            logging.error("failed to build training data")
+            self.training=False
         
         
        
@@ -60,14 +64,16 @@ class AiManager(object):
         print("R@{}\t{:.3f}".format(1, r))
 
     def buildTrainingData(self):
-        #raw should be an array with the fields dict["Title"] dict["Description"] and dict["AssignedCategory"]
+        #raw should be an array with the fields dict["Title"] dict["Description"] and dict["AssociatedCategory"]
         raw = self.ts.getTrainingData()
         
         ftdata = open('data.txt', 'w')
+        logging.error('created file')
+
         for entry in raw:
             subject = entry['Title']
             body = entry['Description']
-            category= entry['AssignedCategory']
+            category= entry['AssociatedCategory']
             subject = self.preparedata(subject)
             body = self.preparedata(body)
             txt= f'__label__{category!s} {subject!s} {body!s}'

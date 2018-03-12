@@ -50,9 +50,9 @@ class ot(object):
             logging.error(f'failed to get tickets return code : {self.request.status_code!s}')
             return False
         logging.error(f'request result : {self.request.text!s} , {self.request.status_code!s}')
-        self.handleResult()
+        data = self.handleResult()
         
-        return True
+        return data
 
 
     def getEmails(self, filtername, fields):
