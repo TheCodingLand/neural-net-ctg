@@ -21,7 +21,7 @@ class ot(object):
     def getTrainingData(self):
 
         filtername="all email tickets"
-        fields = ["Title","Description","AssignedCategory"]
+        fields = ["Title","Description","AssociatedCategory"]
         payload = {"objectclass": "Ticket",
             "filter": f"{filtername!s}",
             "variables": [
