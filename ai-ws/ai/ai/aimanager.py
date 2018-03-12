@@ -49,11 +49,11 @@ class AiManager(object):
         
        
 
-        model = train_supervised(input=self.trainingfile, epoch=self.epochs, lr=self.learningRate, wordNgrams=self.wordNgrams, verbose=2, minCount=1)
-        self.print_results(*model.test(self.testfile))
+        model = train_supervised(input=self.completefile, epoch=self.epochs, lr=self.learningRate, wordNgrams=self.wordNgrams, verbose=2, minCount=1)
+        self.print_results(*model.test(self.completefile))
         model.save_model("model.bin")
-        model.quantize(input=self.trainingfile, qnorm=True, retrain=True, cutoff=100000)
-        self.print_results(*model.test(self.testfile))
+        model.quantize(input=self.completefile, qnorm=True, retrain=True, cutoff=100000)
+        self.print_results(*model.test(self.completefile))
         model.save_model("model.ftz")
         self.training=False
 
