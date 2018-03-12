@@ -13,7 +13,7 @@ const initialState = {
 export default function userReducer(state = initialState
     , action) {
     switch (action.type) {
-        case "SEND_TEXT_AI": {
+        case "SEND_TEXT_CHAT": {
             console.log("SENDING TEXT")
             //CALL API
             
@@ -36,8 +36,8 @@ export default function userReducer(state = initialState
             }
             return state
         }
-        case "PREDICTION_SUCCEDED": {
-            console.log("PREDICTION RECIEVED, updating chat")
+        case "CHAT_SUCCEEDED": {
+            console.log("SEND CHAT RECIEVED, updating chat")
             //CALL API
             
 
@@ -49,8 +49,8 @@ export default function userReducer(state = initialState
             console.log(state)
             return state
         }
-        case "PREDICTION_FAILED": {
-            console.log("PREDICTON FAILED")
+        case "CHAT_FAILED": {
+            console.log("SEND CHAT FAILED")
             //CALL API
             
 

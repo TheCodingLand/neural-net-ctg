@@ -4,7 +4,7 @@ import { withStyles } from 'material-ui/styles';
 import Button from 'material-ui/Button';
 import TextField from 'material-ui/TextField';
 import TinaReplies from './TinaReplies'
-import { sendTextAi,clearChat } from '../actions/AiActions'
+import { sendTextChat,clearChat } from '../actions/AiActions'
 import { bindActionCreators } from "redux"
 import { connect } from "react-redux"
 
@@ -49,7 +49,7 @@ class Tina extends Component {
       };
 
     handleSend() {
-        this.props.sendTextAi("julien",this.state.multiline)
+        this.props.sendTextChat("julien",this.state.multiline)
         this.setState(...this.state, {multiline:""})
     }
   render() {
@@ -101,7 +101,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return bindActionCreators({
-        sendTextAi,
+        sendTextChat,
         clearChat
     }, dispatch)
 

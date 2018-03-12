@@ -10,9 +10,11 @@ function* Api(text) {
           },
           mode: 'cors', // no-cors, cors, *same-origin
     } )
+ 
 
     let result = yield response.json()
     result = result.results
+
 return result
 }
 

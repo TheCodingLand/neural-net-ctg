@@ -1,14 +1,14 @@
 
-export const SEND_TEXT_AI = 'SEND_TEXT_AI'
-export const PREDICTION_SUCCEDED = 'PREDICTION_SUCCEDED'
-export const PREDICTION_FAILED = 'PREDICTION_FAILED'
-export const PREDICTION_REQUESTED = 'PREDICTION_REQUESTED'
+export const SEND_TEXT_CHAT = 'SEND_TEXT_CHAT'
+export const CHAT_SUCCEEDED = 'CHAT_SUCCEEDED'
+export const CHAT_FAILED = 'CHAT_FAILED'
+export const SEND_CHAT_REQUESTED = 'SEND_CHAT_REQUESTED'
 export const CLEAR_CHAT = 'CLEAR_CHAT'
 
-export function predictionSucceeded(data) {
+export function sendChatSucceeded(data) {
   console.log('called action on prediction success')
     return {
-      type: PREDICTION_SUCCEDED,
+      type: CHAT_SUCCEEDED,
       payload : data
       
     }
@@ -19,24 +19,24 @@ export function clearChat(){
   }
 }
 
-export function predictionFailed(data) {
+export function sendChatFailed(data) {
     return {
-      type: PREDICTION_FAILED,
+      type: CHAT_FAILED,
       payload: data
     }
   }
 
 
-export function predictionRequested(data) {
+export function sendChatRequested(data) {
     return {
-      type: PREDICTION_REQUESTED,
+      type: SEND_CHAT_REQUESTED,
       payload : data
     }
   }
 
-export function sendTextAi(user, text) {
+export function sendTextChat(user, text) {
     return {
-        type: SEND_TEXT_AI,
+        type: SEND_TEXT_CHAT,
         payload: {
             text : text,
             user: user

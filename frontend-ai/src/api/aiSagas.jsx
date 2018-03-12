@@ -5,9 +5,9 @@ import Api from '../api/aiws'
 function* predict(action) {
    try {
       const prediction = yield call(Api, action.payload.text);
-      yield put({type: "PREDICTION_SUCCEDED", prediction: prediction});
+      yield put({type: "CHAT_SUCCEEDED", prediction: prediction});
    } catch (e) {
-      yield put({type: "PREDICTION_FAILED", message: e.message});
+      yield put({type: "CHAT_FAILED", message: e.message});
    }
 }
 
@@ -16,7 +16,7 @@ function* predict(action) {
   Allows concurrent fetches of user.
 */
 function* aiSaga() {
-  yield takeEvery("SEND_TEXT_AI", predict);
+  yield takeEvery("SEND_TEXT_CHAT", predict);
 }
 
 /*
