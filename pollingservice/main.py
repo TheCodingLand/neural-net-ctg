@@ -70,17 +70,18 @@ while True:
 
             prediction = prediction.json()
             print(prediction)
-            prediction = prediction['results']['category']
+            prediction1 = prediction['results']['category']
+
             prediction2 = prediction['results']['category2']
 
 
 
 
-            print (prediction)
+            print (prediction1)
 
-            categ_title=getCategoryTitle(prediction).split(':')[-1].strip()
+            categ_title=getCategoryTitle(prediction1).split(':')[-1].strip()
             if categ_title =="":
-                categ_title=getCategoryTitle(prediction).strip()
+                categ_title=getCategoryTitle(prediction1).strip()
             prediction = categ_title
 
             categ_title=getCategoryTitle(prediction2).split(':')[-1].strip()

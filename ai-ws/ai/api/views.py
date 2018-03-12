@@ -89,7 +89,7 @@ class Prediction(Resource):
             logging.error(items)
             d = {}
             d.update({'category': items[0]})
-            d.update({'category': items[2]})
+            d.update({'category2': items[2]})
             d.update({'confidence': items[1]})
             if d:
                 response_object = {
