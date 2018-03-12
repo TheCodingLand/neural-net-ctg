@@ -26,7 +26,7 @@ def getEmails():
 
     payload = {
         "objectclass": "Email",
-        "filter": "last 2 years",
+        "filter": "Last Week",
         "variables": [
             {
             }
@@ -71,6 +71,9 @@ while True:
             prediction = prediction.json()
             print(prediction)
             prediction = prediction['results']['category']
+            prediction2 = prediction['results']['category2']
+
+
 
 
             print (prediction)
@@ -79,9 +82,17 @@ while True:
             if categ_title =="":
                 categ_title=getCategoryTitle(prediction).strip()
             prediction = categ_title
+
+            categ_title=getCategoryTitle(prediction2).split(':')[-1].strip()
+            if categ_title =="":
+                categ_title=getCategoryTitle(prediction2).strip()
+            prediction2 = categ_title
+            
+            
+
             modurl=f'http://148.110.107.15:5001/api/ot/objectmod/{id!s}'
             print(modurl)
-            payloadmod = { 'PredictedCategory' : f'{prediction!s}' }
+            payloadmod = { 'PredictedCategory' : f'{prediction!s} or {prediction2!s}' }
             print (payloadmod)
             headers = {'Content-type': 'application/json',
                    'Accept': 'text/plain'}

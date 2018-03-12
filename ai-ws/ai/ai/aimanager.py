@@ -122,9 +122,10 @@ class AiManager(object):
         prediction = self.model.predict(text, k=2)
         logging.error(f"{prediction!s}")
         cat = prediction[0][0].replace('__label__','')
+        cat2 = prediction[0][1].replace('__label__','')
         confidence = prediction[1][0]
         logging.error(f"{cat!s} / {confidence!s}")
-        data = [cat, confidence]
+        data = [cat, confidence, cat2]
         return data
             
     def preparedata(self, s):
@@ -140,7 +141,7 @@ class AiManager(object):
         s = s.replace('_', '')
         # Remove some special characters
         s = re.sub(r'([\;\:\|•«\n])', ' ', s)
-        
+
         # Replace numbers and symbols with language
         s = s.replace('&', ' and ')
         s = s.replace('@', ' at ')
