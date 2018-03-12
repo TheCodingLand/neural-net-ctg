@@ -72,9 +72,9 @@ class AiManager(object):
 
         for entry in raw:
             logging.error(entry)
-            subject = entry['Title']
-            body = entry['Description']
-            category= entry['AssociatedCategory']
+            subject = entry['data']['Title']
+            body = entry['data']['Description']
+            category= entry['data']['AssociatedCategory']
             subject = self.preparedata(subject)
             body = self.preparedata(body)
             txt= f'__label__{category!s} {subject!s} {body!s}'
