@@ -93,7 +93,7 @@ while True:
 
             modurl=f'http://148.110.107.15:5001/api/ot/objectmod/{id!s}'
             print(modurl)
-            payloadmod = { 'PredictedCategory' : f'{prediction!s} or {prediction2!s}' }
+            payloadmod = { 'PredictedCategory' : f'{prediction!s} / {prediction2!s}' }
             print (payloadmod)
             headers = {'Content-type': 'application/json',
                    'Accept': 'text/plain'}

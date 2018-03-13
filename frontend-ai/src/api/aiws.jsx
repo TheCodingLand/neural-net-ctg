@@ -20,7 +20,7 @@ return result
 
 
 export function* update_brain_api(conversation) { 
-    let convstring = conversation.map((s) => {return s.content})
+    let convstring = conversation.map((s) => {  if (s.user === "Tina") {return s.content} })
     
     convstring = convstring.join(' ')
     console.log(convstring)
