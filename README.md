@@ -1,8 +1,5 @@
 This is a complete infrastructure for hosting a fasttext based text classification algorithm.
 
-Progress: it's now thinking about possible issues, notifying users of the progress of finding a solution : 
-![alt text](https://github.com/TheCodingLand/neural-net-ctg/blob/master/brain.png?raw=true)
-
 Progress can be seen at http://julien.tech:5011
 
 API at http://julien.tech:5005/api
@@ -31,6 +28,13 @@ localhost:5005 for the rest api
 localhost:5011 for the ai front end
 
 ![alt text](https://github.com/TheCodingLand/neural-net-ctg/blob/master/tinaaifrontend-wip.png?raw=true)
+
+
+
+Progress: it's now thinking about possible issues, notifying users of the progress of finding a solution : 
+![alt text](https://github.com/TheCodingLand/neural-net-ctg/blob/master/brain.png?raw=true)
+
+
 
 Done : 
 API :
