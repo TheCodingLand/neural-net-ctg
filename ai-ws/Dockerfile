@@ -24,7 +24,8 @@ RUN git clone https://github.com/facebookresearch/fastText.git
 WORKDIR /usr/src/app/fastText
 RUN python setup.py install
 WORKDIR /usr/src/app
-
+RUN wget https://s3-us-west-1.amazonaws.com/fasttext-vectors/word-vectors-v2/cc.fr.300.bin.gz
+RUN gunzip gunzip cc.fr.300.bin.gz
 # add app
 ADD . /usr/src/app/
 
