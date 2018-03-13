@@ -26,7 +26,7 @@ def getEmails():
 
     payload = {
         "objectclass": "Email",
-        "filter": "Last Week",
+        "filter": "today email",
         "variables": [
             {
             }
