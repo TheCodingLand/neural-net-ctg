@@ -6,10 +6,20 @@ import Card, { CardActions, CardContent } from 'material-ui/Card';
 import Avatar from 'material-ui/Avatar';
 import deepOrange from 'material-ui/colors/deepOrange';
 import deepPurple from 'material-ui/colors/deepPurple';
+import ReactChatView from 'react-chatview'
 
 const styles = theme => ({
+
+  chatarea:{
+    height:'300px',
+    maxHeight:'300px',
+   
+  },
+
   chatwindow: {
     position: "relative",
+    
+    
     
 },
 chatavatar: {
@@ -47,12 +57,14 @@ class TinaReplies extends Component {
     })
 
     return (
-      <div classname={this.props.classes.chatwindow}>
+      <div >
+      <ReactChatView className={this.props.classes.chatarea}>
         <Card>
           {conversation}
         </Card>
         
       
+      </ReactChatView>
       </div>
     );
   }
