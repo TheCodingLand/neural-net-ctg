@@ -1,6 +1,6 @@
 // This will be a display of the brain ot TINA. lets hope z
 import React, { Component } from 'react';
-import Reboot from 'material-ui/Reboot';
+
 import { connect } from "react-redux"
 import Chip from 'material-ui/Chip';
 

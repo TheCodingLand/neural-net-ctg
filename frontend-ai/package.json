@@ -3,10 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "chart.js": "^2.7.2",
     "material-ui": "^1.0.0-beta.36",
     "material-ui-icons": "^1.0.0-beta.36",
     "react": "^16.2.0",
     "react-burger-menu": "^2.3.0",
+    "react-chartjs-2": "^2.7.0",
     "react-chatview": "^0.2.5",
     "react-dom": "^16.2.0",
     "react-redux": "^5.0.7",

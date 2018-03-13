@@ -1,7 +1,7 @@
 import { call, put } from 'redux-saga/effects'
 export function* chat_api(text) { 
     const response= yield call(
-        fetch,'http://docker.rcsl.lu:5005/api/chat',
+        fetch,'http://julien.tech:5005/api/chat',
         {
         body: JSON.stringify({text:text}),
         method:'POST',
@@ -25,7 +25,7 @@ export function* update_brain_api(conversation) {
     convstring = convstring.join(' ')
     console.log(convstring)
     const response = yield call(
-        fetch,'http://docker.rcsl.lu:5005/api/updatebrain',
+        fetch,'http://julien.tech:5005/api/updatebrain',
         {
         body: JSON.stringify({text:convstring}),
         method:'POST',
