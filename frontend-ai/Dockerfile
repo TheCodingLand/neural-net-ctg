@@ -3,19 +3,19 @@ FROM ubuntu:latest
 RUN apt-get update
 RUN apt-get install -yq curl git nano
 
-
 RUN apt-get install -y npm
 RUN npm install -g npm
 
 RUN curl -sL https://deb.nodesource.com/setup_9.x | bash -
 
-RUN apt-get install -y nodejs
+RUN apt-get install -y nodejs gunzip
 
 RUN npm install -g http-server --force
 
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
-
+RUN wget https://s3-us-west-1.amazonaws.com/fasttext-vectors/word-vectors-v2/cc.fr.300.bin.gz
+RUN gunzip cc.fr.300.bin.gz
 ADD . /usr/src/app
 
 RUN npm install
