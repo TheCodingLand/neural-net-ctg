@@ -17,8 +17,14 @@ class BrainGraph extends Component {
     getData = () => {
         let labels = ['none']
         let data =[0]
+        let total = 0
         if (this.props.user.brain) { labels = this.props.user.brain.map((neuron) => {return neuron.category})
-        data= this.props.user.brain.map((neuron) => {return neuron.confidence*100})
+        this.props.user.brain.forEach(element => { total = total + element.confidence
+            
+        });
+       
+        console.log('total' + total)
+        data= this.props.user.brain.map((neuron) => {return neuron.confidence*100/total})
     }
         console.log(data)
         return {
