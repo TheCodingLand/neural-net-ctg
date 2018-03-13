@@ -68,5 +68,9 @@ API:
 
 AI:
 - model selection
+- pre train model using skipgram on other unclassified data
+for example using pre trained vectors :
+./fasttext skipgram -input UNLABELED_DATA -output UNSUP_VECTORS
+./fasttext supervised -input LABELED_DATA -output MODEL -pretrainedVectors UNSUP_VECTORS.vec
  
 
