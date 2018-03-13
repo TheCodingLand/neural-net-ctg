@@ -8,7 +8,7 @@ RUN npm install -g npm
 
 RUN curl -sL https://deb.nodesource.com/setup_9.x | bash -
 
-RUN apt-get install -y nodejs gunzip
+RUN apt-get install -y nodejs
 
 RUN npm install -g http-server --force
 
