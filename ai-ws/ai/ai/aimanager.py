@@ -29,7 +29,7 @@ class AiManager(object):
         if mode =="training":
             self.train()
         else:
-            self.model = load_model("/usr/src/app/cc.fr.300.bin")
+            self.model = load_model("/usr/src/app/cc.fr.300.vec")
             
             #self.model = load_model("/usr/src/app/ai/model.ftz")
             #except:
