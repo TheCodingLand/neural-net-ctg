@@ -2,6 +2,7 @@
 import React, { Component } from 'react';
 import Reboot from 'material-ui/Reboot';
 import { connect } from "react-redux"
+import Chip from 'material-ui/Chip';
 
 function mapStateToProps(state) {
     return {
@@ -16,7 +17,7 @@ class Brain extends Component {
   render() {
       console.log(this.props)
       let br =""
-      if (this.props.user.brain) {  br = this.props.user.brain.map((item) => { return 'thinking about ' + item.category})}
+      if (this.props.user.brain) {  br = this.props.user.brain.map((item) => { return <Chip label={item.category}/>})}
 
     return (
       <div>{br}
