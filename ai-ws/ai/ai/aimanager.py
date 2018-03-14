@@ -52,7 +52,10 @@ class AiManager(object):
     def chat(self, text):
         logging.error("test langue francaise")
         text = self.preparedata(text)
-        logging.error(subprocess.check_output(['echo', f'"{text!s}"', "|" "/usr/src/app/fastText/fasttext", "print-word-vectors", "/usr/src/app/cc.fr.300.bin"]))
+        f=open("/usr/src/app/fastText/tmp")
+        f.write(text)
+        f.close()
+        logging.error(subprocess.check_output(["/usr/src/app/fastText/fasttext", "print-word-vectors", "/usr/src/app/cc.fr.300.bin", "<", "/usr/src/app/fastText/tmp" ]))
         
     
         # try:
