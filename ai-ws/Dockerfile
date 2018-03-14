@@ -15,7 +15,7 @@ RUN apt-get update && apt-get install -y \
 
 
 
-RUN pip install cython numpy
+RUN pip install cython numpy pyfasttext
 
 # install requirements
 RUN pip install -r requirements.txt
