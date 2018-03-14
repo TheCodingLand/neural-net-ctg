@@ -94,6 +94,30 @@ class AiManager(object):
             logging.error(message)
         logging.error(result)
 
+        try:
+            words = self.model.get_numpy_sentence_vector(text)
+        except Exception as ex:
+            template = "An exception of type {0} occurred. Arguments:\n{1!r}"
+            message = template.format(type(ex).__name__, ex.args)
+            logging.error(message)
+        
+        #logging.error(dir(words))
+
+        try:
+            result = self.model.words_for_vector(words, k=20)
+        
+        # try:
+        #     nearest = find_nearest_neighbor(words)
+        except Exception as ex:
+            template = "An exception of type {0} occurred. Arguments:\n{1!r}"
+            message = template.format(type(ex).__name__, ex.args)
+            logging.error(message)
+        logging.error(result)
+
+
+
+        return result
+
 
 
     def getData(self):
