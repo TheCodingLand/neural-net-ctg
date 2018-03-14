@@ -1,4 +1,4 @@
-FROM python:3.6.1
+FROM python:latest
 
 # set working directory
 RUN mkdir -p /usr/src/app
@@ -18,8 +18,7 @@ RUN apt-get update && apt-get install -y \
 
 RUN pip install cython 
 RUN pip3 install cysignals
-RUN pip install numpy
-RUN pip3 install pyfasttext
+
 # install requirements
 RUN pip install -r requirements.txt
 
