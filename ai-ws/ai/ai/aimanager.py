@@ -20,6 +20,7 @@ import re
 import os
 from fastText import train_supervised
 from fastText import load_model
+from fastText.util import find_nearest_neighbor
 from ai.tools.ticketingsystem import ot as ts
 
 
@@ -51,7 +52,7 @@ class AiManager(object):
         logging.error("test langue francaise")
         text = self.preparedata(text)
 
-        
+    
         try:
             words = self.unsupModel.get_sentence_vector(text)
         except Exception as ex:
@@ -60,6 +61,7 @@ class AiManager(object):
             logging.error(message)
         
         logging.error(dir(words))
+        logging.error(find_nearest_neighbor(words))
 
 
 
