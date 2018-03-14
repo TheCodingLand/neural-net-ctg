@@ -78,7 +78,7 @@ class AiManager(object):
         #logging.error(dir(words))
 
         try:
-            self.unsupModel.words_for_vector(words, k=1)
+            result = self.unsupModel.words_for_vector(words, k=1)
         
 
         # try:
@@ -87,7 +87,7 @@ class AiManager(object):
             template = "An exception of type {0} occurred. Arguments:\n{1!r}"
             message = template.format(type(ex).__name__, ex.args)
             logging.error(message)
-        
+        logging.error(result)
 
 
 
