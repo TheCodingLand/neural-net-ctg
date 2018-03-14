@@ -50,7 +50,7 @@ class AiManager(object):
     def chat(self, text):
         words = self.unsupModel.get_sentence_vector(text)
         logging.error("test langue francaise")
-        logging.error((dir(words))
+        logging.error((dir(words)))
 
 
 
