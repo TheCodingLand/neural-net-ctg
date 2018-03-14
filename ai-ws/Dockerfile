@@ -19,7 +19,7 @@ RUN apt-get update && apt-get install -y \
 RUN pip install cython 
 RUN pip3 install cysignals
 RUN pip install numpy
-RUN pip install pyfasttext
+RUN pip3 install pyfasttext
 # install requirements
 RUN pip install -r requirements.txt
 
