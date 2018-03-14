@@ -29,7 +29,7 @@ class AiManager(object):
         if mode =="training":
             self.train()
         else:
-            self.model = load_model("/usr/src/app/cc.fr.300.vec")
+            self.model = load_model("/usr/src/app/cc.fr.300.bin")
             
             #self.model = load_model("/usr/src/app/ai/model.ftz")
             #except:
@@ -143,10 +143,10 @@ class AiManager(object):
             catid = cat.replace('__label__','')
             logging.error(catid)
             #try:
-            #    cattitle=self.ts.getCategoryTitle(catid)
+            cattitle=self.ts.getCategoryTitle(catid)
             #except:
             #    cattitle=catid
-            cattitle = catid
+            #cattitle = catid
             logging.error(cattitle)
             
             d.update({"id":i})
