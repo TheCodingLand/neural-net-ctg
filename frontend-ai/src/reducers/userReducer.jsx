@@ -62,7 +62,7 @@ export default function userReducer(state = initialState
                 conversationHistory: state.conversationHistory.concat({
                     id:state.conversationHistory.length,
                     user:'Tina',
-                    content:'sorry, api is not yet available for this question. please come back later !'}) }
+                    content:'I think i get it, is it one of those categories ?' }) }
             console.log(state)
             return state
         }
