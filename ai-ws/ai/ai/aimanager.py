@@ -49,7 +49,8 @@ class AiManager(object):
     
     def chat(self, text):
         words = self.unsupModel.get_sentence_vector(text)
-        print(dir(words))
+        logging.error("test langue francaise")
+        logging.error((dir(words))
 
 
 
@@ -157,10 +158,10 @@ class AiManager(object):
             catid = cat.replace('__label__','')
             logging.error(catid)
             #try:
-            #cattitle=self.ts.getCategoryTitle(catid)
+            cattitle=self.ts.getCategoryTitle(catid)
             #except:
             #    cattitle=catid
-            cattitle = catid
+            #cattitle = catid
             logging.error(cattitle)
             
             d.update({"id":i})
