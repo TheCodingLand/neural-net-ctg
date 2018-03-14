@@ -15,7 +15,7 @@ RUN apt-get update && apt-get install -y \
 
 
 
-RUN pip install cython numpy pyfasttext
+
 
 # install requirements
 RUN pip install -r requirements.txt
@@ -34,6 +34,6 @@ RUN make
 RUN chmod 777 /usr/src/app/fastText/fasttext
 WORKDIR /usr/src/app
 ADD . /usr/src/app/
-#RUN pip install pyfasttext
+RUN pip install pyfasttext
 # run server
 CMD python manage.py runserver -h '0.0.0.0'
