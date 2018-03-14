@@ -13,10 +13,7 @@ RUN apt-get update && apt-get install -y \
         wget \
         git
 
-
-
-
-RUN pip install cython 
+RUN pip install Cython 
 
 # install requirements
 RUN pip install -r requirements.txt
