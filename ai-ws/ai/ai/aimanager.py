@@ -78,9 +78,8 @@ class AiManager(object):
         #logging.error(dir(words))
 
         try:
-            result = self.unsupModel.words_for_vector(words, k=1)
+            result = self.unsupModel.words_for_vector(words, k=2)
         
-
         # try:
         #     nearest = find_nearest_neighbor(words)
         except Exception as ex:
