@@ -57,7 +57,7 @@ class AiManager(object):
         f.close()
         t=""
         try:
-            t = subprocess.check_output(["/usr/src/app/fastText/fasttext", "print-word-vectors", "/usr/src/app/cc.fr.300.bin", "<", "/usr/src/app/fastText/tmp" ])
+            t = subprocess.check_output(["/usr/src/app/fastText/fasttext", "print-word-vectors", "/usr/src/app/cc.fr.300.bin", "<", "/usr/src/app/fastText/tmp.txt" ])
         except Exception as ex:
              template = "An exception of type {0} occurred. Arguments:\n{1!r}"
              message = template.format(type(ex).__name__, ex.args)
