@@ -208,7 +208,7 @@ class getCategory(Resource):
 
 @api.response(400, 'failed.')
 @ns.route('/updatebrain', methods=['POST'])
-class Prediction(Resource):
+class UpdateBrain(Resource):
     @api.response(201, 'prediction : ok')
     @api.expect(prediction)
     def post(self):
@@ -223,7 +223,7 @@ class Prediction(Resource):
             items = am.updatebrain(text)
             
             #testing
-            am.chat(text)
+            words = am.chat(text)
             #here we will establish a context for the bot to talk into
             #user can guide the bot into several contexts. context will be displayed. 
             # starting with small talk
@@ -233,7 +233,8 @@ class Prediction(Resource):
             if items:
                 response_object = {
                     'status': 'success',
-                    'results': items
+                    'results': items,
+                    'words' : words
                 }
                 return response_object, 201
             else:
