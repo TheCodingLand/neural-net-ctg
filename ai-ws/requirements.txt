@@ -11,4 +11,5 @@ pybind11
 cython
 fastText
 recastai
+numpy
 pyfasttext
