@@ -16,7 +16,7 @@ RUN apt-get update && apt-get install -y \
 
 
 
-RUN pip install cython
+RUN pip install cython cysignals
 # install requirements
 RUN pip install -r requirements.txt
 
