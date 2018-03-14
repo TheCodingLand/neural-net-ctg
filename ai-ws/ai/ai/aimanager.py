@@ -49,6 +49,7 @@ class AiManager(object):
     
     def chat(self, text):
         logging.error("test langue francaise")
+        text.replace('\n','')
         try:
             words = self.unsupModel.get_sentence_vector(text)
         except Exception as ex:
