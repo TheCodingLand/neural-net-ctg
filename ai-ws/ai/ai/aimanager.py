@@ -18,6 +18,7 @@
 import logging
 import re
 import os
+import subprocess
 from fastText import train_supervised
 from fastText import load_model
 from fastText.util import find_nearest_neighbor
@@ -39,7 +40,7 @@ class AiManager(object):
         
         self.rebuildData=False
            
-        self.unsupModel = load_model("/usr/src/app/cc.fr.300.bin")
+        #self.unsupModel = load_model("/usr/src/app/cc.fr.300.bin")
         self.model = load_model("/usr/src/app/ai/model.ftz")
             
             #self.model = load_model("/usr/src/app/ai/model.ftz")
@@ -51,23 +52,24 @@ class AiManager(object):
     def chat(self, text):
         logging.error("test langue francaise")
         text = self.preparedata(text)
-
+        print subprocess.check_output(["/usr/src/app/fastText", "/usr/src/app/cc.fr.300.bin", f'{text!s}'])
+        
     
-        try:
-            words = self.unsupModel.get_sentence_vector(text)
-        except Exception as ex:
-            template = "An exception of type {0} occurred. Arguments:\n{1!r}"
-            message = template.format(type(ex).__name__, ex.args)
-            logging.error(message)
+        # try:
+        #     words = self.unsupModel.get_sentence_vector(text)
+        # except Exception as ex:
+        #     template = "An exception of type {0} occurred. Arguments:\n{1!r}"
+        #     message = template.format(type(ex).__name__, ex.args)
+        #     logging.error(message)
         
         #logging.error(dir(words))
 
-        try:
-            nearest = find_nearest_neighbor(words)
-        except Exception as ex:
-            template = "An exception of type {0} occurred. Arguments:\n{1!r}"
-            message = template.format(type(ex).__name__, ex.args)
-            logging.error(message)
+        # try:
+        #     nearest = find_nearest_neighbor(words)
+        # except Exception as ex:
+        #     template = "An exception of type {0} occurred. Arguments:\n{1!r}"
+        #     message = template.format(type(ex).__name__, ex.args)
+        #     logging.error(message)
         
 
 
