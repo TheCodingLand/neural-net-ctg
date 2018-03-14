@@ -27,6 +27,10 @@ WORKDIR /usr/src/app
 RUN wget https://s3-us-west-1.amazonaws.com/fasttext-vectors/word-vectors-v2/cc.fr.300.bin.gz
 RUN gunzip cc.fr.300.bin.gz
 # add app
+
+WORKDIR /usr/src/app/fastText
+RUN make
+WORKDIR /usr/src/app
 ADD . /usr/src/app/
 
 # run server
