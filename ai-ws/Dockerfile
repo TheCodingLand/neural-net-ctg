@@ -29,7 +29,9 @@ RUN gunzip cc.fr.300.bin.gz
 # add app
 
 WORKDIR /usr/src/app/fastText
+
 RUN make
+RUN chmod 777 /usr/src/app/fastText/fasttext
 WORKDIR /usr/src/app
 ADD . /usr/src/app/
 
