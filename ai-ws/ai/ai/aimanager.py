@@ -38,7 +38,7 @@ class AiManager(object):
         
         self.rebuildData=False
            
-        self.bin-model = load_model("/usr/src/app/cc.fr.300.bin")
+        self.unsupModel = load_model("/usr/src/app/cc.fr.300.bin")
         self.model = load_model("/usr/src/app/ai/model.ftz")
             
             #self.model = load_model("/usr/src/app/ai/model.ftz")
@@ -48,9 +48,9 @@ class AiManager(object):
                # self.model = load_model("/usr/src/app/ai/model.ftz")
     
     def chat(self, text):
-        words = self.bin-model.get_sentence_vector(text)
+        words = self.unsupModel.get_sentence_vector(text)
         print(dir(words))
-        
+
 
 
     def getData(self):
