@@ -52,6 +52,12 @@ class AiManager(object):
     def chat(self, text):
         logging.error("test langue francaise")
         text = self.preparedata(text)
+        filtered = []
+        for t in text.split(' '):
+            if len(t)>5:
+                filtered.append(t)
+        text = ' '.join(filtered)
+
         #f=open("/usr/src/app/fastText/tmp.txt",'w')
         #f.write(text)
         #f.close()
