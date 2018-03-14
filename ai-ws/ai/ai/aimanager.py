@@ -34,11 +34,11 @@ class AiManager(object):
         self.testfile= "test.txt"
         self.completefile = "data.txt"
         self.epochs=100
-        self.learningRate=0.1
-        self.wordNgrams=4
+        self.learningRate=0.2
+        self.wordNgrams=3
         self.ts = ts()
         
-        self.rebuildData=False
+        self.rebuildData=True
            
         #self.unsupModel = FastText("/usr/src/app/cc.fr.300.bin")
         self.model = load_model("/usr/src/app/ai/model.ftz")
@@ -118,7 +118,7 @@ class AiManager(object):
 
         logging.error(f'Training started with : learningRate:{self.learningRate!s}, epochs:{self.epochs!s}, ngrams :{self.wordNgrams!s}')
 
-        model = train_supervised(input=self.completefile, epoch=200, lr=0.1, wordNgrams=self.wordNgrams, verbose=2, minCount=1)
+        model = train_supervised(input=self.completefile, epoch=200, lr=0.2, wordNgrams=self.wordNgrams, verbose=2, minCount=1)
         #self.print_results(*model.test(self.completefile))
         logging.error(f'finished training model with : learningRate:{self.learningRate!s}, epochs:{self.epochs!s}, ngrams :{self.wordNgrams!s}')
         model.save_model("model.bin")
@@ -151,13 +151,15 @@ class AiManager(object):
             subject = self.preparedata(subject)
             body = self.preparedata(body)
             fulltext= f'{subject!s} {body!s}'
+            fulltext = self.removeOneTwoLetterWords(fulltext)
             #we will not need all the email. Taking 75% of the words should cut most signatures / end of email garbage
             linearray = fulltext.split(' ')
             lwords = len(linearray)
             nbWords= int(lwords*75/100)
             fulltext = ' '.join(linearray[0:nbWords])
             txt= f'__label__{category!s} {fulltext!s} \n'
-            ftdata.write(txt)
+            if len(txt.split()) > 15:
+                ftdata.write(txt)
         ftdata.close()
 
     def formatdata(self,raw):
@@ -190,6 +192,17 @@ class AiManager(object):
         logging.error(f"{cat!s} / {confidence!s}")
         data = [cat, confidence, cat2]
         return data
+    
+    def removeOneTwoLetterWords(self, text):
+        t = text.split(' ')
+        result= []
+        for s in t:
+            if len(s)>2:
+                result.append(s)
+        
+        result = ' '.join(result)
+        return result
+
 
     def updatebrain(self, text):
         logging.error(f"trying to predict {text!s}")
@@ -223,6 +236,9 @@ class AiManager(object):
         Given a text, cleans and normalizes it.
         """
         s = s.lower()
+        s= s.replace(".","")
+
+
         # Replace ips
         s = re.sub(r'\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}', ' _ip_ ', s)
         # Isolate punctuation
@@ -245,6 +261,7 @@ class AiManager(object):
         s = s.replace('7', ' seven ')
         s = s.replace('8', ' eight ')
         s = s.replace('9', ' nine ')
+
         return s       
 
     
