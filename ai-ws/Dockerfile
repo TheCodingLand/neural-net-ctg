@@ -13,7 +13,7 @@ RUN apt-get update && apt-get install -y \
         wget \
         git
 
-RUN pip install Cython 
+
 
 # install requirements
 RUN pip install -r requirements.txt
@@ -32,9 +32,6 @@ RUN make
 RUN chmod 777 /usr/src/app/fastText/fasttext
 WORKDIR /usr/src/app
 
-RUN pip uninstall Cython
-RUN pip uninstall cython
-RUN pip install cysignals 
 RUN pip install pyfasttext
 # run server
 CMD python manage.py runserver -h '0.0.0.0'

@@ -6,11 +6,7 @@ dateutils
 requests
 flask-restplus
 arrow
-pybind
 pybind11
 cython
-fastText
 recastai
-Cython
-cysignals
 numpy
