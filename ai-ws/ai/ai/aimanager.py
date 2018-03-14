@@ -50,6 +50,7 @@ class AiManager(object):
     def chat(self, text):
         words = self.bin-model.get_sentence_vector(text)
         print(dir(words))
+        
 
 
     def getData(self):
