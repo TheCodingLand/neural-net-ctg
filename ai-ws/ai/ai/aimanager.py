@@ -40,8 +40,9 @@ class AiManager(object):
         
         self.rebuildData=False
            
-        self.unsupModel = FastText("/usr/src/app/cc.fr.300.bin")
+        #self.unsupModel = FastText("/usr/src/app/cc.fr.300.bin")
         self.model = load_model("/usr/src/app/ai/model.ftz")
+        self.unsupModel = FastText("/usr/src/app/ai/model.ftz")
             
             #self.model = load_model("/usr/src/app/ai/model.ftz")
             #except:
