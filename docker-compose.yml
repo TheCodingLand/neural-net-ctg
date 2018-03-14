@@ -2,37 +2,39 @@
 version: '2.1'
 
 services:
-  <!-- nginx-ai:
-    restart: always
-    env_file:
-      - prod_env
-    build: ./nginx-ai/
-    ports:
-      - "81:80"
-      - "5004:5000"
-      - "5103:5100"
-    volumes_from:
-      - ai-ws
-    links:
-      - ai-ws
-      - swagger-ai
-    depends_on:
-      ai-ws:
-        condition: service_started
-        -->
 
-  swagger-ai:
-    env_file:
-      - prod_env
-    container_name: swagger-ai
-    build: ./swagger-ai
-    environment:
-    - API_URL=http://148.110.107.15:5005/api/schema
-    ports:
-      - "5102:8080"
-    depends_on:
-      ai-ws:
-        condition: service_started
+  # nginx-ai:
+  #   restart: always
+  #   env_file:
+  #     - prod_env
+  #   build: ./nginx-ai/
+  #   ports:
+  #     - "81:80"
+  #     - "5004:5000"
+  #     - "5103:5100"
+  #   volumes_from:
+  #     - ai-ws
+  #   links:
+  #     - ai-ws
+  #     - swagger-ai
+  #   depends_on:
+  #     ai-ws:
+  #       condition: service_started
+        
+
+  # swagger-ai:
+  #   env_file:
+  #     - prod_env
+  #   container_name: swagger-ai
+  #   build: ./swagger-ai
+  #   environment:
+  #   - API_URL=http://148.110.107.15:5005/api/schema
+  #   ports:
+  #     - "5102:8080"
+  #   depends_on:
+  #     ai-ws:
+  #       condition: service_started
+    
 
   ai-ws:
     env_file:
