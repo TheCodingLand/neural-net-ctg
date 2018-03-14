@@ -157,10 +157,10 @@ class AiManager(object):
             catid = cat.replace('__label__','')
             logging.error(catid)
             #try:
-            cattitle=self.ts.getCategoryTitle(catid)
+            #cattitle=self.ts.getCategoryTitle(catid)
             #except:
             #    cattitle=catid
-            #cattitle = catid
+            cattitle = catid
             logging.error(cattitle)
             
             d.update({"id":i})
