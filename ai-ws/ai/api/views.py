@@ -7,7 +7,7 @@ log.setLevel(logging.WARNING)
 
 from flask import request
 import recastai
-RECAST_TOKEN="390bb9d5c01ddab4d26b17ec53a559d1"
+RECAST_TOKEN="78ceb95a23a923c4b6fd1afbde85ac85"
 from ai.api.restplus import api
 from ai.api.models.apimodels import prediction
 
