@@ -35,12 +35,11 @@ class AiManager(object):
         self.learningRate=0.1
         self.wordNgrams=4
         self.ts = ts()
-        self.training=False
+        
         self.rebuildData=False
-        if mode =="training":
-            self.train()
-        else:
-            self.bin-model = load_binary_data("/usr/src/app/cc.fr.300.bin")
+           
+        self.bin-model = load_model("/usr/src/app/cc.fr.300.bin")
+        self.model = load_model("/usr/src/app/ai/model.ftz")
             
             #self.model = load_model("/usr/src/app/ai/model.ftz")
             #except:
@@ -48,7 +47,10 @@ class AiManager(object):
                 #self.train()
                # self.model = load_model("/usr/src/app/ai/model.ftz")
     
-    
+    def chat(self, text):
+        words = self.bin-model.get_sentence_vector(text)
+        print(dir(words))
+
 
     def getData(self):
         if self.tool == "ot":

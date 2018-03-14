@@ -217,9 +217,13 @@ class Prediction(Resource):
         # log.info(request.get_json())
         try:
             text = post_data.get('text')
+
             # predict goes here
             logging.error(text)
             items = am.updatebrain(text)
+            
+            #testing
+            am.chat(text)
             #here we will establish a context for the bot to talk into
             #user can guide the bot into several contexts. context will be displayed. 
             # starting with small talk
