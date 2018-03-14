@@ -60,8 +60,15 @@ class AiManager(object):
             message = template.format(type(ex).__name__, ex.args)
             logging.error(message)
         
-        logging.error(dir(words))
-        logging.error(find_nearest_neighbor(words))
+        #logging.error(dir(words))
+
+        try:
+            nearest = find_nearest_neighbor(words)
+        except Exception as ex:
+            template = "An exception of type {0} occurred. Arguments:\n{1!r}"
+            message = template.format(type(ex).__name__, ex.args)
+            logging.error(message)
+        
 
 
 
