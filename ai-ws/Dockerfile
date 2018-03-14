@@ -32,7 +32,9 @@ RUN make
 RUN chmod 777 /usr/src/app/fastText/fasttext
 WORKDIR /usr/src/app
 
-
-RUN pip install cysignals pyfasttext
+RUN pip uninstall Cython
+RUN pip uninstall cython
+RUN pip install cysignals 
+RUN pip install pyfasttext
 # run server
 CMD python manage.py runserver -h '0.0.0.0'
