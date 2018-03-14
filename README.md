@@ -1,7 +1,7 @@
 This is a complete infrastructure for hosting a fasttext based text classification algorithm.
 
 Progress can be seen at http://julien.tech:5011
-
+(its down as I'm now working on the business side; for now)
 API at http://julien.tech:5005/api
 
 ![alt text](https://github.com/TheCodingLand/neural-net-ctg/blob/master/architecture.png?raw=true)
