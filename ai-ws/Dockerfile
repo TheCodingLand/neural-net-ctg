@@ -33,6 +33,6 @@ RUN chmod 777 /usr/src/app/fastText/fasttext
 WORKDIR /usr/src/app
 
 
-RUN pip install pyfasttext
+RUN pip install cysignals pyfasttext
 # run server
 CMD python manage.py runserver -h '0.0.0.0'
