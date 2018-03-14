@@ -48,9 +48,13 @@ class AiManager(object):
                # self.model = load_model("/usr/src/app/ai/model.ftz")
     
     def chat(self, text):
-        words = self.unsupModel.get_sentence_vector(text)
         logging.error("test langue francaise")
-        logging.error((dir(words)))
+        try:
+            words = self.unsupModel.get_sentence_vector(text)
+        except Exception as ex:
+            template = "An exception of type {0} occurred. Arguments:\n{1!r}"
+            message = template.format(type(ex).__name__, ex.args)
+            logging.error(message)
 
 
 
