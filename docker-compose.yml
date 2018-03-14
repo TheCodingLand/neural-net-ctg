@@ -2,7 +2,7 @@
 version: '2.1'
 
 services:
-  nginx-ai:
+  <!-- nginx-ai:
     restart: always
     env_file:
       - prod_env
@@ -19,6 +19,7 @@ services:
     depends_on:
       ai-ws:
         condition: service_started
+        -->
 
   swagger-ai:
     env_file:
