@@ -1,9 +1,20 @@
-#this class can be used in two modes : learning or processing
-#learning file will be in format :
-#__label__category and a sentence that should be assigned to it \n
+
+
+# there will be 2 or more models used by the bot. 
+# the binary pre trained vectors will deduce context better than commercialy available chat bot solutions
+# we will still use them for recognizing data types that are not "words"
+# then a business classified model will be used to extract very specific business information.False
+
+
+#the bin model will be accessible with the chat method and /chat api endpoint
+#while the predict method will return business specific information on the /predict api endpoint
+#business data has to be formated into :
+# __label__category and a sentence that should be assigned to it \n
 #another format possible :
 #__label__category1 __label__category2 a sentence that should be assigned to both categories
 #can be extended to support other ticketing systems later
+# and be trained
+
 import logging
 import re
 import os
@@ -29,7 +40,7 @@ class AiManager(object):
         if mode =="training":
             self.train()
         else:
-            self.model = load_model("/usr/src/app/cc.fr.300.bin")
+            self.bin-model = load_binary_data("/usr/src/app/cc.fr.300.bin")
             
             #self.model = load_model("/usr/src/app/ai/model.ftz")
             #except:
