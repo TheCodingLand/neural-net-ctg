@@ -52,7 +52,7 @@ class AiManager(object):
     def chat(self, text):
         logging.error("test langue francaise")
         text = self.preparedata(text)
-        f=open("/usr/src/app/fastText/tmp",'w')
+        f=open("/usr/src/app/fastText/tmp.txt",'w')
         f.write(text)
         f.close()
         t=""
