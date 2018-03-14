@@ -10,3 +10,4 @@ pybind11
 cython
 recastai
 numpy
+cysignals==1.6.8
