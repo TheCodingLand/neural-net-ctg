@@ -41,14 +41,14 @@ services:
     container_name: frontend-ai
     build: ./frontend-ai
     expose:
-      - "8080"
+      - "3000"
     labels:
       - "traefik.backend=tina"
       - "traefik.docker.network=web"
       - "traefik.frontend.rule=Host:docker.rcsl.lu"
       - "traefik.pathprefix=/tina"
       - "traefik.enable=true"
-      - "traefik.port=8080"
+      - "traefik.port=3000"
       - "traefik.default.protocol=http"
     networks:
       - web

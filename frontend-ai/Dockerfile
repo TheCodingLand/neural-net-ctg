@@ -27,4 +27,4 @@ RUN yes | cp -rf /usr/src/app/build/* /usr/app/tina/
 
 WORKDIR /usr/app/tina/
 
-CMD ["http-server", "-s"] 
+CMD ["npm", "start"]
