@@ -29,9 +29,9 @@ services:
     ports:
       - "5005:5000"
     labels:
-      - "traefik.backend=aiws"
+      - "traefik.backend=api"
       - "traefik.docker.network=web"
-      - "traefik.frontend.rule=Path:/swaggerui, Path:/api"
+      - "traefik.frontend.rule=PathPrefix:/swaggerui,/api"
       - "traefik.enable=true"
       - "traefik.port=5000"
       - "traefik.default.protocol=http"
