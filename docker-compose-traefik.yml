@@ -48,11 +48,8 @@ services:
       - "traefik.pathprefix=/tina"
       - "traefik.enable=true"
       - "traefik.port=8080"
-      - "traefik.default.protocol=http"
     networks:
       - web
-      
-
 networks:
   web:
     external: true
