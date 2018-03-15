@@ -44,6 +44,7 @@ dashboard = true
  email = "julien.lebourg@rcsl.lu"
  storage = "/etc/traefik/acme.json"
  entryPoint = "https"
+ onHostRule = true
  [[acme.domains]]
   main = "docker.rcsl.lu"
   
