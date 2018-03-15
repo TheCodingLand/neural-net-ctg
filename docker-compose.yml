@@ -26,7 +26,7 @@ services:
       - "5000"
     labels:
       - "traefik.backend=api"
-      - traefik.frontend.entryPoints=https"
+      - "traefik.frontend.entryPoints=https"
       - "traefik.docker.network=web"
       - "traefik.frontend.rule=PathPrefix:/swaggerui,/api"
       - "traefik.enable=true"
@@ -42,7 +42,7 @@ services:
       - "8080"
     labels:
       - "traefik.backend=tina"
-      - traefik.frontend.entryPoints=https"
+      - "traefik.frontend.entryPoints=https"
       - "traefik.docker.network=web"
       - "traefik.frontend.rule=PathPrefix:/tina"
       - "traefik.enable=true"
