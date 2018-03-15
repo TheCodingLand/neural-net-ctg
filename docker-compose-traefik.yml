@@ -44,7 +44,7 @@ services:
     labels:
       - "traefik.backend=tina"
       - "traefik.docker.network=web"
-      - "traefik.frontend.rule=PathPrefix:/"
+      - "traefik.frontend.rule=PathPrefixStrip:/tina"
       - "traefik.enable=true"
       - "traefik.port=3000"
       - "traefik.default.protocol=http"
