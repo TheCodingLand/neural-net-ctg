@@ -29,7 +29,8 @@ services:
     labels:
       - "traefik.backend=aiws"
       - "traefik.docker.network=web"
-      - "traefik.frontend.rule=PathPrefixStrip:/aiws"
+      - "traefik.frontend.rule=PathPrefix:/swagger"
+      - "traefik.frontend.rule=PathPrefix:/api"
       - "traefik.enable=true"
       - "traefik.port=5000"
       - "traefik.default.protocol=http"
