@@ -1,8 +1,6 @@
 This is a complete infrastructure for hosting a fasttext based text classification algorithm.
 
-Progress can be seen at http://julien.tech:5011
-(its down as I'm now working on the business side; for now)
-API at http://julien.tech:5005/api
+The system is sitting behind a traefik reverse load balancer.
 
 ![alt text](https://github.com/TheCodingLand/neural-net-ctg/blob/master/architecture.png?raw=true)
 
@@ -18,17 +16,14 @@ docker-compose up
 
 Currently the ports are all over the place as the reverse proxy/load balancer is not yet configured.
 
-localhost:5102 for swagger
-localhost:5005 for the rest api
+localhost:9999/api
 
 ![alt text](https://github.com/TheCodingLand/neural-net-ctg/blob/master/restapi.png?raw=true)
 
 
-
-localhost:5011 for the ai front end
+localhost:9999/tina
 
 ![alt text](https://github.com/TheCodingLand/neural-net-ctg/blob/master/tinaaifrontend-wip.png?raw=true)
-
 
 
 Progress: it's now thinking about possible issues, notifying users of the progress of finding a solution : 
@@ -54,10 +49,14 @@ Frontend :
 
 TODO :
 
-Frontend : 
-- Glue api to frontend
+- link models together using another AI.
+- demonstrate https, webhooks
+
+
+Frontend :
 - uploads of data, training mode
 - model selection
+- brain visualization
 
 
 API:
@@ -69,8 +68,11 @@ API:
 AI:
 - model selection
 - pre train model using skipgram on other unclassified data
+
 for example using pre trained vectors :
+
 ./fasttext skipgram -input UNLABELED_DATA -output UNSUP_VECTORS
+
 ./fasttext supervised -input LABELED_DATA -output MODEL -pretrainedVectors UNSUP_VECTORS.vec
  
 

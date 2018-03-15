@@ -6,7 +6,7 @@ services:
     restart: always
     ports:
       - 9999:80
-      - 10001:443
+      - 443:443
       - 10002:8080
       - 10000:8081
     labels:
@@ -31,6 +31,7 @@ services:
       - "traefik.enable=true"
       - "traefik.port=5000"
       - "traefik.default.protocol=http"
+      
     networks:
       - web
 
@@ -45,6 +46,7 @@ services:
       - "traefik.enable=true"
       - "traefik.port=3000"
       - "traefik.default.protocol=http"
+      
     networks:
       - web
       
