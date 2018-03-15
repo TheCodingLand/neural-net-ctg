@@ -17,7 +17,7 @@ class Brain extends Component {
   render() {
       console.log(this.props)
       let br =""
-      if (this.props.user.brain) {  br = this.props.user.brain.map((item) => { return <Chip label={item.category}/>})}
+      if (this.props.user.brain) {  br = this.props.user.words.slice(0, 4).map((item) => { return <Chip label={item.word}/>})}
 
     return (
       <div>{br}
