@@ -29,10 +29,10 @@ services:
     labels:
       - "traefik.backend=api"
       - "traefik.docker.network=web"
-      - "traefik.frontend.rule="PathPrefix:/api"
+      - "traefik.frontend.rule=PathPrefix:/api"
       - "traefik.enable=true"
       - "traefik.port=5000"
-      - "traefik.protocol=http"
+      - "traefik.default.protocol=http"
     networks:
       - web
 
@@ -40,14 +40,14 @@ services:
     container_name: frontend-ai
     build: ./frontend-ai
     expose:
-      - "3000"
+      - "8080"
     labels:
       - "traefik.backend=tina"
       - "traefik.docker.network=web"
-      - "traefik.frontend.rule="PathPrefix:/tina"
+      - "traefik.frontend.rule=PathPrefix:/tina"
       - "traefik.enable=true"
-      - "traefik.port=3000"
-      - "traefik.protocol=http"
+      - "traefik.port=8080"
+      - "traefik.default.protocol=http"
     networks:
       - web
       
