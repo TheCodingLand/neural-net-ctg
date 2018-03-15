@@ -21,13 +21,9 @@ services:
     container_name: traefik
 
   ai-ws:
-
-    container_name: ai-ws
     build: ./ai-ws
     expose:
       - "5000"
-    ports:
-      - "5005:5000"
     labels:
       - "traefik.backend=api"
       - "traefik.docker.network=web"
@@ -39,7 +35,6 @@ services:
       - web
 
   frontend-ai:
-    container_name: frontend-ai
     build: ./frontend-ai
     expose:
       - "3000"
