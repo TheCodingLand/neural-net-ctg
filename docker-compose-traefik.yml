@@ -6,7 +6,7 @@ services:
     restart: always
     ports:
       - 9999:80
-      - 10001:443
+      - 443:443
       - 10002:8080
       - 10000:8081
     labels:
