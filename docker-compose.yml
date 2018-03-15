@@ -51,7 +51,7 @@ services:
       
     networks:
       - web
-      
+
 
 networks:
   web:

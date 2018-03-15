@@ -36,6 +36,8 @@ entryPoint = "ping"
 [api]
 entryPoint = "admin"
 dashboard = true
+[web.statistics]
+
 
 [file]
   [backends]
