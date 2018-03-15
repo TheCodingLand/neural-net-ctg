@@ -26,10 +26,12 @@ services:
     build: ./ai-ws
     expose:
       - "5000"
+    port:
+      - "5005:5000"
     labels:
       - "traefik.backend=aiws"
       - "traefik.docker.network=web"
-      - "traefik.frontend.rule=PathPrefix:/swagger,PathPrefix:/api"
+      - "traefik.frontend.rule=PathPrefix:/swaggerui,PathPrefix:/api"
       - "traefik.enable=true"
       - "traefik.port=5000"
       - "traefik.default.protocol=http"
