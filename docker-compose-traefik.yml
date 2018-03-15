@@ -1,4 +1,4 @@
-version: '2.1'
+version: '2'
 
 services:
   traefik:
@@ -11,8 +11,8 @@ services:
       - web
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - /opt/traefik/:/
-      - /opt/traefik/:/
+      - /opt/traefik/traefik.toml:/traefik.toml
+      - /opt/traefik/acme.json:/acme.json
     container_name: traefik
 
   ai-ws:
