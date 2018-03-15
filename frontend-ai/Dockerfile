@@ -10,7 +10,7 @@ RUN curl -sL https://deb.nodesource.com/setup_9.x | bash -
 
 RUN apt-get install -y nodejs
 
-RUN npm install -g http-server --force
+RUN npm install -g http-server
 
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
