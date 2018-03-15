@@ -1,4 +1,5 @@
-debug = false
+debug = true
+dashboard = true
 
 logLevel = "ERROR"
 defaultEntryPoints = ["http"]
