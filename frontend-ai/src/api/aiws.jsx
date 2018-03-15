@@ -35,7 +35,7 @@ export function* update_brain_api(conversation) {
  
 
     let result = yield response.json()
-    result = result.results
+    result = result
 
 return result
 }

@@ -96,9 +96,21 @@ class AiManager(object):
             logging.error(message)
         logging.error(result)
 
-        
+        results =[]
+      
+        i=0
+        for w in result:
+            d= {}
+            
+            d.update({"id":i})
+            d.update({"word":w[0]})
+            d.update({"confidence":w[1][i]})
+            i=i+1
+            results.append(d)
+            
+        return results
 
-        return result
+       
 
 
 

@@ -1,6 +1,7 @@
 const initialState = {
     userName: "",
     model: "",
+    words: [{id: 0, word:"none", confidence:0},],
     brain: [ { id:0, category:"none", confidence :"0"}, ], 
     conversationHistory: [
         {
@@ -36,7 +37,7 @@ export default function userReducer(state = initialState
             return state
         }
         case "UPDATE_BRAIN": {
-            state = { ...state, brain : action.payload
+            state = { ...state, brain : action.payload.results, words : action.payload.words
             }
             return state
         }
