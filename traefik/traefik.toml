@@ -6,7 +6,7 @@ logLevel = "ERROR"
 
 [docker]
   endpoint = "unix:///var/run/docker.sock"
-  domain = "docker.rcsl.lu"
+  domain = "julien.tech"
   watch = true
   exposedbydefault = false
 
@@ -41,12 +41,12 @@ dashboard = true
       url = "http://127.0.0.1:8081"
 
 [acme]
- email = "julien.lebourg@rcsl.lu"
+ email = "aureussz@gmail.com"
  storage = "/etc/traefik/acme.json"
  entryPoint = "https"
  onHostRule = true
   [[acme.domains]]
-    main = "docker.rcsl.lu"
+    main = "julien.tech"
     
  [acme.httpChallenge]
  entryPoint = "http"
