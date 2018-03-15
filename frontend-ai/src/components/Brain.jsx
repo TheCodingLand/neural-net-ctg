@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 
 import { connect } from "react-redux"
 import Chip from 'material-ui/Chip';
-
+import Typography from 'material-ui/Typography';
 function mapStateToProps(state) {
     return {
         user: state.user
@@ -20,7 +20,7 @@ class Brain extends Component {
       if (this.props.user.brain) {  br = this.props.user.words.slice(0, 4).map((item) => { return <Chip label={item.word}/>})}
 
     return (
-      <div>{br}
+      <div><Typography>Brain Word Cloud :</Typography>{br}
           </div>
     )}
 }

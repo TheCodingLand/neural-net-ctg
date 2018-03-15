@@ -56,7 +56,7 @@ class BrainGraph extends Component {
     
        
       return (
-        <div style={{padding : '100px', width : '600px', height:"600px"}}><Doughnut data={this.getData.bind(this)} />
+        <div ><Doughnut data={this.getData.bind(this)} />
             </div>
       )}
   }

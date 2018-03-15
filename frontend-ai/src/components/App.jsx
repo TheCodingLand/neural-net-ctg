@@ -3,7 +3,7 @@ import Reboot from 'material-ui/Reboot';
 import Header from './Header'
 import BrainGraph from './BrainGraph'
 import Tina from './Tina'
-
+import Layout from './Layout'
 import Brain from './Brain'
 
 class App extends Component {
@@ -12,9 +12,11 @@ class App extends Component {
       <div>
         <Reboot />
         <Header />
-        <Tina />
-        <Brain />
-        <BrainGraph />
+        <div style= {{position: "relative",
+        top:75}} >
+        <Layout />
+        </div>
+       
       </div>
     );
   }
