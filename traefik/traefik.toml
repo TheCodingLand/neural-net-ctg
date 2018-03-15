@@ -10,11 +10,15 @@ logLevel = "ERROR"
   watch = true
   exposedbydefault = false
 
-defaultEntryPoints = ["http"]
+defaultEntryPoints = ["http", "https"]
 
 [entryPoints]
   [entryPoints.http]
   address = ":80"
+
+  [entryPoint.https]
+  address = "443"
+  [entryPoints.https.tls]
 
   [entryPoints.ping]
   address = ":8082"
@@ -34,3 +38,10 @@ dashboard = true
     [backends.backend1]
       [backends.backend1.servers.server1]
       url = "http://127.0.0.1:8081"
+
+[acme]
+ email = "julien.lebourg@rcsl.lu"
+ storage = "/etc/traefik/acme.json"
+ entryPoint = "https"
+[acme.httpChallenge]
+ entryPoint = "http"
