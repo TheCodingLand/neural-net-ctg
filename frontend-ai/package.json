@@ -1,7 +1,6 @@
 {
   "name": "ai-frontend",
   "version": "0.1.0",
-  "homepage": "http://julien.tech/tina",
   "private": true,
   "dependencies": {
     "chart.js": "^2.7.2",
