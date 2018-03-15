@@ -16,9 +16,9 @@ defaultEntryPoints = ["http", "https"]
   [entryPoints.http]
   address = ":80"
 
-  [entryPoint.https]
+  [entryPoints.https]
   address = ":443"
-  
+
   [entryPoints.https.tls]
 
   [entryPoints.ping]
