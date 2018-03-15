@@ -30,8 +30,8 @@ services:
       - "traefik.frontend.rule=PathPrefix:/swaggerui,/api"
       - "traefik.enable=true"
       - "traefik.port=5000"
-      - "traefik.default.protocol=http"
-      - "traefik.protocol=https"
+      - "traefik.default.protocol=https"
+      
     networks:
       - web
 
@@ -45,8 +45,8 @@ services:
       - "traefik.frontend.rule=PathPrefix:/tina,/static"
       - "traefik.enable=true"
       - "traefik.port=3000"
-      - "traefik.default.protocol=http"
-      - "traefik.protocol=https"
+      - "traefik.default.protocol=https"
+      
     networks:
       - web
       
