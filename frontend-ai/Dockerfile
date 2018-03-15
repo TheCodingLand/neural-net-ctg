@@ -23,7 +23,6 @@ RUN npm run build
 #RUN mkdir -p /usr/app/tina
 RUN mkdir -p /usr/app/tina/tina
 
-
 RUN yes | cp -rf /usr/src/app/build/* /usr/app/tina/tina
 
 WORKDIR /usr/app/tina/
