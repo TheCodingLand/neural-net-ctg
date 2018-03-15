@@ -94,6 +94,7 @@ class AiManager(object):
             template = "An exception of type {0} occurred. Arguments:\n{1!r}"
             message = template.format(type(ex).__name__, ex.args)
             logging.error(message)
+
         logging.error(result)
 
         results =[]
@@ -104,10 +105,10 @@ class AiManager(object):
             
             d.update({"id":i})
             d.update({"word":w[0]})
-            d.update({"confidence":w[1][i]})
+            d.update({"confidence":w[1]})
             i=i+1
             results.append(d)
-            
+        logging.error(results)
         return results
 
        
