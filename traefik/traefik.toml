@@ -2,8 +2,6 @@
 
 debug = true
 logLevel = "ERROR"
-defaultEntryPoints = ["http", "admin"]
-
 
 
 [docker]
@@ -12,32 +10,21 @@ defaultEntryPoints = ["http", "admin"]
   watch = true
   exposedbydefault = false
 
-
+defaultEntryPoints = ["http"]
 
 [entryPoints]
   [entryPoints.http]
   address = ":80"
 
-  [entryPoints.foo]
-  address = ":8080"
+  [entryPoints.ping]
+  address = ":8082"
 
-  [entryPoints.bar]
-  address = ":8081"
+  [entryPoints.admin]
+  address = ":8083"
 
-# Activate API and Dashboard
+[ping]
+entryPoint = "ping"
+
 [api]
- entryPoint = "bar"
- dashboard = true
-
-[file]
-  [backends]
-    [backends.backend1]
-      [backends.backend1.servers.server1]
-      url = "http://127.0.0.1:8081"
-
-  [frontends]
-    [frontends.frontend1]
-    entryPoints = ["foo"]
-    backend = "backend1"
-      [frontends.frontend1.routes.test_1]
-      rule = "PathPrefixStrip:/yourprefix;PathPrefix:/yourprefix"
+entryPoint = "admin"
+dashboard = true

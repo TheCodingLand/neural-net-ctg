@@ -9,6 +9,9 @@ services:
       - 10001:443
       - 10002:8080
       - 10000:8083
+    labels:
+      - "traefik.frontend.rule=Host:docker.rcsl.lu"
+      - "traefik.frontend.entryPoints=http-admin"
     networks:
       - web
     volumes:
