@@ -1,5 +1,6 @@
 {
   "name": "ai-frontend",
+  "homepage" : "http://docker.rcsl.lu/tina",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
