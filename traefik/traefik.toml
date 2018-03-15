@@ -23,7 +23,7 @@ entryPoint = "https"
 # https is the default
 [entryPoints.https]
 address = ":443"
-
+[entryPoints.https.tls]
   [entryPoints.ping]
   address = ":8082"
 
