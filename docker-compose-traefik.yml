@@ -30,7 +30,6 @@ services:
       - "traefik.backend=api"
       - "traefik.docker.network=web"
       - "traefik.frontend.rule=PathPrefixStrip:/api"
-      - "traefik.AddPrefix
       - "traefik.enable=true"
       - "traefik.port=5000"
       - "traefik.default.protocol=http"
