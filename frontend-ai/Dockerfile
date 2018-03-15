@@ -21,7 +21,7 @@ RUN npm install
 RUN npm run build
 
 #RUN mkdir -p /usr/app/tina
-RUN mkrir -p /usr/app/tina/tina
+RUN mkdir -p /usr/app/tina/tina
 
 
 RUN yes | cp -rf /usr/src/app/build/* /usr/app/tina/tina
