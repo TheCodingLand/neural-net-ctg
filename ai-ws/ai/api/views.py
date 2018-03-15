@@ -139,7 +139,7 @@ class Chat(Resource):
             try:
                 txt = response.messages[0].content
             except:
-                txt = "I'm getting the idea. keep talking to me :)"
+                txt = "I think I\'m getting it. keep talking to me :)"
             d.update({'response': txt})
 
             if d:
