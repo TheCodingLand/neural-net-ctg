@@ -7,7 +7,7 @@ requests
 flask-restplus
 arrow
 pybind11
-cython
+cython==0.27.3
 recastai
 numpy
 cysignals==1.6.8
