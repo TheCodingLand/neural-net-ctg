@@ -31,6 +31,7 @@ services:
       - "traefik.enable=true"
       - "traefik.port=5000"
       - "traefik.default.protocol=http"
+      - "traefik.protocol=https"
     networks:
       - web
 
@@ -45,6 +46,7 @@ services:
       - "traefik.enable=true"
       - "traefik.port=3000"
       - "traefik.default.protocol=http"
+      - "traefik.protocol=https"
     networks:
       - web
       
