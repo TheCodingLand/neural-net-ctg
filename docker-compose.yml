@@ -1,51 +1,54 @@
-
-version: '2.1'
+version: '2'
 
 services:
-
-  # nginx-ai:
-  #   restart: always
-  #   env_file:
-  #     - prod_env
-  #   build: ./nginx-ai/
-  #   ports:
-  #     - "81:80"
-  #     - "5004:5000"
-  #     - "5103:5100"
-  #   volumes_from:
-  #     - ai-ws
-  #   links:
-  #     - ai-ws
-  #     - swagger-ai
-  #   depends_on:
-  #     ai-ws:
-  #       condition: service_started
-        
-
-  # swagger-ai:
-  #   env_file:
-  #     - prod_env
-  #   container_name: swagger-ai
-  #   build: ./swagger-ai
-  #   environment:
-  #   - API_URL=http://148.110.107.15:5005/api/schema
-  #   ports:
-  #     - "5102:8080"
-  #   depends_on:
-  #     ai-ws:
-  #       condition: service_started
-    
+  traefik:
+    image: traefik:1.5
+    restart: always
+    ports:
+      - 9999:80
+      - 10001:443
+      - 10002:8080
+      - 10000:8081
+    labels:
+      - "traefik.frontend.rule=Host:docker.rcsl.lu"
+      - "traefik.frontend.entryPoints=http-admin"
+    networks:
+      - web
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /opt/traefik/traefik.toml:/etc/traefik/traefik.toml
+      - /opt/traefik/acme.json:/etc/traefik/acme.json
+    container_name: traefik
 
   ai-ws:
-    env_file:
-      - prod_env
-    container_name: ai-ws
     build: ./ai-ws
-    ports:
-      - "5005:5000"
-  
+    expose:
+      - "5000"
+    labels:
+      - "traefik.backend=api"
+      - "traefik.docker.network=web"
+      - "traefik.frontend.rule=PathPrefix:/swaggerui,/api"
+      - "traefik.enable=true"
+      - "traefik.port=5000"
+      - "traefik.default.protocol=http"
+    networks:
+      - web
+
   frontend-ai:
-    container_name: frontend-ai
     build: ./frontend-ai
-    ports:
-      - "5011:8080"
+    expose:
+      - "3000"
+    labels:
+      - "traefik.backend=tina"
+      - "traefik.docker.network=web"
+      - "traefik.frontend.rule=PathPrefix:/tina"
+      - "traefik.enable=true"
+      - "traefik.port=3000"
+      - "traefik.default.protocol=http"
+    networks:
+      - web
+      
+
+networks:
+  web:
+    external: true
