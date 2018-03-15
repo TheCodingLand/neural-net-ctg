@@ -31,7 +31,7 @@ WORKDIR /usr/src/app/fastText
 RUN make
 RUN chmod 777 /usr/src/app/fastText/fasttext
 WORKDIR /usr/src/app
-
+RUN pip install -r requirements.txt
 RUN pip install pyfasttext
 # run server
 CMD python manage.py runserver -h '0.0.0.0'
