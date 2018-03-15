@@ -1,0 +1,14 @@
+debug = false
+
+logLevel = "ERROR"
+defaultEntryPoints = ["http"]
+
+[entryPoints]
+  [entryPoints.http]
+  address = ":80"
+
+[docker]
+endpoint = "unix:///var/run/docker.sock"
+domain = "docker.rcsl.lu"
+watch = true
+exposedbydefault = false
