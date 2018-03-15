@@ -45,8 +45,8 @@ dashboard = true
  storage = "/etc/traefik/acme.json"
  entryPoint = "https"
  onHostRule = true
- [[acme.domains]]
-  main = "docker.rcsl.lu"
-  
-[acme.httpChallenge]
+  [[acme.domains]]
+    main = "docker.rcsl.lu"
+    
+ [acme.httpChallenge]
  entryPoint = "http"
