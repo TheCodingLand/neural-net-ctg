@@ -31,7 +31,7 @@ services:
     labels:
       - "traefik.backend=aiws"
       - "traefik.docker.network=web"
-      - "traefik.frontend.rule=PathPrefix:/swaggerui,PathPrefix:/api"
+      - "traefik.frontend.rule=Path:/swaggerui, PathPrefix:/api"
       - "traefik.enable=true"
       - "traefik.port=5000"
       - "traefik.default.protocol=http"
@@ -46,7 +46,7 @@ services:
     labels:
       - "traefik.backend=tina"
       - "traefik.docker.network=web"
-      - "traefik.frontend.rule=PathPrefixStrip:/tina"
+      - "traefik.frontend.rule=Path:/tina"
       - "traefik.enable=true"
       - "traefik.port=3000"
       - "traefik.default.protocol=http"
