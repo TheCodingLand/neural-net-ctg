@@ -20,12 +20,13 @@ ADD . /usr/src/app
 RUN npm install
 RUN npm run build
 
-RUN mkdir -p /usr/app/tina
+#RUN mkdir -p /usr/app/tina
+RUN mkrir -p /usr/app/tina/tina
 
 
-RUN yes | cp -rf /usr/src/app/build/* /usr/app/tina/
+RUN yes | cp -rf /usr/src/app/build/* /usr/app/tina/tina
 
-#WORKDIR /usr/app/tina/
-CMD ["npm", "start"]
+WORKDIR /usr/app/tina/
+#CMD ["npm", "start"]
 
-#CMD ["http-server"]
+CMD ["http-server"]
