@@ -14,7 +14,11 @@ cd neural-net-ctg
 
 docker-compose up
 
-Currently the ports are all over the place as the reverse proxy/load balancer is not yet configured.
+possible to scale up using :
+docker-compose <service> scale=x
+
+
+localhost:10000/ : dashboard for load balancer.
 
 localhost:9999/api
 
