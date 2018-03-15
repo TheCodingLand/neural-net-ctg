@@ -57,15 +57,15 @@ class Train(Resource):
             else:
                 response_object = {
                     'status': 'fail',
-                    'message': 'Sorry. failed.'
+                    'message': 'Training Failed.'
                 }
                 return response_object, 400
         except:
             response_object = {
                 'status': 'fail',
-                'message': 'Invalid payload.'
+                'message': 'server error.'
             }
-            return response_object, 400
+            return response_object, 500
 
 
 @api.response(400, 'failed.')

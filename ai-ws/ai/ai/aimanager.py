@@ -37,6 +37,7 @@ class AiManager(object):
         self.learningRate=0.2
         self.wordNgrams=3
         self.ts = ts()
+        self.training=False
         
         self.rebuildData=True
            
@@ -126,6 +127,7 @@ class AiManager(object):
         self.print_results(*model.test(self.completefile))
         model.save_model("model.ftz")
         self.training=False
+        return self.training
 
 
     def print_results(self, N, p, r):
@@ -151,14 +153,14 @@ class AiManager(object):
             subject = self.preparedata(subject)
             body = self.preparedata(body)
             fulltext= f'{subject!s} {body!s}'
-            fulltext = self.removeOneTwoLetterWords(fulltext)
+            fulltext = self.removeShort(fulltext)
             #we will not need all the email. Taking 75% of the words should cut most signatures / end of email garbage
             linearray = fulltext.split(' ')
             lwords = len(linearray)
             nbWords= int(lwords*75/100)
             fulltext = ' '.join(linearray[0:nbWords])
             txt= f'__label__{category!s} {fulltext!s} \n'
-            if len(txt.split()) > 15:
+            if len(txt.split()) > 10:
                 ftdata.write(txt)
         ftdata.close()
 
@@ -193,7 +195,7 @@ class AiManager(object):
         data = [cat, confidence, cat2]
         return data
     
-    def removeOneTwoLetterWords(self, text):
+    def removeShort(self, text):
         t = text.split(' ')
         result= []
         for s in t:
