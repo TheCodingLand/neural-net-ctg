@@ -20,7 +20,7 @@ defaultEntryPoints = ["http"]
   address = ":8082"
 
   [entryPoints.admin]
-  address = ":8083"
+  address = ":8081"
 
 [ping]
 entryPoint = "ping"
