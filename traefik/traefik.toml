@@ -48,8 +48,7 @@ dashboard = true
  storage = "/etc/traefik/acme.json"
  entryPoint = "https"
  onHostRule = true
-  [[acme.domains]]
-    main = "julien.tech"
+
     
  [acme.httpChallenge]
  entryPoint = "http"
