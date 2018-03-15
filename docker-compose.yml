@@ -26,6 +26,7 @@ services:
       - "5000"
     labels:
       - "traefik.backend=api"
+      - "traefik.entrypoint=https"
       - "traefik.docker.network=web"
       - "traefik.frontend.rule=PathPrefix:/swaggerui,/api"
       - "traefik.enable=true"
