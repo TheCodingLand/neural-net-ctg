@@ -4,6 +4,9 @@ The system is sitting behind a traefik reverse load balancer.
 
 ![alt text](https://github.com/TheCodingLand/neural-net-ctg/blob/master/architecture.png?raw=true)
 
+Trello : 
+https://trello.com/b/SmrexYcg/ai-project
+
 The infrastructure is very basic and meant for a proof of concept.
 
 instructions : 
