@@ -110,8 +110,8 @@ class Training(object):
         s = s.replace('9', ' nine ')
 
     def splitTestData(self, ftfile):
-        logging.error('splitting {ftfile}')
-        i = sum(1 for line in open(ftfile.txt))
+        logging.error(f'splitting {ftfile!s}')
+        i = sum(1 for line in open(ftfile))
         print(f'lines : {i!s}')
         trainingLines = int(i*self.trainTestRatio/100)
         self.testfile = f"{ftfile!s}.test"
@@ -121,10 +121,10 @@ class Training(object):
         i = -1
         with open(ftfile) as f:
             if i < trainingLines:
-                logging.error("writing in {self.trainingfile}")
+                logging.error(f"writing in {self.trainfile!s}")
                 trainf.write(f.readline())
             else:
-                logging.error("writing in {self.testfile}")
+                logging.error(f"writing in {self.testfile!s}")
                 testf.write(f.readline())
         trainf.close()
         testf.close()
