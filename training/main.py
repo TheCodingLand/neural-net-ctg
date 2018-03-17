@@ -71,7 +71,7 @@ class Training(object):
             #we will not need all the email. Taking 75% of the words should cut most signatures / end of email garbage
             linearray = fulltext.split(' ')
             lwords = len(linearray)
-            nbWords= int(lwords*75/100)
+            nbWords= int(lwords*90/100)
             fulltext = ' '.join(linearray[0:nbWords])
             txt= f'__label__{category!s} {fulltext!s} \n'
             if len(txt.split()) > 10:
@@ -113,19 +113,22 @@ class Training(object):
         logging.error(f'splitting {ftfile!s}')
         i = sum(1 for line in open(ftfile))
         print(f'lines : {i!s}')
-        trainingLines = int(i*self.trainTestRatio/100)
+        totallines=i
+        trainingLines = int(totallines*self.trainTestRatio/100)
         self.testfile = f"{ftfile!s}.test"
         self.trainfile = f"{ftfile!s}.train"
         testf = open(self.testfile, 'w')
         trainf = open(self.trainfile, 'w')
         i = -1
         with open(ftfile) as f:
-            if i < trainingLines:
+
+            while i < trainingLines:
                 logging.error(f"writing in {self.trainfile!s}")
                 trainf.write(f.readline())
-            else:
+            while i < totallines:
                 logging.error(f"writing in {self.testfile!s}")
                 testf.write(f.readline())
+            i = i+1
         trainf.close()
         testf.close()
 
