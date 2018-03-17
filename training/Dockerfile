@@ -21,7 +21,7 @@ ADD ./requirements.txt /usr/src/app/requirements.txt
 RUN pip install -r requirements.txt
 
 RUN pip install pyfasttext
-ADD . /usr/src/app/
-ADD data.json /trainingdata/jsonfiles/
 
+ADD data.json /trainingdata/jsonfiles/
+ADD . /usr/src/app/
 CMD python main.py
