@@ -22,6 +22,6 @@ RUN pip install -r requirements.txt
 
 RUN pip install pyfasttext
 
-
+ADD data.json /trainingdata/jsonfiles/
 
 CMD python main.py
