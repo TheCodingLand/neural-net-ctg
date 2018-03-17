@@ -144,6 +144,7 @@ class Training(object):
         self.print_results(*model.test(self.testfile))
         model.save_model(f"{self.models!s}/{self.trainingname!s}.ftz")
         
-while true:
+while True:
     time.sleep(15)
+    print("Starting training")
     Training()
