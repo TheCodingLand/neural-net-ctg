@@ -60,7 +60,7 @@ class Training(object):
         print('created file')
 
         for entry in data['Ticket']:
-            logging.error(entry)
+            
             subject = entry['data']['Title']
             body = entry['data']['Description']
             category= entry['data']['AssociatedCategory']
