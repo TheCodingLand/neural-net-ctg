@@ -66,7 +66,7 @@ class Training(object):
             category= entry['data']['AssociatedCategory']
             subject = self.preparedata(subject)
             body = self.preparedata(body)
-            fulltext= f'{subject!s} {body!s}'
+            fulltext = f'{subject!s} {body!s}'
             fulltext = self.removeShort(fulltext)
             #we will not need all the email. Taking 75% of the words should cut most signatures / end of email garbage
             linearray = fulltext.split(' ')
@@ -111,6 +111,7 @@ class Training(object):
         s = s.replace('7', ' seven ')
         s = s.replace('8', ' eight ')
         s = s.replace('9', ' nine ')
+        return s
 
     def splitTestData(self, ftfile):
         logging.error(f'splitting {ftfile!s}')
