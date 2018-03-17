@@ -114,6 +114,7 @@ class Training(object):
         with open(ftfile) as f:
             for i, l in enumerate(f):
                 pass
+        print(f'lines : {i!s}')
         trainingLines = int(i*self.trainTestRatio/100)
         self.testfile = f"{ftfile!s}.test"
         self.trainfile = f"{ftfile!s}.train"
@@ -122,10 +123,13 @@ class Training(object):
         i = -1
         with open(ftfile) as f:
             if i < trainingLines:
+                logging.error("writing in {self.trainingfile}")
                 trainf.write(f.readline())
             else:
+                logging.error("writing in {self.testfile}")
                 testf.write(f.readline())
-
+        trainf.close()
+        testf.close()
 
     def print_results(self, N, p, r):
         print("N\t" + str(N))
