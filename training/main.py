@@ -5,6 +5,7 @@ from pyfasttext import FastText
 import glob
 import json
 import re
+import time
 
 labelFields=[]
 fields = []
@@ -14,7 +15,7 @@ filename = ""
 #and fields containing labels for supervised learning ?
 # json -> fasttext data -> vec -> quantize
 
-class training(object):
+class Training(object):
 
     textfiles = "/trainingdata/textfiles"
     models = "/trainingdata/models"
@@ -28,6 +29,8 @@ class training(object):
         self.learningRate=0.2
         self.wordNgrams=3
         self.loadjson()
+
+    
 
     def loadjson(self):
 
@@ -141,4 +144,6 @@ class training(object):
         self.print_results(*model.test(self.testfile))
         model.save_model(f"{self.models!s}/{self.trainingname!s}.ftz")
         
-    
+while true:
+    time.sleep(15)
+    Training()
