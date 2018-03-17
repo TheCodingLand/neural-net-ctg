@@ -38,7 +38,7 @@ services:
     networks:
       - web
 
-  training:
+  training: 
     build: ./training
     labels:
       - "traefik.enable=true"
