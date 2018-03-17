@@ -74,7 +74,7 @@ class Training(object):
             nbWords= int(lwords*90/100)
             fulltext = ' '.join(linearray[0:nbWords])
             txt= f'__label__{category!s} {fulltext!s} \n'
-            
+            logging.error(txt)
             if len(txt.split()) > 10:
                 
                 ftdata.write(txt)
@@ -118,11 +118,12 @@ class Training(object):
         print(f'lines : {i!s}')
         totallines=i
         trainingLines = int(totallines*self.trainTestRatio/100)
+        logging.error(f"TOTAL training lines : {trainingLines!s}")
         self.testfile = f"{ftfile!s}.test"
         self.trainfile = f"{ftfile!s}.train"
         testf = open(self.testfile, 'w')
         trainf = open(self.trainfile, 'w')
-        i = -1
+        i = 0
         with open(ftfile) as f:
 
             while i < trainingLines:
