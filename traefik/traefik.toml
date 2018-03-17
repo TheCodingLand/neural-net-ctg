@@ -31,6 +31,9 @@ defaultEntryPoints = [ "https"]
 [entryPoints.admin]
   address = ":8081"
 
+[rest]
+ entryPoint = "ping"
+
 [ping]
   entryPoint = "ping"
 

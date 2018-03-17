@@ -1,4 +1,4 @@
-version: '2'
+version: '3'
 
 services:
   traefik:
@@ -8,6 +8,7 @@ services:
       - 80:80
       - 443:443
       - 10002:8080
+      - 10001:8082
       - 10000:8081
     labels:
       - "traefik.frontend.rule=Host:julien.tech"
@@ -24,6 +25,9 @@ services:
     build: ./ai-ws
     expose:
       - "5000"
+    volumes:
+      - models:/data/models
+      - jsonfiles:/data/jsonfiles
     labels:
       - "traefik.backend=api"
       - "traefik.frontend.entryPoints=https"
@@ -31,8 +35,16 @@ services:
       - "traefik.frontend.rule=PathPrefix:/swaggerui,/api"
       - "traefik.enable=true"
       - "traefik.port=5000"
-      
-      
+    networks:
+      - web
+  training:
+    build: ./training
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=web"
+    volumes:
+      - models:/data/models
+      - jsonfiles:/data/jsonfiles
     networks:
       - web
 
@@ -54,3 +66,10 @@ services:
 networks:
   web:
     external: true
+
+volumes:
+  models:
+    driver: local
+
+  jsonfiles:
+    driver: local

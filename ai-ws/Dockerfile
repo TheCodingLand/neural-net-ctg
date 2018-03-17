@@ -14,7 +14,6 @@ RUN apt-get update && apt-get install -y \
         git
 
 
-
 # install requirements
 RUN pip install -r requirements.txt
 
