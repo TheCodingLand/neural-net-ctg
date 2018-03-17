@@ -39,6 +39,7 @@ class Training(object):
             data = json.load(open(jsonfile))
             print(jsonfile)
             self.trainingname = jsonfile.split('/')[-1].replace('.json','')
+            print(self.trainingname)
             targetfile = f"{self.textfiles!s}/{self.trainingname!s}.txt"
             self.makeFastText(data, targetfile)
 
