@@ -122,9 +122,9 @@ class Training(object):
         i = -1
         with open(ftfile) as f:
             if i < trainingLines:
-                trainf.write(ftfile.readline())
+                trainf.write(f.readline())
             else:
-                testf.write(ftfile.readline())
+                testf.write(f.readline())
 
 
     def print_results(self, N, p, r):
@@ -145,8 +145,7 @@ class Training(object):
         model.quantize(input=self.trainfile, qnorm=True, retrain=True, cutoff=100000)
         self.print_results(*model.test(self.testfile))
         model.save_model(f"{self.models!s}/{self.trainingname!s}.ftz")
-        
-while True:
-    time.sleep(15)
-    print("Starting training")
-    Training()
+
+time.sleep(5)
+print("Starting training")
+Training()
