@@ -3,5 +3,4 @@ pybind11
 cython==0.27.3
 numpy
 cysignals==1.6.8
-pyfasttext
 redis

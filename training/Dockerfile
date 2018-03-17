@@ -20,5 +20,8 @@ RUN pip install --upgrade pip
 ADD ./requirements.txt /usr/src/app/requirements.txt
 RUN pip install -r requirements.txt
 
+RUN pip install pyfasttext
+
+
 
 CMD python main.py
