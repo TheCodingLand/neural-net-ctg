@@ -7,7 +7,7 @@ RUN apt-get update && apt-get install -y \
 
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
-ADD . /usr/src/app/
+
 
 RUN git clone https://github.com/facebookresearch/fastText.git
 WORKDIR /usr/src/app/fastText
@@ -21,7 +21,7 @@ ADD ./requirements.txt /usr/src/app/requirements.txt
 RUN pip install -r requirements.txt
 
 RUN pip install pyfasttext
-
+ADD . /usr/src/app/
 ADD data.json /trainingdata/jsonfiles/
 
 CMD python main.py
