@@ -136,15 +136,13 @@ class Training(object):
         self.splitTestData(ftfile)
 
         logging.error(f'Training started with : learningRate:{self.learningRate!s}, epochs:{self.epochs!s}, ngrams :{self.wordNgrams!s}')
-
-        model = FastText.train_supervised(input=self.trainfile, epoch=self.epochs, lr=self.learningRate, wordNgrams=self.wordNgrams, verbose=2, minCount=1)
-        #self.print_results(*model.test(self.completefile))
+        model = FastText()
+        model = model.supervised(input=self.trainfile, output=f"{self.models!s}/{self.trainingname!s}.bin", epoch=self.epochs, lr=self.learningRate, wordNgrams=self.wordNgrams, verbose=2, minCount=1)
+        self.print_results(*model.test(self.testfile))
         logging.error(f'finished training model with : learningRate:{self.learningRate!s}, epochs:{self.epochs!s}, ngrams :{self.wordNgrams!s}')
-        model.save_model(f"{self.models!s}/{self.trainingname!s}.bin")
-        self.print_results(*model.test(self.testfile))
-        model.quantize(input=self.trainfile, qnorm=True, retrain=True, cutoff=100000)
-        self.print_results(*model.test(self.testfile))
-        model.save_model(f"{self.models!s}/{self.trainingname!s}.ftz")
+        model.quantize(input=self.trainfile, output=f"{self.models!s}/{self.trainingname!s}.ftz")
+        #model.quantize(input=self.trainfile, qnorm=True, retrain=True, cutoff=100000)
+        
 
 time.sleep(5)
 print("Starting training")
