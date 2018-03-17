@@ -59,7 +59,7 @@ class Training(object):
         ftdata = open(targetfile, 'w')
         print('created file')
 
-        for entry in data:
+        for entry in data['Ticket']:
             logging.error(entry)
             subject = entry['data']['Title']
             body = entry['data']['Description']
