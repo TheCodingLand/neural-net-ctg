@@ -74,8 +74,11 @@ class Training(object):
             nbWords= int(lwords*90/100)
             fulltext = ' '.join(linearray[0:nbWords])
             txt= f'__label__{category!s} {fulltext!s} \n'
+            
             if len(txt.split()) > 10:
+                
                 ftdata.write(txt)
+                logging.error(f"writing ; {txt!s} to {targetfile!s}")
         ftdata.close()
         self.startTraining(targetfile)
 
