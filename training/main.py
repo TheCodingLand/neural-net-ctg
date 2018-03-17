@@ -78,7 +78,7 @@ class Training(object):
             if len(txt.split()) > 10:
                 
                 ftdata.write(txt)
-                logging.error(f"writing ; {txt!s} to {targetfile!s}")
+                logging.error(f"writing : {txt!s} to {targetfile!s}")
         ftdata.close()
         self.startTraining(targetfile)
 
@@ -128,10 +128,12 @@ class Training(object):
             while i < trainingLines:
                 logging.error(f"writing in {self.trainfile!s}")
                 trainf.write(f.readline())
+                i = i+1
             while i < totallines:
                 logging.error(f"writing in {self.testfile!s}")
                 testf.write(f.readline())
-            i = i+1
+                i = i+1
+           
         trainf.close()
         testf.close()
 
