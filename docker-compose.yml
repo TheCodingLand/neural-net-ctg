@@ -37,11 +37,12 @@ services:
       - "traefik.port=5000"
     networks:
       - web
-      
+
   training:
     build: ./training
     labels:
       - "traefik.enable=true"
+      - "traefik.backend=training"
       - "traefik.docker.network=web"
     volumes:
       - models:/data/models
