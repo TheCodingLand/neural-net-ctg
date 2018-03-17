@@ -98,19 +98,8 @@ class Training(object):
         # Remove some special characters
         s = re.sub(r'([\;\:\|•«\n])', ' ', s)
 
-        # Replace numbers and symbols with language
         s = s.replace('&', ' and ')
         s = s.replace('@', ' at ')
-        s = s.replace('0', ' zero ')
-        s = s.replace('1', ' one ')
-        s = s.replace('2', ' two ')
-        s = s.replace('3', ' three ')
-        s = s.replace('4', ' four ')
-        s = s.replace('5', ' five ')
-        s = s.replace('6', ' six ')
-        s = s.replace('7', ' seven ')
-        s = s.replace('8', ' eight ')
-        s = s.replace('9', ' nine ')
         return s
 
     def splitTestData(self, ftfile):
