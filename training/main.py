@@ -20,6 +20,9 @@ class training(object):
     models = "/trainingdata/models"
 
     def __init__(self):
+        self.trainfile=""
+        self.testfile=""
+        self.trainingname=""
         self.trainTestRatio = 95
         self.epochs=200
         self.learningRate=0.2
@@ -31,8 +34,8 @@ class training(object):
         jsonfiles = glob.glob("/trainingdata/jsonfiles/*.json")
         for jsonfile in jsonfiles:
             data = json.load(open(jsonfile))
-            targetfile = jsonfile.split('/')[-1].replace('.json','.txt')
-            targetfile = f"{self.textfiles!s}/{targetfile!s}"
+            self.trainingname = jsonfile.split('/')[-1].replace('.json','')
+            targetfile = f"{self.textfiles!s}/{self.trainingname!s}.txt"
             self.makeFastText(data, targetfile)
 
     def removeShort(self, text):
@@ -107,15 +110,16 @@ class training(object):
             for i, l in enumerate(f):
                 pass
         trainingLines = int(i*self.trainTestRatio/100)
-
-        testfile = open(f"{ftfile!s}.test", 'w')
-        trainfile = open(f"{ftfile!s}.train", 'w')
+        self.testfile = f"{ftfile!s}.test"
+        self.trainfile = f"{ftfile!s}.train"
+        testf = open(self.testfile, 'w')
+        trainf = open(self.trainfile, 'w')
         i = -1
         with open(ftfile) as f:
             if i < trainingLines:
-                trainfile.write(ftfile.readline())
+                trainf.write(ftfile.readline())
             else:
-                testfile.write(ftfile.readline())
+                testf.write(ftfile.readline())
 
 
     def print_results(self, N, p, r):
@@ -128,12 +132,13 @@ class training(object):
 
         logging.error(f'Training started with : learningRate:{self.learningRate!s}, epochs:{self.epochs!s}, ngrams :{self.wordNgrams!s}')
 
-        model = FastText.train_supervised(input=ftfile, epoch=self.epochs, lr=self.learningRate, wordNgrams=self.wordNgrams, verbose=2, minCount=1)
+        model = FastText.train_supervised(input=self.trainfile, epoch=self.epochs, lr=self.learningRate, wordNgrams=self.wordNgrams, verbose=2, minCount=1)
         #self.print_results(*model.test(self.completefile))
         logging.error(f'finished training model with : learningRate:{self.learningRate!s}, epochs:{self.epochs!s}, ngrams :{self.wordNgrams!s}')
-        model.save_model("model.bin")
-        model.quantize(input=ftfile, qnorm=True, retrain=True, cutoff=100000)
-        self.print_results(*model.test(ftfile))
-        model.save_model("model.ftz")
-        self.training=False
-        return self.training
+        model.save_model(f"{self.models!s}/{self.trainingname!s}.bin")
+        self.print_results(*model.test(self.testfile))
+        model.quantize(input=self.trainfile, qnorm=True, retrain=True, cutoff=100000)
+        self.print_results(*model.test(self.testfile))
+        model.save_model(f"{self.models!s}/{self.trainingname!s}.ftz")
+        
+    
