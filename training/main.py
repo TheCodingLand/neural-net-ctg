@@ -110,10 +110,8 @@ class Training(object):
         s = s.replace('9', ' nine ')
 
     def splitTestData(self, ftfile):
-        i=-1
-        with open(ftfile) as f:
-            for i, l in enumerate(f):
-                pass
+        logging.error('splitting {ftfile}')
+        i = sum(1 for line in open(ftfile.txt))
         print(f'lines : {i!s}')
         trainingLines = int(i*self.trainTestRatio/100)
         self.testfile = f"{ftfile!s}.test"
@@ -148,6 +146,6 @@ class Training(object):
         #model.quantize(input=self.trainfile, qnorm=True, retrain=True, cutoff=100000)
         
 
-time.sleep(5)
+time.sleep(1)
 print("Starting training")
 Training()
