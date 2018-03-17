@@ -37,6 +37,7 @@ class Training(object):
         jsonfiles = glob.glob("/trainingdata/jsonfiles/*.json")
         for jsonfile in jsonfiles:
             data = json.load(open(jsonfile))
+            print(jsonfile)
             self.trainingname = jsonfile.split('/')[-1].replace('.json','')
             targetfile = f"{self.textfiles!s}/{self.trainingname!s}.txt"
             self.makeFastText(data, targetfile)
@@ -55,7 +56,7 @@ class Training(object):
         
         
         ftdata = open(targetfile, 'w')
-        logging.info('created file')
+        print('created file')
 
         for entry in data:
             #logging.error(entry)
