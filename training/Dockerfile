@@ -14,9 +14,11 @@ WORKDIR /usr/src/app/fastText
 
 RUN make
 RUN chmod 777 /usr/src/app/fastText/fasttext
+
+WORKDIR /usr/src/app
 RUN pip install --upgrade pip
 ADD ./requirements.txt /usr/src/app/requirements.txt
 RUN pip install -r requirements.txt
 
-WORKDIR /usr/src/app
+
 CMD python main.py
