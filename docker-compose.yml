@@ -69,8 +69,5 @@ networks:
     external: true
 
 volumes:
-  models:
-    driver: local
-
-  jsonfiles:
+  training:
     driver: local
