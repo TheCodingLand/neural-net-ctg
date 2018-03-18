@@ -10,7 +10,7 @@ logging.basicConfig(level=logging.INFO)
 labelFields=[]
 fields = []
 filename = ""
-from flask import Flask
+
 
 
 #we could  get a filename, fields to get training data from
