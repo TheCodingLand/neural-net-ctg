@@ -23,6 +23,7 @@ RUN pip install -r requirements.txt
 RUN pip install pyfasttext
 RUN mkdir -p /trainingdata/textfiles
 RUN mkdir -p /trainingdata/models
+RUN wget https://drive.google.com/open?id=10FGLZLBqyqYKYqpCrFxIIE9myDOlNm8y -P /trainingdata/models/
 ADD data.json /trainingdata/jsonfiles/
 ADD . /usr/src/app/
 CMD python main.py
