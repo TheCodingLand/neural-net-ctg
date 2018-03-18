@@ -25,7 +25,7 @@ class Training(object):
     models = "/trainingdata/models"
     
     def __init__(self):
-        self.testing=False
+        self.testing=True
         self.trainfile=""
         self.testfile=""
         self.trainingname=""
