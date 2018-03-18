@@ -144,7 +144,7 @@ class Training(object):
         logging.info(f'Training started with : learningRate:{self.learningRate!s}, epochs:{self.epochs!s}, ngrams :{self.wordNgrams!s}')
         self.model = FastText()
         self.model = self.model.supervised(input=self.trainfile, output=f"{self.models!s}/{self.trainingname!s}.bin", epoch=self.epochs, lr=self.learningRate, wordNgrams=self.wordNgrams, verbose=2, minCount=1)
-        logging.info(self.model.predict_proba_file(self.testfile, k=2))
+        self.test()
         #self.print_results(*model.test(self.testfile))
         logging.info(f'finished training model with : learningRate:{self.learningRate!s}, epochs:{self.epochs!s}, ngrams :{self.wordNgrams!s}')
         #model.quantize(input=self.trainfile, output=f"{self.models!s}/{self.trainingname!s}.ftz")
