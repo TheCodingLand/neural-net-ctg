@@ -45,8 +45,7 @@ services:
       - "traefik.backend=training"
       - "traefik.docker.network=web"
     volumes:
-      - models:/data/models
-      - jsonfiles:/data/jsonfiles
+      - training:/trainingdata
     networks:
       - web
 
