@@ -10,6 +10,8 @@ logging.basicConfig(level=logging.INFO)
 labelFields=[]
 fields = []
 filename = ""
+from flask import Flask
+
 
 #we could  get a filename, fields to get training data from
 #and fields containing labels for supervised learning ?
@@ -30,7 +32,10 @@ class Training(object):
         self.wordNgrams=3
         self.model = None
         self.loadjson()
+    
+
         
+            
 
     def loadjson(self):
 
@@ -157,10 +162,13 @@ class Training(object):
         i=0
         correct=0
         with open(self.testfile) as f:
+            
             line = f.readline()
+            logging.info(line)
             words = line.split()
             label = words[0]
             line = line.replace(label, '')
+            logging.info(line)
             label = label.replace('__', '')
             prediction = self.model.predict(line, k=1)
             logging.info(f"testing gave in {prediction[0]!s}, against {label!s}")
