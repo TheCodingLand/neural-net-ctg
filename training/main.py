@@ -165,7 +165,6 @@ class Training(object):
             lines = f.readlines()
             for line in lines:
                 i=i+1
-                line = f.readline()
                 logging.info(line)
                 words = line.split()
                 label = words[0]
