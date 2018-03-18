@@ -169,7 +169,7 @@ class Training(object):
             label = words[0]
             line = line.replace(label, '')
             logging.info(line)
-            label = label.replace('__', '')
+            label = label.replace('__label__', '')
             prediction = self.model.predict_proba_single(line, k=1)
             logging.info(f"testing gave in {prediction!s}, against {label!s}")
             if prediction[0][0]==label:
