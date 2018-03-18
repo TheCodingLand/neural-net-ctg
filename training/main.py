@@ -34,9 +34,10 @@ class Training(object):
         self.learningRate=0.2
         self.wordNgrams=3
         self.model = None
-        self.loadjson()
+        
         self.languages=dict()
         
+        self.loadjson()
     
 
         
