@@ -207,6 +207,7 @@ class Training(object):
                 
                 logging.info(f"testing gave in {prediction!s}, against {label!s}")
                 #we only return a prediction if confidence is good enough
+                #it is a sensitive behaviour to test if the confidence rating is a good indication of success
                 if prediction[0][1] > 0.75:
                     if prediction[0][0]==label:
                         
@@ -227,3 +228,5 @@ Training()
 #results: 1018/1614
 #all data 2 predictions:
 #root:results : 1118/1614, 69.26889714993804%
+# 687/945, 72.6984126984127% sur le francais uniquement
+# 320/492, 65.04065040650406% sur l'anglais
