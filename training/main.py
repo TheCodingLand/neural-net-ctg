@@ -23,7 +23,7 @@ class Training(object):
     models = "/trainingdata/models"
     
     def __init__(self):
-        self.testing=True
+        self.testing=False
         self.trainfile=""
         self.testfile=""
         self.trainingname=""
