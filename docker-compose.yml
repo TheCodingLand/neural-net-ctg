@@ -26,8 +26,7 @@ services:
     expose:
       - "5000"
     volumes:
-      - models:/data/models
-      - jsonfiles:/data/jsonfiles
+      - training:/trainingdata
     labels:
       - "traefik.backend=api"
       - "traefik.frontend.entryPoints=https"
