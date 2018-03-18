@@ -6,7 +6,7 @@ import glob
 import json
 import re
 import time
-
+logging.basicConfig(level=logging.INFO)
 labelFields=[]
 fields = []
 filename = ""
@@ -25,19 +25,21 @@ class Training(object):
         self.testfile=""
         self.trainingname=""
         self.trainTestRatio = 95
-        self.epochs=200
+        self.epochs=20
         self.learningRate=0.2
         self.wordNgrams=3
+        self.model = None
         self.loadjson()
+        
 
     def loadjson(self):
 
         jsonfiles = glob.glob("/trainingdata/jsonfiles/*.json")
         for jsonfile in jsonfiles:
             data = json.load(open(jsonfile))
-            print(jsonfile)
+            logging.info(jsonfile)
             self.trainingname = jsonfile.split('/')[-1].replace('.json','')
-            print(self.trainingname)
+            logging.info(self.trainingname)
             targetfile = f"{self.textfiles!s}/{self.trainingname!s}.txt"
             self.makeFastText(data, targetfile)
 
@@ -55,7 +57,7 @@ class Training(object):
         
         
         ftdata = open(targetfile, 'w')
-        print('created file')
+        logging.info('created file')
 
         for entry in data['Ticket']:
             
@@ -72,12 +74,13 @@ class Training(object):
             nbWords= int(lwords*90/100)
             fulltext = ' '.join(linearray[0:nbWords])
             txt= f'__label__{category!s} {fulltext!s} \n'
-            logging.error(txt)
+            #logging.info(txt)
             if len(txt.split()) > 10:
                 
                 ftdata.write(txt)
-                logging.error(f"writing : {txt!s} to {targetfile!s}")
+                #logging.info(f"writing : {txt!s} to {targetfile!s}")
         ftdata.close()
+        logging.info('finished building fasttext data file')
         self.startTraining(targetfile)
 
 
@@ -91,6 +94,7 @@ class Training(object):
         s = re.sub(r'\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}', ' _ip_ ', s)
         # Isolate punctuation
         s = re.sub(r'([\'\"\.\(\)\!\?\-\\\/\,])', r' \1 ', s)
+        s = re.sub(r'([0-9])' , ' ', s)
         s = s.replace('*', '')
         s = s.replace('_', '')
         # Remove some special characters
@@ -101,25 +105,28 @@ class Training(object):
         return s
 
     def splitTestData(self, ftfile):
-        logging.error(f'splitting {ftfile!s}')
+        logging.info(f'splitting {ftfile!s}')
         i = sum(1 for line in open(ftfile))
-        print(f'lines : {i!s}')
+        logging.info(f'lines : {i!s}')
         totallines=i
         trainingLines = int(totallines*self.trainTestRatio/100)
-        logging.error(f"TOTAL training lines : {trainingLines!s}")
+        logging.info(f"TOTAL training lines : {trainingLines!s}")
         self.testfile = f"{ftfile!s}.test"
+        
         self.trainfile = f"{ftfile!s}.train"
+        
         testf = open(self.testfile, 'w')
         trainf = open(self.trainfile, 'w')
         i = 0
         with open(ftfile) as f:
 
             while i < trainingLines:
-                logging.error(f"writing in {self.trainfile!s}")
+                logging.info(f"writing in {self.trainfile!s}")
                 trainf.write(f.readline())
                 i = i+1
             while i < totallines:
-                logging.error(f"writing in {self.testfile!s}")
+                #for testing with pyfasttext, i need to have 1 list of labels and the corresponding liness s
+                logging.info(f"writing in {self.testfile!s}")
                 testf.write(f.readline())
                 i = i+1
            
@@ -127,23 +134,39 @@ class Training(object):
         testf.close()
 
     def print_results(self, N, p, r):
-        print("N\t" + str(N))
-        print("P@{}\t{:.3f}".format(1, p))
-        print("R@{}\t{:.3f}".format(1, r))
+        logging.info("N\t" + str(N))
+        logging.info("P@{}\t{:.3f}".format(1, p))
+        logging.info("R@{}\t{:.3f}".format(1, r))
 
     def startTraining(self, ftfile):
         self.splitTestData(ftfile)
 
-        logging.error(f'Training started with : learningRate:{self.learningRate!s}, epochs:{self.epochs!s}, ngrams :{self.wordNgrams!s}')
-        model = FastText()
-        model = model.supervised(input=self.trainfile, output=f"{self.models!s}/{self.trainingname!s}.bin", epoch=self.epochs, lr=self.learningRate, wordNgrams=self.wordNgrams, verbose=2, minCount=1)
-        logging.error(model.predict_proba_file(self.testfile, k=2))
+        logging.info(f'Training started with : learningRate:{self.learningRate!s}, epochs:{self.epochs!s}, ngrams :{self.wordNgrams!s}')
+        self.model = FastText()
+        self.model = self.model.supervised(input=self.trainfile, output=f"{self.models!s}/{self.trainingname!s}.bin", epoch=self.epochs, lr=self.learningRate, wordNgrams=self.wordNgrams, verbose=2, minCount=1)
+        logging.info(self.model.predict_proba_file(self.testfile, k=2))
         #self.print_results(*model.test(self.testfile))
-        logging.error(f'finished training model with : learningRate:{self.learningRate!s}, epochs:{self.epochs!s}, ngrams :{self.wordNgrams!s}')
+        logging.info(f'finished training model with : learningRate:{self.learningRate!s}, epochs:{self.epochs!s}, ngrams :{self.wordNgrams!s}')
         #model.quantize(input=self.trainfile, output=f"{self.models!s}/{self.trainingname!s}.ftz")
         #model.quantize(input=self.trainfile, qnorm=True, retrain=True, cutoff=100000)
         #model.predict_proba_file(self.testfile, k=2)
 
+    def test(self):
+        i=0
+        correct=0
+        with open(self.testfile) as f:
+            line = f.readline()
+            words = line.split()
+            label = words[0]
+            line = line.replace(label, '')
+            label = label.replace('__', '')
+            prediction = self.model.predict(line, k=1)
+            logging.info(f"testing gave in {prediction[0]!s}, against {label!s}")
+            if prediction[0][0]==label:
+                correct=correct+1
+
+            logging.info(f"results : {correct!s}/{i!s}")
+
 time.sleep(1)
-print("Starting training")
+logging.info("Starting training")
 Training()
