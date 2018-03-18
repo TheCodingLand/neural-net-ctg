@@ -27,7 +27,7 @@ class Training(object):
         self.testfile=""
         self.trainingname=""
         self.trainTestRatio = 95
-        self.epochs=20
+        self.epochs=1
         self.learningRate=0.2
         self.wordNgrams=3
         self.model = None
