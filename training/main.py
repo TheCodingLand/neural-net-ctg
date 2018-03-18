@@ -204,10 +204,16 @@ class Training(object):
                 logging.info(line)
                 label = label.replace('__label__', '')
                 prediction = self.model.predict_proba_single(line, k=2)
+                
                 logging.info(f"testing gave in {prediction!s}, against {label!s}")
-                #solution found in top 2 ?
-                if prediction[0][0]==label or prediction[1][0] ==label:
-                    correct=correct+1
+                #we only return a prediction if confidence is good enough
+                if prediction[0][1] > 0.75:
+                    if prediction[0][0]==label or prediction[1][0] ==label:
+                        
+                        correct=correct+1
+                else:
+                    i=i-1
+
                 percent = correct/i*100
                 logging.info(f"results : {correct!s}/{i!s}, {percent!s}%")
             
