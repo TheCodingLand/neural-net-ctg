@@ -204,7 +204,7 @@ class Training(object):
                 #logging.info(line)
                 label = label.replace('__label__', '')
                 prediction = self.model.predict_proba_single(line, k=1)
-                
+                percent = 0
                 #logging.info(f"testing gave in {prediction!s}, against {label!s}")
                 #we only return a prediction if confidence is good enough
                 #it is a sensitive behaviour to test if the confidence rating is a good indication of success
