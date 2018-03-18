@@ -21,8 +21,9 @@ class Training(object):
 
     textfiles = "/trainingdata/textfiles"
     models = "/trainingdata/models"
-
+    
     def __init__(self):
+        self.testing=True
         self.trainfile=""
         self.testfile=""
         self.trainingname=""
@@ -32,6 +33,7 @@ class Training(object):
         self.wordNgrams=3
         self.model = None
         self.loadjson()
+        
     
 
         
@@ -97,7 +99,7 @@ class Training(object):
         s= s.replace(".","")
         # Replace ips
         s = re.sub(r'\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}', ' _ip_ ', s)
-        # Isolate punctuation
+        # Isolate punctuation, remove numbers
         s = re.sub(r'([\'\"\.\(\)\!\?\-\\\/\,])', r' \1 ', s)
         s = re.sub(r'([0-9])' , ' ', s)
         s = s.replace('*', '')
@@ -145,14 +147,20 @@ class Training(object):
         logging.info("R@{}\t{:.3f}".format(1, r))
 
     def startTraining(self, ftfile):
-        self.splitTestData(ftfile)
-
-        logging.info(f'Training started with : learningRate:{self.learningRate!s}, epochs:{self.epochs!s}, ngrams :{self.wordNgrams!s}')
-        self.model = FastText()
-        self.model.supervised(input=self.trainfile, output=f"{self.models!s}/{self.trainingname!s}.bin", epoch=self.epochs, lr=self.learningRate, wordNgrams=self.wordNgrams, verbose=2, minCount=1)
-        logging.info(f'finished training model with : learningRate:{self.learningRate!s}, epochs:{self.epochs!s}, ngrams :{self.wordNgrams!s}')
         
-        self.test()
+        self.splitTestData(ftfile)
+        if self.testing==False:
+
+            logging.info(f'Training started with : learningRate:{self.learningRate!s}, epochs:{self.epochs!s}, ngrams :{self.wordNgrams!s}')
+            self.model = FastText()
+            self.model.supervised(input=self.trainfile, output=f"{self.models!s}/{self.trainingname!s}.bin", epoch=self.epochs, lr=self.learningRate, wordNgrams=self.wordNgrams, verbose=2, minCount=1)
+            logging.info(f'finished training model with : learningRate:{self.learningRate!s}, epochs:{self.epochs!s}, ngrams :{self.wordNgrams!s}')
+            
+            self.test()
+        else:
+            #in test mode we will not retrain the model
+            self.model = FastText("{self.models!s}/{self.trainingname!s}.bin")
+            self.test()
         #self.print_results(*model.test(self.testfile))
         #model.quantize(input=self.trainfile, output=f"{self.models!s}/{self.trainingname!s}.ftz")
         #model.quantize(input=self.trainfile, qnorm=True, retrain=True, cutoff=100000)
@@ -171,14 +179,19 @@ class Training(object):
                 line = line.replace(label, '')
                 logging.info(line)
                 label = label.replace('__label__', '')
-                prediction = self.model.predict_proba_single(line, k=1)
+                prediction = self.model.predict_proba_single(line, k=2)
                 logging.info(f"testing gave in {prediction!s}, against {label!s}")
-                if prediction[0][0]==label:
+                #solution found in top 2 ?
+                if prediction[0][0]==label or prediction[1,0] ==label:
                     correct=correct+1
-
-                logging.info(f"results : {correct!s}/{i!s}")
+                percent = correct/i*100
+                logging.info(f"results : {correct!s}/{i!s}, {percent!s}")
             exit()
 
 time.sleep(1)
 logging.info("Starting training")
 Training()
+
+#settings:
+#self.trainTestRatio = 95 self.epochs=200 self.learningRate=0.2 self.wordNgrams=3
+#results: 1018/1614
