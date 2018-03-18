@@ -97,7 +97,7 @@ class Training(object):
                     #logging.info(self.languages[lang[0][0]])
                     self.languages[lang[0][0]].append(txt)
         for lang in self.languages.keys():
-            f = open(f'{self.models!s}/{lang!s}_{self.trainingname!s}.txt')
+            f = open(f'{self.textfiles!s}/{lang!s}_{self.trainingname!s}.txt')
             for line in self.languages[lang]:
                 f.write(line)
             f.close()
