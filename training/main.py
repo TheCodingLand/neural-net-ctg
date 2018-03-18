@@ -208,7 +208,7 @@ class Training(object):
                 #logging.info(f"testing gave in {prediction!s}, against {label!s}")
                 #we only return a prediction if confidence is good enough
                 #it is a sensitive behaviour to test if the confidence rating is a good indication of success
-                if prediction[0][1] > 0.75:
+                if prediction[0][1] > 0.85:
                     if prediction[0][0]==label:
                         
                         correct=correct+1
@@ -231,3 +231,6 @@ Training()
 #root:results : 1118/1614, 69.26889714993804%
 # 687/945, 72.6984126984127% sur le francais uniquement
 # 320/492, 65.04065040650406% sur l'anglais
+
+
+#when filtering > 75% confidence, I get 535/650, 82.3076923076923% for french data, and 249/289, 86.159169550173% for english
