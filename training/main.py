@@ -30,8 +30,6 @@ class Training(object):
         self.wordNgrams=3
         self.loadjson()
 
-    
-
     def loadjson(self):
 
         jsonfiles = glob.glob("/trainingdata/jsonfiles/*.json")
@@ -139,11 +137,12 @@ class Training(object):
         logging.error(f'Training started with : learningRate:{self.learningRate!s}, epochs:{self.epochs!s}, ngrams :{self.wordNgrams!s}')
         model = FastText()
         model = model.supervised(input=self.trainfile, output=f"{self.models!s}/{self.trainingname!s}.bin", epoch=self.epochs, lr=self.learningRate, wordNgrams=self.wordNgrams, verbose=2, minCount=1)
-        self.print_results(*model.test(self.testfile))
+        logging.error(model.predict_proba_file(self.testfile, k=2))
+        #self.print_results(*model.test(self.testfile))
         logging.error(f'finished training model with : learningRate:{self.learningRate!s}, epochs:{self.epochs!s}, ngrams :{self.wordNgrams!s}')
-        model.quantize(input=self.trainfile, output=f"{self.models!s}/{self.trainingname!s}.ftz")
+        #model.quantize(input=self.trainfile, output=f"{self.models!s}/{self.trainingname!s}.ftz")
         #model.quantize(input=self.trainfile, qnorm=True, retrain=True, cutoff=100000)
-        
+        #model.predict_proba_file(self.testfile, k=2)
 
 time.sleep(1)
 print("Starting training")
