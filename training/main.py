@@ -159,7 +159,7 @@ class Training(object):
             self.test()
         else:
             #in test mode we will not retrain the model
-            self.model = FastText("{self.models!s}/{self.trainingname!s}.bin")
+            self.model = FastText(f"{self.models!s}/{self.trainingname!s}.bin")
             self.test()
         #self.print_results(*model.test(self.testfile))
         #model.quantize(input=self.trainfile, output=f"{self.models!s}/{self.trainingname!s}.ftz")
