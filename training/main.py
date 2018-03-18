@@ -18,13 +18,14 @@ filename = ""
 #and fields containing labels for supervised learning ?
 # json -> fasttext data -> vec -> quantize
 
+
 class Training(object):
 
     textfiles = "/trainingdata/textfiles"
     models = "/trainingdata/models"
     
     def __init__(self):
-        self.testing=True
+        self.testing=False
         self.trainfile=""
         self.testfile=""
         self.trainingname=""
@@ -34,6 +35,7 @@ class Training(object):
         self.wordNgrams=3
         self.model = None
         self.loadjson()
+        self.languages={}
         
     
 
@@ -63,8 +65,9 @@ class Training(object):
 
     def makeFastText(self, data, targetfile):
         
-        
-        ftdata = open(targetfile, 'w')
+        langdetect = FastText(f'{self.models!s}/lid.176.bin')
+
+        #ftdata = open(targetfile, 'w')
         logging.info('created file')
 
         for entry in data['Ticket']:
@@ -84,13 +87,23 @@ class Training(object):
             txt= f'__label__{category!s} {fulltext!s} \n'
             #logging.info(txt)
             if len(txt.split()) > 10:
+                lang = langdetect.predict_proba_single(fulltext,k=1)
+                if lang[0][0] not in self.languages.keys():
+                    self.languages.update({lang[0][0] : []})
+                self.languages[lang[0][0]] = self.languages[lang[0][0]].append(txt)
+        for lang in self.languages.keys():
+            f = open(f'{self.models!s}/{lang!s}_{self.trainingname!s}.txt')
+            for line in self.languages[lang]:
+                f.write(line)
+            f.close()
                 
-                
-                ftdata.write(txt)
                 #logging.info(f"writing : {txt!s} to {targetfile!s}")
-        ftdata.close()
-        logging.info('finished building fasttext data file')
-        self.startTraining(targetfile)
+        
+        logging.info(f'finished building fasttext data file,languages : {self.languages.keys()!s}')
+        trainingname=self.trainingname
+        for language in self.languages.keys():
+            self.trainingname=f'{language}_{trainingname}'
+            self.startTraining(f'{self.textfiles!s}/{self.trainingname!s}.txt')
 
 
     def preparedata(self, s):
@@ -155,14 +168,14 @@ class Training(object):
 
             logging.info(f'Training started with : learningRate:{self.learningRate!s}, epochs:{self.epochs!s}, ngrams :{self.wordNgrams!s}')
             self.model = FastText()
-            self.model.supervised(input=self.trainfile, output=f"{self.models!s}/{self.trainingname!s}.bin", epoch=self.epochs, lr=self.learningRate, wordNgrams=self.wordNgrams, verbose=2, minCount=1)
+            self.model.supervised(input=self.trainfile, output=f"{self.models!s}/{self.trainingname!s}", epoch=self.epochs, lr=self.learningRate, wordNgrams=self.wordNgrams, verbose=2, minCount=1)
             logging.info(f'finished training model with : learningRate:{self.learningRate!s}, epochs:{self.epochs!s}, ngrams :{self.wordNgrams!s}')
             
             self.test()
         else:
             #in test mode we will not retrain the model
-            logging.info(f'loading {self.models!s}/{self.trainingname!s}.bin.bin')
-            self.model = FastText(f'{self.models!s}/{self.trainingname!s}.bin.bin')
+            logging.info(f'loading {self.models!s}/{self.trainingname!s}.bin')
+            self.model = FastText(f'{self.models!s}/{self.trainingname!s}.bin')
             self.test()
         #self.print_results(*model.test(self.testfile))
         #model.quantize(input=self.trainfile, output=f"{self.models!s}/{self.trainingname!s}.ftz")
@@ -172,8 +185,11 @@ class Training(object):
     def test(self):
         i=0
         correct=0
+    
+
         with open(self.testfile) as f:
             lines = f.readlines()
+            
             for line in lines:
                 i=i+1
                 logging.info(line)
@@ -189,7 +205,7 @@ class Training(object):
                     correct=correct+1
                 percent = correct/i*100
                 logging.info(f"results : {correct!s}/{i!s}, {percent!s}%")
-            exit()
+            
 
 time.sleep(1)
 logging.info("Starting training")
@@ -198,4 +214,5 @@ Training()
 #settings all data single result:
 #self.trainTestRatio = 95 self.epochs=200 self.learningRate=0.2 self.wordNgrams=3
 #results: 1018/1614
-#all data 2 predictions
+#all data 2 predictions:
+#root:results : 1118/1614, 69.26889714993804%
