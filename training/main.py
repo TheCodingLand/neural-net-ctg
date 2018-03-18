@@ -201,11 +201,11 @@ class Training(object):
                 words = line.split()
                 label = words[0]
                 line = line.replace(label, '')
-                logging.info(line)
+                #logging.info(line)
                 label = label.replace('__label__', '')
                 prediction = self.model.predict_proba_single(line, k=1)
                 
-                logging.info(f"testing gave in {prediction!s}, against {label!s}")
+                #logging.info(f"testing gave in {prediction!s}, against {label!s}")
                 #we only return a prediction if confidence is good enough
                 #it is a sensitive behaviour to test if the confidence rating is a good indication of success
                 if prediction[0][1] > 0.75:
@@ -214,11 +214,11 @@ class Training(object):
                         correct=correct+1
                         
                     percent = correct/i*100
-                    logging.info(f"results : {correct!s}/{i!s}, {percent!s}%")
+                    
                 else:
                     i=i-1
 
-            
+            logging.info(f"results : {correct!s}/{i!s}, {percent!s}%")
 
 time.sleep(1)
 logging.info("Starting training")
