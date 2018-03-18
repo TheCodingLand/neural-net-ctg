@@ -6,6 +6,7 @@ import glob
 import json
 import re
 import time
+
 logging.basicConfig(level=logging.INFO)
 labelFields=[]
 fields = []
@@ -23,7 +24,7 @@ class Training(object):
     models = "/trainingdata/models"
     
     def __init__(self):
-        self.testing=False
+        self.testing=True
         self.trainfile=""
         self.testfile=""
         self.trainingname=""
@@ -83,6 +84,7 @@ class Training(object):
             txt= f'__label__{category!s} {fulltext!s} \n'
             #logging.info(txt)
             if len(txt.split()) > 10:
+                
                 
                 ftdata.write(txt)
                 #logging.info(f"writing : {txt!s} to {targetfile!s}")
@@ -182,7 +184,7 @@ class Training(object):
                 prediction = self.model.predict_proba_single(line, k=2)
                 logging.info(f"testing gave in {prediction!s}, against {label!s}")
                 #solution found in top 2 ?
-                if prediction[0][0]==label or prediction[1,0] ==label:
+                if prediction[0][0]==label or prediction[1][0] ==label:
                     correct=correct+1
                 percent = correct/i*100
                 logging.info(f"results : {correct!s}/{i!s}, {percent!s}%")
