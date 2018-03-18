@@ -203,7 +203,7 @@ class Training(object):
                 line = line.replace(label, '')
                 logging.info(line)
                 label = label.replace('__label__', '')
-                prediction = self.model.predict_proba_single(line, k=2)
+                prediction = self.model.predict_proba_single(line, k=1)
                 
                 logging.info(f"testing gave in {prediction!s}, against {label!s}")
                 #we only return a prediction if confidence is good enough
