@@ -208,7 +208,7 @@ class Training(object):
                 logging.info(f"testing gave in {prediction!s}, against {label!s}")
                 #we only return a prediction if confidence is good enough
                 if prediction[0][1] > 0.75:
-                    if prediction[0][0]==label or prediction[1][0] ==label:
+                    if prediction[0][0]==label:
                         
                         correct=correct+1
                 else:
