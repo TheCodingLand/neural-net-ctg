@@ -119,14 +119,15 @@ class Training(object):
         trainf = open(self.trainfile, 'w')
         i = 0
         with open(ftfile) as f:
-
+            logging.info(f"writing in {self.trainfile!s}")
             while i < trainingLines:
-                logging.info(f"writing in {self.trainfile!s}")
+                
                 trainf.write(f.readline())
                 i = i+1
+            logging.info(f"writing in {self.testfile!s}")
+                
             while i < totallines:
                 #for testing with pyfasttext, i need to have 1 list of labels and the corresponding liness s
-                logging.info(f"writing in {self.testfile!s}")
                 testf.write(f.readline())
                 i = i+1
            
