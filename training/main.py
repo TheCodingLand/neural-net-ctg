@@ -94,8 +94,8 @@ class Training(object):
                 if lang[0][0] not in self.languages.keys():
                     self.languages.update({ lang[0][0] : [txt,] })
                 else:
-
-                    self.languages[lang[0][0]] = self.languages[lang[0][0]].append(txt)
+                    logging.info(self.languages[lang[0][0]])
+                    self.languages[lang[0][0]].append(txt)
         for lang in self.languages.keys():
             f = open(f'{self.models!s}/{lang!s}_{self.trainingname!s}.txt')
             for line in self.languages[lang]:
