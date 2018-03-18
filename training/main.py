@@ -90,7 +90,7 @@ class Training(object):
             
             if len(txt.split()) > 10:
                 lang = langdetect.predict_proba_single(fulltext,k=1)
-                logging.info(f'predicted {lang[0][0]!s}')
+                #logging.info(f'predicted {lang[0][0]!s}')
                 if lang[0][0] not in self.languages.keys():
                     self.languages.update({ lang[0][0] : [txt,] })
                 else:
