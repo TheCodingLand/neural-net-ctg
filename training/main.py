@@ -162,20 +162,22 @@ class Training(object):
         i=0
         correct=0
         with open(self.testfile) as f:
-            
-            line = f.readline()
-            logging.info(line)
-            words = line.split()
-            label = words[0]
-            line = line.replace(label, '')
-            logging.info(line)
-            label = label.replace('__label__', '')
-            prediction = self.model.predict_proba_single(line, k=1)
-            logging.info(f"testing gave in {prediction!s}, against {label!s}")
-            if prediction[0][0]==label:
-                correct=correct+1
+            lines = f.readlines()
+            for line in lines:
+                i=i+1
+                line = f.readline()
+                logging.info(line)
+                words = line.split()
+                label = words[0]
+                line = line.replace(label, '')
+                logging.info(line)
+                label = label.replace('__label__', '')
+                prediction = self.model.predict_proba_single(line, k=1)
+                logging.info(f"testing gave in {prediction!s}, against {label!s}")
+                if prediction[0][0]==label:
+                    correct=correct+1
 
-            logging.info(f"results : {correct!s}/{i!s}")
+                logging.info(f"results : {correct!s}/{i!s}")
             exit()
 
 time.sleep(1)
