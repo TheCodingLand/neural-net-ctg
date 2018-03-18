@@ -212,11 +212,12 @@ class Training(object):
                     if prediction[0][0]==label:
                         
                         correct=correct+1
+                        
+                    percent = correct/i*100
+                    logging.info(f"results : {correct!s}/{i!s}, {percent!s}%")
                 else:
                     i=i-1
 
-                percent = correct/i*100
-                logging.info(f"results : {correct!s}/{i!s}, {percent!s}%")
             
 
 time.sleep(1)
