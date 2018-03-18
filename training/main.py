@@ -192,6 +192,7 @@ time.sleep(1)
 logging.info("Starting training")
 Training()
 
-#settings:
+#settings all data single result:
 #self.trainTestRatio = 95 self.epochs=200 self.learningRate=0.2 self.wordNgrams=3
 #results: 1018/1614
+#all data 2 predictions
