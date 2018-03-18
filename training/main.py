@@ -197,7 +197,7 @@ class Training(object):
             
             for line in lines:
                 i=i+1
-                logging.info(line)
+                #logging.info(line)
                 words = line.split()
                 label = words[0]
                 line = line.replace(label, '')
