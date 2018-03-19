@@ -2,7 +2,7 @@
 # - getEmails(), retrieves data to parse and categorize
 # - setPredictedCategory(), updates the field in the target tool with the category predicted by the algorithm
 # - dumpData() :  applies a filter, and retrieves a large amount of data from the tool. used to generate training and test files.
-
+# should return : {labelfield : "la",  text
 
 # some other utility fonction to help with data can be defined. I needed for example to get the category object's title for omnitracker.
 import logging
@@ -17,11 +17,15 @@ class ot(object):
         self.headers = {'Content-type': 'application/json',
                     'Accept': 'text/plain'}
         self.request = None
+        self.labelfield = None
 
-    def getTrainingData(self):
-
-        filtername="emails last 2 years"
-        fields = ["Title","Description","AssociatedCategory"]
+    def getTrainingData(self, model, textfields, labelfield, filtername):
+        self.labelfield = labelfield
+        
+        #filtername="emails last 2 years"
+        fields = textfields
+        #fields = ["Title","Description",labelfield]
+        
         payload = {"objectclass": "Ticket",
             "filter": f"{filtername!s}",
             "variables": [
@@ -30,29 +34,41 @@ class ot(object):
             ],
             "requiredfields": fields
         }
-        #DEBcurl -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' -d '{ \ 
-   #"objectclass": "Ticket", \ 
-   #"filter": "all email tickets", \ 
-   #"variables": [ \ 
-   #  { \ 
-   #   } \ 
-   #], \ 
-   #"requiredfields": [ \ 
-  #"Title","Description","AssociatedCategory" \ 
-  # ] \ 
- #}' 'http://148.110.107.15:5001/api/ot/objects'
-        #logging.error(self.queryObjectsUrl)
-        
         try:
             self.request=requests.post(url=self.queryObjectsUrl, json=payload, headers=self.headers)
 
         except:
-            #logging.error(f'failed to get tickets return code : {self.request.status_code!s}')
+
             return False
-        #logging.error(f'request result : {self.request.text!s} , {self.request.status_code!s}')
-        data = self.handleResult()
         
-        return data
+        
+        data = self.request.json()
+       
+       
+        if data['status'] == "success":
+            data = data['Ticket']
+       
+        
+        entries = []
+        for item in data:
+            text = ""
+
+            for field in fields:
+                if field !=self.labelfield:
+                    text = text + item[field]
+                if field == self.labelfield:
+                    label = item[field]
+            
+            entry = {label:label, text:text}
+            entries.append(entry)
+        
+
+        result = { 'model' : model, 'labelfield' : labelfield, 'entries' : entries }
+        return result
+
+
+
+        
 
 
     def getEmails(self, filtername, fields):

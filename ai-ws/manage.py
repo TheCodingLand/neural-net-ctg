@@ -9,9 +9,22 @@ from flask_script import Manager
 from ai import create_app
 
 import logging
-log = logging.getLogger(__name__)
 
-log.setLevel(logging.ERROR)
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
+
+# create a file handler
+handler = logging.FileHandler('/trainingdata/databuilder.log')
+handler.setLevel(logging.INFO)
+
+# create a logging format
+formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+handler.setFormatter(formatter)
+
+# add the handlers to the logger
+logger.addHandler(handler)
+
+
 
 app = create_app()
 manager = Manager(app)

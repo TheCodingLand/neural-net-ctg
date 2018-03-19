@@ -31,8 +31,17 @@ export default function userReducer(state = initialState
         
         }
         case "CLEAR_CHAT": {
-            state = initialState
-            
+            state = { ...state, 
+                userName: "",
+                model: "",
+                words: [{id: 0, word:"none", confidence:0},],
+                brain: [ { id:0, category:"none", confidence :"0"}, ], 
+                conversationHistory: [
+                    {
+                    id: 0, 
+                    user: "Tina",
+                    content:"Hello, this is Tina, I can predit categories based on text input. please sent me text data, I'll answer. Currently I know only about Register of commerce issues."}]
+                    }
             return state
         }
         case "UPDATE_BRAIN": {
