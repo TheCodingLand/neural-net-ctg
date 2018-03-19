@@ -39,11 +39,11 @@ class AiManager(object):
         self.ts = ts()
         self.training=False
         
-        self.rebuildData=True
+        self.rebuildData=False
            
         #self.unsupModel = FastText("/usr/src/app/cc.fr.300.bin")
-        self.model = load_model("/usr/src/app/ai/model.ftz")
-        self.unsupModel = FastText("/usr/src/app/ai/model.ftz")
+        self.model = load_model("/trainingdata/models/en_data.bin")
+        self.unsupModel = FastText("/trainingdata/models/en_data.bin")
             
             #self.model = load_model("/usr/src/app/ai/model.ftz")
             #except:
