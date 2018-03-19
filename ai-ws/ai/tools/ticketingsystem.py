@@ -19,12 +19,11 @@ class ot(object):
         self.request = None
         self.labelfield = None
 
-    def getTrainingData(self, model, textfields, labelfield, filtername):
-        
-        labelfield = labelfield
-        
+    def getTrainingData(self, model, filtername, labelfield, fields):
+
+                
         #filtername="emails last 2 years"
-        fields = textfields
+        
         #fields = ["Title","Description",labelfield]
         
         payload = {"objectclass": "Ticket",

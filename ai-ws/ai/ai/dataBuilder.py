@@ -26,13 +26,16 @@ class dataBuilder(object):
         
          
     def getData(self):
+        
+        fields = ["Title","Description"]
+        
+        raw = self.tool.getTrainingData(self.model,)
+        
+        result = { 'model' : model, 'labelfield' : labelfield, 'entries' : entries }
+        model = raw['model']
 
-        raw = self.tool.getTrainingData()
 
-        ftdata = open('.txt', 'w')
-        logging.error('created file')
-
-        for entry in raw:
+        for entry in raw['entries']:
             #logging.error(entry)
             subject = entry['data']['Title']
             body = entry['data']['Description']
@@ -48,7 +51,36 @@ class dataBuilder(object):
             fulltext = ' '.join(linearray[0:nbWords])
             txt= f'__label__{category!s} {fulltext!s} \n'
             if len(txt.split()) > 10:
-                ftdata.write(txt)
-        ftdata.close()
+         
         
         return raw
+
+    def preparedata(self, s):
+        """
+        Given a text, cleans and normalizes it.
+        """
+        s = s.lower()
+        s= s.replace(".","")
+        # Replace ips
+        s = re.sub(r'\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}', ' _ip_ ', s)
+        # Isolate punctuation, remove numbers
+        s = re.sub(r'([\'\"\.\(\)\!\?\-\\\/\,])', r' \1 ', s)
+        s = re.sub(r'([0-9])' , ' ', s)
+        s = s.replace('*', '')
+        s = s.replace('_', '')
+        # Remove some special characters
+        s = re.sub(r'([\;\:\|•«\n])', ' ', s)
+
+        s = s.replace('&', ' and ')
+        s = s.replace('@', ' at ')
+        return s
+    
+    def removeShort(self, text):
+        t = text.split(' ')
+        result= []
+        for s in t:
+            if len(s)>1:
+                result.append(s)
+        
+        result = ' '.join(result)
+        return result
