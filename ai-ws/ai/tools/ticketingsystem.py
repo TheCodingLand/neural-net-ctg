@@ -20,6 +20,7 @@ class ot(object):
         self.labelfield = None
 
     def getTrainingData(self, model, textfields, labelfield, filtername):
+        
         labelfield = labelfield
         
         #filtername="emails last 2 years"
