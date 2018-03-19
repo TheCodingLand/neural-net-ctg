@@ -20,7 +20,7 @@ class ot(object):
         self.labelfield = None
 
     def getTrainingData(self, model, textfields, labelfield, filtername):
-        self.labelfield = labelfield
+        labelfield = labelfield
         
         #filtername="emails last 2 years"
         fields = textfields
@@ -35,14 +35,14 @@ class ot(object):
             "requiredfields": fields
         }
         try:
-            self.request=requests.post(url=self.queryObjectsUrl, json=payload, headers=self.headers)
+            request=requests.post(url=self.queryObjectsUrl, json=payload, headers=self.headers)
 
         except:
 
             return False
         
         
-        data = self.request.json()
+        data = request.json()
        
        
         if data['status'] == "success":
@@ -54,9 +54,9 @@ class ot(object):
             text = ""
 
             for field in fields:
-                if field !=self.labelfield:
+                if field !=labelfield:
                     text = text + item[field]
-                if field == self.labelfield:
+                if field == labelfield:
                     label = item[field]
             
             entry = {label:label, text:text}
