@@ -52,7 +52,6 @@ class AiManager(object):
                # self.model = load_model("/usr/src/app/ai/model.ftz")
     
     def chat(self, text):
-        logging.error("test langue francaise")
         text = self.preparedata(text)
         filtered = []
         for t in text.split(' '):
