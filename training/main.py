@@ -234,3 +234,9 @@ Training()
 
 
 #when filtering > 75% confidence, I get 535/650, 82.3076923076923% for french data, and 249/289, 86.159169550173% for english
+#when filtering > 85% confidence, I get the results below:
+    #517/602, 85.88039867109634% french
+    #29/36, 80.55555555555556% german
+    #238/270, 88.14814814814815% english
+
+#need to make graphs to get best ratio predictiontotal/confidence/percentage of errors, 
