@@ -3,7 +3,7 @@ FROM python:latest
 # set working directory
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
-ADD . /usr/src/app/
+
 # add requirements (to leverage Docker cache)
 ADD ./requirements.txt /usr/src/app/requirements.txt
 
@@ -33,4 +33,5 @@ WORKDIR /usr/src/app
 RUN pip install -r requirements.txt
 RUN pip install pyfasttext
 # run server
+ADD . /usr/src/app/
 CMD python manage.py runserver -h '0.0.0.0'
