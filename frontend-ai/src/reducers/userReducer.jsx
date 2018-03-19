@@ -11,9 +11,12 @@ const initialState = {
         }
 
 
+
 export default function userReducer(state = initialState
     , action) {
+
     switch (action.type) {
+
         case "SEND_TEXT_CHAT": {
             console.log("SENDING TEXT")
             //CALL API
@@ -28,12 +31,8 @@ export default function userReducer(state = initialState
         
         }
         case "CLEAR_CHAT": {
-            state = { ...state, conversationHistory : [ {
-                id:0,
-                user:'Tina',
-                content:'Hello !'
-            }]
-            }
+            state = initialState
+            
             return state
         }
         case "UPDATE_BRAIN": {
