@@ -43,7 +43,7 @@ def getEmails():
 
 
 def predict(text):
-    url = 'http://148.110.107.15:5005/api/predict'
+    url = 'http://148.110.107.15/api/predict'
     headers = {'Content-type': 'application/json',
                    'Accept': 'text/plain'}
     payload = {"text": text }

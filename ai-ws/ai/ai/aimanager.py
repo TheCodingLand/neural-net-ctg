@@ -30,9 +30,9 @@ class AiManager(object):
         #mode is either training or exploitation
         self.mode = mode
         self.tool = "ot"
-        self.trainingfile = "train.txt"
-        self.testfile= "test.txt"
-        self.completefile = "data.txt"
+        self.trainfile=""
+        self.testfile=""
+        self.trainingname=""
         self.epochs=100
         self.learningRate=0.2
         self.wordNgrams=3
@@ -40,17 +40,15 @@ class AiManager(object):
         self.training=False
         
         self.rebuildData=False
-           
-        #self.unsupModel = FastText("/usr/src/app/cc.fr.300.bin")
-        self.model = load_model("/trainingdata/models/en_data.bin")
+    
+    def load_model(self):
+
+
+
+        self.model = FastText("/trainingdata/models/en_data.bin")
         self.unsupModel = FastText("/trainingdata/models/en_data.bin")
             
-            #self.model = load_model("/usr/src/app/ai/model.ftz")
-            #except:
-               # logging.error('no trained model available, training started')
-                #self.train()
-               # self.model = load_model("/usr/src/app/ai/model.ftz")
-    
+
     def chat(self, text):
         text = self.preparedata(text)
         filtered = []
@@ -59,21 +57,7 @@ class AiManager(object):
                 filtered.append(t)
         text = ' '.join(filtered)
 
-        #f=open("/usr/src/app/fastText/tmp.txt",'w')
-        #f.write(text)
-        #f.close()
-        #t=""
-        #ps = subprocess.Popen(('echo', text), stdout=subprocess.PIPE)
-        #output = subprocess.check_output(("/usr/src/app/fastText/fasttext", "print-word-vectors", "/usr/src/app/cc.fr.300.bin"), stdin=ps.stdout)
-        #try:
-        #    t = subprocess.check_output(["/usr/src/app/fastText/fasttext", "print-word-vectors", "/usr/src/app/cc.fr.300.bin", "<", "/usr/src/app/fastText/tmp.txt" ])
-        #except Exception as ex:
-        #     template = "An exception of type {0} occurred. Arguments:\n{1!r}"
-        #     message = template.format(type(ex).__name__, ex.args)
-        #     logging.error(message)
-
-        #ps.wait()
-        #logging.error(output)
+  
 
         try:
             words = self.unsupModel.get_numpy_sentence_vector(text)

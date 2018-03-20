@@ -19,9 +19,9 @@ class ot(object):
         self.request = None
         self.labelfield = None
 
-    def getTrainingData(self, model, filtername, labelfield, fields):
+    def getTrainingData(self, filtername, labelfield, fields):
 
-                
+        fields.append(labelfield)
         #filtername="emails last 2 years"
         
         #fields = ["Title","Description",labelfield]
@@ -63,7 +63,7 @@ class ot(object):
             entries.append(entry)
         
 
-        result = { 'model' : model, 'labelfield' : labelfield, 'entries' : entries }
+        result = { 'entries' : entries }
         return result
 
 

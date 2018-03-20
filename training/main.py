@@ -38,10 +38,6 @@ class Training(object):
         self.languages=dict()
         
         self.loadjson()
-    
-
-        
-            
 
     def loadjson(self):
 
