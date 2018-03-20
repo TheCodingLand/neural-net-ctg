@@ -10,8 +10,8 @@ with open('/trainingdata/jsonfiles/data.json') as f:
         for item in data:
             item=item['data']
             text = ""
-            fields= ["Title", "Description"]
-            labelfield = "AssignedCategory"
+            fields= ["Title", "Description",'AssociatedCategory']
+            labelfield = "AssociatedCategory"
 
             for field in fields:
                 if field !=labelfield:
@@ -24,3 +24,5 @@ with open('/trainingdata/jsonfiles/data.json') as f:
         
 
         result = { 'entries' : entries }
+        f = open('/trainingdata/jsonfiles/data2.json', 'w')
+        json.dump(result, f)
