@@ -66,22 +66,34 @@ class AiManager(object):
 
     def detect(self, text):
         
-        langdetect = FastText(f'{self.modelsFolder!s}lid.176.bin')
+        langdetect = FastText(f'{self.modelsFolder!s}lid.176.ftz')
         lang = langdetect.predict_proba_single(text,k=1)
         # we only need to return the first language and probability should be useless at this point.
         # could be used later to default to english ??
-        lang = lang[0][0]
+        try:
+            lang = lang[0][0]
+        except:
+            lang = 'en'
         #keeping track on all languages used
         return lang
 
     def splitJson(self, jsondata):
 
-        for entry in jsondata:
+        for entry in jsondata['entries']:
             lang = self.detect(entry['text'])
             if lang not in self.languages.keys():
-                f = open(f'{lang!s}_{self.modelname!s}.json', 'w')
-                self.languages.update({lang: f})
-            self.languages[lang].write(entry)
+                f = open(f'{self.jsonFolder!s}{lang!s}_{self.modelname!s}.json', 'w')
+                self.languages.update({ lang: { "data" : {'entries': []}, "file":f}})
+
+
+            self.languages[lang]['data']['entries'].append(entry)
+            
+        
+        for lang in self.languages.keys():
+            print (self.languages[lang]['data'])
+            json.dump(self.languages[lang]['data'],self.languages[lang]['file'])
+            self.languages[lang]['file'].close()
+        
     
     def splitTrainingData(self, jsonfile):
 
@@ -205,7 +217,7 @@ class AiManager(object):
             logging.info(f"results : {correct!s}/{i!s}, {percent!s}%")
 
 api = AiManager('ot_emails')
-api.train(buildJson=False,loadfile='/trainingdata/jsonfiles/data.json')
+api.train(buildJson=False,loadfile='/trainingdata/jsonfiles/data2.json')
 
 #data = api.getData()
 #f = open(f'{api.modelname!s}.json','w')
