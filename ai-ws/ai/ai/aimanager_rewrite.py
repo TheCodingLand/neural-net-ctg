@@ -8,7 +8,7 @@ import logging
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 
-class aimanager(object):
+class AiManager(object):
 
     modelsFolder = '/trainingdata/models/'
     jsonFolder  = '/trainingdata/jsonfiles/'
@@ -23,14 +23,32 @@ class aimanager(object):
     learningRate = 0.2
     epochs = 50
     ngrams = 3
+    json=None
 
-    def __init__(self, config):
+    def __init__(self, config, json = None):
         self.modelname = config
         self.config = self.load_config(config)
         #conditional import for ticketing system
         if self.config['tool']=='ot':
             from ai.tools.ticketingsystem import ot as ts
         self.ts = ts()
+        
+
+    def train(self, buildJson=False, loadfile=""):
+        if loadfile!="":
+            try:
+                jsonfile = json.load(loadfile)
+            except:
+                logger.error("failed to load file")
+        if buildJson ==True:
+            jsonfile = self.getData()
+        self.splitJson(jsonfile)
+        for language in self.languages.keys():
+            self.splitTrainingData(json.load(self.languages[language]))
+            self.createFastText(jsonfilename)
+            self.startTraining()
+            
+
     
     def load_config(self, config):
         
@@ -47,9 +65,7 @@ class aimanager(object):
         # we only need to return the first language and probability should be useless at this point.
         # could be used later to default to english ??
         lang = lang[0][0]
-
         #keeping track on all languages used
-        
         return lang
 
     def splitJson(self, jsondata):
@@ -62,7 +78,6 @@ class aimanager(object):
             self.languages[lang].write(entry)
     
     def splitTrainingData(self, jsonfile):
-        
 
         trainjf = open(jsonfile.append(".train"),'w')
         testjf = open(jsonfile.append(".test"),'w')
@@ -77,9 +92,10 @@ class aimanager(object):
         
         json.dump(train,trainjf)
         json.dump(test,testjf)
+
         
     def createFastText(self, jsonfile):
-       
+        
         textfile =jsonfile.replace('.json','.txt')
         with open(textfile, 'w') as f:
             for entry in json.loads(jsonfile):
@@ -135,10 +151,10 @@ class aimanager(object):
         s = s.replace('@', ' at ')
         return s
 
-    def train(self, ftfile):
+    def startTraining(self, ftfile):
         
         if self.reBuildModel==True:
-            modelfile = ftfile.replace('txt','')
+            modelfile = ftfile.replace('.txt','')
             logger.info(f'Training started with : learningRate:{self.learningRate!s}, epochs:{self.epochs!s}, ngrams :{self.ngrams!s}')
             model = FastText()
             model.supervised(input=ftfile, output=f"{self.modelsFolder!s}/{modelfile!s}", epoch=self.epochs, lr=self.learningRate, wordNgrams=self.ngrams, verbose=2, minCount=1)
@@ -182,15 +198,11 @@ class aimanager(object):
 
             logging.info(f"results : {correct!s}/{i!s}, {percent!s}%")
 
-api = aimanager('ot_emails')
+api = AiManager('ot_emails')
+api.train(buildJson=False,loadfile='data.json')
 
-data = api.getData()
-f = open(f'{api.modelname!s}.json','w')
-json.dump(data, f)
-
-
-
-        
+#data = api.getData()
+#f = open(f'{api.modelname!s}.json','w')
 
 
         
