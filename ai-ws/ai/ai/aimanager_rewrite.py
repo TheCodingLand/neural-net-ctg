@@ -29,30 +29,36 @@ class AiManager(object):
         self.modelname = config
         self.config = self.load_config(config)
         #conditional import for ticketing system
-        if self.config['tool']=='ot':
-            from ai.tools.ticketingsystem import ot as ts
-        self.ts = ts()
+        #if self.config['tool']=='ot':
+            #from ai.tools.ticketingsystem import ot as ts
+        #self.ts = ts()
         
 
     def train(self, buildJson=False, loadfile=""):
         if loadfile!="":
             try:
-                jsonfile = json.load(loadfile)
+                f = open(loadfile, 'r')
+                jsonfile = json.load(f)
             except:
                 logger.error("failed to load file")
         if buildJson ==True:
             jsonfile = self.getData()
+        
         self.splitJson(jsonfile)
+        print(self.modelname)
         for language in self.languages.keys():
             self.splitTrainingData(json.load(self.languages[language]))
-            self.createFastText(jsonfilename)
-            self.startTraining()
+           
+            filename = f'{language!s}_{self.modelname!s}'
+            self.createFastText(f'{filename!s}.train')
+            self.createFastText(f'{filename!s}.test')
+            self.startTraining(f'{filename!s}')
             
 
     
     def load_config(self, config):
-        
-        configs = json.loads(f'{self.jsonFolder!s}config.json')
+        f=open(f'{self.configFolder!s}config.json' ,'r')
+        configs = json.load(f)
         if config in configs.keys():
             return configs[config]
 
@@ -199,7 +205,7 @@ class AiManager(object):
             logging.info(f"results : {correct!s}/{i!s}, {percent!s}%")
 
 api = AiManager('ot_emails')
-api.train(buildJson=False,loadfile='data.json')
+api.train(buildJson=False,loadfile='/trainingdata/jsonfiles/data.json')
 
 #data = api.getData()
 #f = open(f'{api.modelname!s}.json','w')
