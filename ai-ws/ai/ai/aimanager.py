@@ -32,8 +32,8 @@ class AiManager(object):
     training=False
 
     def __init__(self, config, json = None, version = version):
-        modelfile = f'{self.modelsFolder!s}lid.176.ftz'
-        
+        languagemodelfile = f'{self.modelsFolder!s}lid.176.ftz'
+
         self.modelsFolder=f"{self.modelsFolder!s}{version!s}/"
         try:
             os.mkdir(self.modelsFolder)
@@ -41,8 +41,8 @@ class AiManager(object):
             pass
         self.modelname = config
         
-        logger.error(f"loading {modelfile!s}")
-        self.langdetect = FastText(modelfile)
+        logger.error(f"loading {languagemodelfile!s}")
+        self.langdetect = FastText(languagemodelfile)
         self.config = self.load_config(config)
         #conditional import for ticketing system
         if self.config['tool']=='ot':
