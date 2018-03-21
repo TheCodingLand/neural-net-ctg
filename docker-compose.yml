@@ -27,6 +27,7 @@ services:
       - "5000"
     volumes:
       - aidata:/trainingdata
+
     labels:
       - "traefik.backend=api"
       - "traefik.frontend.entryPoints=https"
@@ -36,8 +37,6 @@ services:
       - "traefik.port=5000"
     networks:
       - web
-
-
 
   frontend-ai:
     build: ./frontend-ai
@@ -59,5 +58,4 @@ networks:
     external: true
 
 volumes:
-  aidata:
-    driver: local
+  aidata: {}
