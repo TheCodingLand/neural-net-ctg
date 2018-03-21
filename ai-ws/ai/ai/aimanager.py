@@ -202,12 +202,17 @@ class AiManager(object):
                 logger.error("failed to load file")
         if buildJson ==True:
             jsonfile = self.getData()
-        
+        testresult = []
         self.splitJson(jsonfile)
         print(self.modelname)
         for language in self.languages.keys():
             filename = f'{language!s}_{self.modelname!s}.json'
-            self.splitTrainingData(f'{self.jsonFolder!s}{filename!s}') 
+            f = open(filename, 'r')
+            j = json.load(f)
+            if len(j['entries']) < 3000:
+                f.close()
+                continue
+            self.splitTrainingData(f'{self.jsonFolder!s}{filename!s}')
             self.createFastText(f'{self.jsonFolder!s}{filename!s}.train')
             self.createFastText(f'{self.jsonFolder!s}{filename!s}.test')
             testfile = f"{self.textfolder!s}{language!s}_{self.modelname!s}.txt.test"
@@ -215,8 +220,9 @@ class AiManager(object):
             print(trainfile)
             modelfile = f"{self.modelsFolder!s}{language!s}_{self.modelname!s}"
             self.startTraining(trainfile, modelfile)
-            self.test(testfile, modelfile)
+            testresult.append(self.test(testfile, modelfile))
         self.training = False
+        logging.error(testresult)
             
 
     
@@ -396,6 +402,7 @@ class AiManager(object):
 
 
             logging.error(f"results : {correct!s}/{i!s}, {percent!s}%")
+            return [modelfilename, correct, i, percent]
 
 #api = AiManager('ot_emails')
 #api.train(buildJson=False,loadfile='/trainingdata/jsonfiles/data2.json')
