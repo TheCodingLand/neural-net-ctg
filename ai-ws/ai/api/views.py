@@ -42,7 +42,7 @@ class Train(Resource):
     def get(self):
         d = {} 
         if am.training==False:
-            am.train(buildJson=False,loadfile="/trainingdata/trainingdata/data.json")
+            am.train(buildJson=False,loadfile="/trainingdata/trainingdata/data2.json")
             d.update({'training': 'Started !'})
         else:
             d.update({'training': 'Already in progress !'})
