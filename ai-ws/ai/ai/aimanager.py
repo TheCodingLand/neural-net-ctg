@@ -34,7 +34,7 @@ class AiManager(object):
     def __init__(self, config, json = None):
         self.modelname = config
         modelfile = f'{self.modelsFolder!s}lid.176.ftz'
-        logger.info(f"loading {modelfile!s}")
+        logger.error(f"loading {modelfile!s}")
         self.langdetect = FastText(modelfile)
         self.config = self.load_config(config)
         #conditional import for ticketing system
