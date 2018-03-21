@@ -225,11 +225,12 @@ class UpdateBrain(Resource):
             items = am.run_model_multiple(text,5)
             i=0
             d={}
+            results = []
             for item in items:
                 i=i+1
-                d.update({"id":i})
-                d.update({"category":items[0]})
-                d.update({"confidence":item[1]})
+                d.update({"id":i , "category":items[0], "confidence":item[1]})
+
+                results.append(d)
             
             
             #testing
@@ -243,7 +244,7 @@ class UpdateBrain(Resource):
             if items:
                 response_object = {
                     'status': 'success',
-                    'results': d,
+                    'results': results,
                     'words' : words
                 }
                 return response_object, 201
