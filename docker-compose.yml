@@ -34,6 +34,7 @@ services:
       - "traefik.frontend.entryPoints=https"
       - "traefik.docker.network=web"
       - "traefik.frontend.rule=PathPrefix:/swaggerui,/api"
+      - "traefik.frontend.headers.SSLProxyHeaders=X-Forwarded-For:https"
       - "traefik.enable=true"
       - "traefik.port=5000"
     networks:
