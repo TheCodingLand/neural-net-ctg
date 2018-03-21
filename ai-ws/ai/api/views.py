@@ -186,7 +186,7 @@ class getCategory(Resource):
             # starting with small talk
             logging.error(items)
             d = {}
-            d.update({'category': items[0]})
+            d.update({'label': items[0]})
             d.update({'confidence': items[1]})
             if d:
                 response_object = {
@@ -229,7 +229,7 @@ class UpdateBrain(Resource):
             for item in items:
                 d={}
                 i=i+1
-                d.update({"id":i , "category":items[0], "confidence":item[1]})
+                d.update({"id":i , "label":items[0], "confidence":item[1]})
 
                 results.append(d)
             
@@ -240,7 +240,7 @@ class UpdateBrain(Resource):
             #user can guide the bot into several contexts. context will be displayed. 
             # starting with small talk
 
-            logging.error(items)
+            logging.error(results)
             
             if items:
                 response_object = {

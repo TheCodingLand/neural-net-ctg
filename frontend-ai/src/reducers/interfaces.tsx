@@ -10,6 +10,6 @@ interface sessioninfo {
 
 interface word { id : number, word: string, confidence: number }
 
-interface brainitem { id : number, category:string , confidence: number }
+interface brainitem { id : number, label:string , confidence: number }
 
 interface chatline { id:number, user: string, content:string}

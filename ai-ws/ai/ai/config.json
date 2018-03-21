@@ -1,0 +1,7 @@
+{ "ot_emails" : {
+                "tool" : "ot",
+                "fields" : ["Title", "Description"],
+                "label" : "AssociatedCategory"
+            }
+
+}
