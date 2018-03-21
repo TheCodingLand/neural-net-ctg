@@ -48,4 +48,5 @@ ADD ./config.json /trainingdata/config/config.json
 WORKDIR /usr/src/app
 # run server
 ADD . /usr/src/app/
-CMD python manage.py runserver -h '0.0.0.0'
+CMD gunicorn -b 0.0.0.0:5000 manage:app
+#CMD python manage.py runserver -h '0.0.0.0'
