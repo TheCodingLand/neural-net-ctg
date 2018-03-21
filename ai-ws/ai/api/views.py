@@ -44,7 +44,7 @@ class Train(Resource):
             d = {} 
             #check if training is already in progress
             if am.training==False:
-                am.train(buildJson=False,loadfile="'/trainingdata/trainingdata/data.json")
+                am.train(buildJson=False,loadfile="/trainingdata/trainingdata/data.json")
                 d.update({'training': 'Started !'})
             else:
                 d.update({'training': 'Already in progress !'})
