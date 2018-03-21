@@ -48,5 +48,5 @@ ADD ./config.json /trainingdata/config/config.json
 WORKDIR /usr/src/app
 # run server
 ADD . /usr/src/app/
-CMD gunicorn -b 0.0.0.0:5000 manage:app --timeout 3600
+CMD gunicorn -b 0.0.0.0:5000 manage:app --timeout 13600
 #CMD python manage.py runserver -h '0.0.0.0'
