@@ -59,6 +59,7 @@ class AiManager(object):
             lang=f.split('_')[0]
             ftmodel = f"{self.modelsFolder!s}{f!s}"
             self.models.update({lang : FastText(ftmodel)})
+        logging.error('finished loading models')
         
 
 
@@ -90,6 +91,7 @@ class AiManager(object):
         model = self.models[lang]
         results = []
         predictions = model.predict_proba_single(text, k=k)
+        logging.error(predictions)
         for prediction in predictions:
             if len(prediction) ==2:
                 results.append(prediction)
