@@ -39,8 +39,8 @@ RUN mkdir -p /trainingdata/jsonfiles
 RUN mkdir -p /trainingdata/config
 
 
-WORKDIR /trainingdata/models/
-RUN wget https://s3-us-west-1.amazonaws.com/fasttext-vectors/supervised_models/lid.176.ftz
+WORKDIR /trainingdata/models
+RUN wget https://s3-us-west-1.amazonaws.com/fasttext-vectors/supervised_models/lid.176.ftz -O /trainingdata/lid.175.ftz
 WORKDIR /usr/src/app
 # run server
 ADD . /usr/src/app/
