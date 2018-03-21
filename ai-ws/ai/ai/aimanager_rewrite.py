@@ -4,6 +4,8 @@ import requests
 import re
 from pyfasttext import FastText
 import logging
+import glob, os
+
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
@@ -21,17 +23,31 @@ class AiManager(object):
     reBuildModel=True
     ratio = 95
     learningRate = 0.2
-    epochs = 50
+    epochs = 100
     ngrams = 3
     json=None
+    loadedModels=[]
 
     def __init__(self, config, json = None):
         self.modelname = config
+        self.langdetect = FastText(f'{self.modelsFolder!s}lid.176.ftz')
         self.config = self.load_config(config)
         #conditional import for ticketing system
         #if self.config['tool']=='ot':
             #from ai.tools.ticketingsystem import ot as ts
         #self.ts = ts()
+        
+    def load_all_models(self):
+        self.models={}
+        os.chdir(f"{self.modelsFolder!s}")
+        for f in glob.glob("*.bin"):
+            lang=f.split('_')[0]
+            self.models.update({lang : FastText.load_model(f)})
+
+
+    def predict(self, text):
+        print("")
+        
         
 
     def train(self, buildJson=False, loadfile=""):
@@ -47,12 +63,16 @@ class AiManager(object):
         self.splitJson(jsonfile)
         print(self.modelname)
         for language in self.languages.keys():
-            self.splitTrainingData(json.load(self.languages[language]))
-           
-            filename = f'{language!s}_{self.modelname!s}'
-            self.createFastText(f'{filename!s}.train')
-            self.createFastText(f'{filename!s}.test')
-            self.startTraining(f'{filename!s}')
+            filename = f'{language!s}_{self.modelname!s}.json'
+            self.splitTrainingData(f'{self.jsonFolder!s}{filename!s}') 
+            self.createFastText(f'{self.jsonFolder!s}{filename!s}.train')
+            self.createFastText(f'{self.jsonFolder!s}{filename!s}.test')
+            testfile = f"{self.textfolder!s}{language!s}_{self.modelname!s}.txt.test"
+            trainfile = f"{self.textfolder!s}{language!s}_{self.modelname!s}.txt.train"
+            print(trainfile)
+            modelfile = f"{self.modelsFolder!s}{language!s}_{self.modelname!s}"
+            self.startTraining(trainfile, modelfile)
+            self.test(testfile, modelfile)
             
 
     
@@ -66,8 +86,8 @@ class AiManager(object):
 
     def detect(self, text):
         
-        langdetect = FastText(f'{self.modelsFolder!s}lid.176.ftz')
-        lang = langdetect.predict_proba_single(text,k=1)
+        
+        lang = self.langdetect.predict_proba_single(text,k=1)
         # we only need to return the first language and probability should be useless at this point.
         # could be used later to default to english ??
         try:
@@ -90,33 +110,38 @@ class AiManager(object):
             
         
         for lang in self.languages.keys():
-            print (self.languages[lang]['data'])
+            #print (self.languages[lang]['data'])
             json.dump(self.languages[lang]['data'],self.languages[lang]['file'])
             self.languages[lang]['file'].close()
         
     
     def splitTrainingData(self, jsonfile):
 
-        trainjf = open(jsonfile.append(".train"),'w')
-        testjf = open(jsonfile.append(".test"),'w')
-
-        jf = json.loads(jsonfile)
-        count = len(jf)
-       
-        breakpoint = int(count * self.ratio /100)
-
-        train = jf[0:breakpoint]
-        test = jf[breakpoint:-1]
+        trainjf = open(f"{jsonfile!s}.train",'w')
+        testjf = open(f"{jsonfile!s}.test",'w')
+        with open(jsonfile) as f:
+            jf = json.load(f)
+            count = len(jf['entries'])
         
-        json.dump(train,trainjf)
-        json.dump(test,testjf)
+            breakpoint = int(count * self.ratio /100)
+            print (breakpoint)
+            train = { "entries": jf['entries'][0:breakpoint]}
+            test = { "entries": jf['entries'][breakpoint:-1]}
+
+
+            
+            json.dump(train,trainjf)
+            json.dump(test,testjf)
+            trainjf.close()
+            testjf.close()
 
         
     def createFastText(self, jsonfile):
         
-        textfile =jsonfile.replace('.json','.txt')
-        with open(textfile, 'w') as f:
-            for entry in json.loads(jsonfile):
+        textfile =jsonfile.split('/')[-1].replace('.json','.txt')
+        with open(f'{self.textfolder}{textfile!s}', 'w') as f:
+            jsfile = open(f'{jsonfile!s}')
+            for entry in json.load(jsfile)['entries']:
                 #logging.error(entry)
                 text = entry['text']
                 label= entry['label']
@@ -169,37 +194,37 @@ class AiManager(object):
         s = s.replace('@', ' at ')
         return s
 
-    def startTraining(self, ftfile):
+    def startTraining(self, trainingfile, modelfile):
         
         if self.reBuildModel==True:
-            modelfile = ftfile.replace('.txt','')
             logger.info(f'Training started with : learningRate:{self.learningRate!s}, epochs:{self.epochs!s}, ngrams :{self.ngrams!s}')
             model = FastText()
-            model.supervised(input=ftfile, output=f"{self.modelsFolder!s}/{modelfile!s}", epoch=self.epochs, lr=self.learningRate, wordNgrams=self.ngrams, verbose=2, minCount=1)
-            logger.info(f'finished training model with : learningRate:{self.learningRate!s}, epochs:{self.epochs!s}, ngrams :{self.ngrams!s}')
-            self.test(modelfile)
-            #in test mode we will not retrain the model
+     
+            model.supervised(input=trainingfile, output=modelfile, epoch=self.epochs, lr=self.learningRate, wordNgrams=self.ngrams, verbose=2, minCount=1)
+            logger.error(f'finished training model with : learningRate:{self.learningRate!s}, epochs:{self.epochs!s}, ngrams :{self.ngrams!s}')
+
             
            
 
-    def test(self, modelfilename):
-        model= FastText(modelfilename)
-        logger('testing')
-        
+    def test(self, testfile, modelfilename):
+        logger.error(f'testing {modelfilename!s}')
+        model= FastText(f'{modelfilename!s}.bin')
         i=0
         correct=0
-        with open(f'{modelfilename!s}.txt.test') as f:
+        with open(testfile) as f:
             lines = f.readlines()
             percent = 0
             for line in lines:
                 i=i+1
-                #logging.info(line)
+
+                
                 words = line.split()
                 label = words[0]
                 line = line.replace(label, '')
                 #logging.info(line)
                 label = label.replace('__label__', '')
                 prediction = model.predict_proba_single(line, k=1)
+                #logging.error(prediction)
                 
                 #logging.info(f"testing gave in {prediction!s}, against {label!s}")
                 #we only return a prediction if confidence is good enough
@@ -214,7 +239,7 @@ class AiManager(object):
                 else:
                     i=i-1
 
-            logging.info(f"results : {correct!s}/{i!s}, {percent!s}%")
+            logging.error(f"results : {correct!s}/{i!s}, {percent!s}%")
 
 api = AiManager('ot_emails')
 api.train(buildJson=False,loadfile='/trainingdata/jsonfiles/data2.json')
