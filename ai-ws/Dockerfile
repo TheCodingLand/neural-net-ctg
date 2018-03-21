@@ -33,6 +33,12 @@ WORKDIR /usr/src/app
 RUN pip install -r requirements.txt
 RUN pip install pyfasttext
 
+RUN mkdir -p /trainingdata/textfiles
+RUN mkdir -p /trainingdata/models
+RUN mkdir -p /trainingdata/jsonfiles
+RUN mkdir -p /trainingdata/config
+
+
 WORKDIR /trainingdata/models/
 RUN wget https://s3-us-west-1.amazonaws.com/fasttext-vectors/supervised_models/lid.176.ftz
 WORKDIR /usr/src/app
