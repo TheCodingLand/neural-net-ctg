@@ -86,10 +86,12 @@ class AiManager(object):
         """builds a list of possible labels, ignores confidence threshold takes text and threshold, returns a label prediction [[label,confidence]]"""
 
         lang = self.detectLanguage(text)
+        logging.error(lang)
         if lang == False:
             lang = self.defaultlanguage
         model = self.models[lang]
         results = []
+        
         predictions = model.predict_proba_single(text, k=k)
         logging.error(predictions)
         for prediction in predictions:

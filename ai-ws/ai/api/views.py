@@ -216,16 +216,17 @@ class UpdateBrain(Resource):
     def post(self):
 
         post_data = request.get_json()
+        text = post_data.get('text')
+
+        
+        logging.error(text)
+        items = am.run_model_multiple(text,5)
+        i=0
+        logging.error(items)
+        results = []
         # log.info(request.get_json())
         try:
-            text = post_data.get('text')
-
-            # predict goes here
-            logging.error(text)
-            items = am.run_model_multiple(text,5)
-            i=0
-            logging.error(items)
-            results = []
+            
             for item in items:
                 d={}
                 i=i+1
