@@ -126,7 +126,7 @@ class AiManager(object):
         ignored = i-total
         failures = total - ignored- correct
 
-        return { "language" : language, "total": total, "success" : correct, "ignored" : ignored, "failures": failures }
+        return { "language" : language, "total": total, "success" : correct, "ignored" : ignored, "failures": failures, "percent" : percent }
 
 
     def getCategory(self, text):
