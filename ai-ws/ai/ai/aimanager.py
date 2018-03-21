@@ -1,78 +1,164 @@
-
-
-# there will be 2 or more models used by the bot. 
-# the binary pre trained vectors will deduce context better than commercialy available chat bot solutions
-# we will still use them for recognizing data types that are not "words"
-# then a business classified model will be used to extract very specific business information.False
-
-
-#the bin model will be accessible with the chat method and /chat api endpoint
-#while the predict method will return business specific information on the /predict api endpoint
-#business data has to be formated into :
-# __label__category and a sentence that should be assigned to it \n
-#another format possible :
-#__label__category1 __label__category2 a sentence that should be assigned to both categories
-#can be extended to support other ticketing systems later
-# and be trained
-
-import logging
-import re
+import json
 import os
-import subprocess
-from fastText import train_supervised
-from fastText import load_model
-from fastText.util import find_nearest_neighbor
-from ai.tools.ticketingsystem import ot as ts
+import requests
+import re
 from pyfasttext import FastText
+import logging
+import glob, os
+
+
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
 
 class AiManager(object):
-    def __init__(self, mode):
-        #mode is either training or exploitation
-        self.mode = mode
-        self.tool = "ot"
-        self.trainfile=""
-        self.testfile=""
-        self.trainingname=""
-        self.epochs=100
-        self.learningRate=0.2
-        self.wordNgrams=3
+
+    modelsFolder = '/trainingdata/models/'
+    jsonFolder  = '/trainingdata/jsonfiles/'
+    textfolder = '/trainingdata/textfiles/'
+    configFolder = '/trainingdata/config/'
+    #either { "fr" : fileobject } or { "fr" : null}
+    languages = {}
+    #percentage of the message to keep for prediction
+    percentkept=75
+    reBuildModel=True
+    ratio = 95
+    learningRate = 0.2
+    epochs = 100
+    ngrams = 3
+    json=None
+    loadedModels={}
+    defaultlanguage = 'en'
+    predictionThreshold = .85
+
+    def __init__(self, config, json = None):
+        self.modelname = config
+        self.langdetect = FastText(f'{self.modelsFolder!s}lid.176.ftz')
+        self.config = self.load_config(config)
+        #conditional import for ticketing system
+        if self.config['tool']=='ot':
+            from ai.tools.ticketingsystem import ot as ts
         self.ts = ts()
-        self.training=False
         
-        self.rebuildData=False
-    
-    def load_model(self):
+    def load_all_models(self):
+        """Loads all models in the models folder, and creates a dictionnary {lang:model}"""
+        self.models={}
+        os.chdir(f"{self.modelsFolder!s}")
+        for f in glob.glob("*.bin"):
+            lang=f.split('_')[0]
+            self.models.update({lang : FastText.load_model(f)})
 
 
+    def run_model(self, text, threshold=None):
+        """returns takes text and threshold, returns a label prediction [label,confidence]"""
 
-        self.model = FastText("/trainingdata/models/en_data.bin")
-        self.unsupModel = FastText("/trainingdata/models/en_data.bin")
+        if threshold == None:
+            threshold=self.predictionThreshold
+
+        lang = self.detectLanguage(text)
+        if lang == False:
+            lang = self.defaultlanguage
+        model = self.loadedModels[lang]
+
+        prediction = model.predict_proba_single(text, k=1)
+        if prediction:
+            if prediction[0][1] > threshold:
+                return prediction[0]
+
+
+    def run_model_multiple(self, text, k=1):
+        """builds a list of possible labels, ignores confidence threshold takes text and threshold, returns a label prediction [[label,confidence]]"""
+
+        lang = self.detectLanguage(text)
+        if lang == False:
+            lang = self.defaultlanguage
+        model = self.loadedModels[lang]
+        results = []
+        predictions = model.predict_proba_single(text, k=k)
+        for prediction in predictions:
+            if len(prediction) ==2:
+                results.append(prediction)
+        return results
             
+    
 
+    def getLanguageModel(self, language):
+        if language in self.loadedModels.keys():
+            if self.defaultlanguage in self.loadedModels.keys():
+                language = self.defaultlanguage
+            else:
+                logging.error('model with specified language not found. Error.')
+                return False
+            
+        return self.loadedModels[language]
+
+    
+    def testRun(self, language, threshold, data):
+        """this takes a model, and tests it with various paramaters. returns a result dictionnary, 
+        {language : "", total : 133, threshold: 85, ignoredEntries : 10, success: 110, failures : 13 }"""
+        
+    
+        model = self.getLanguageModel(language)
+        if language==False:
+            return False
+        
+
+        i = 0
+        correct = 0
+        percent = 0
+        
+        for line in data:
+            i=i+1
+            
+            words = line.split()
+            label = words[0]
+            line = line.replace(label, '')
+            #testing only the text, so we remove the label info
+            label = label.replace('__label__', '')
+            prediction = model.predict_proba_single(line, k=1)
+            if prediction[0][1] > threshold:
+                if prediction[0][0]==label:
+                    correct=correct+1                    
+                percent = correct/i*100       
+            else:
+                i=i-1
+        total = len(data)
+        ignored = i-total
+        failures = total - ignored- correct
+
+        return { "language" : language, "total": total, "success" : correct, "ignored" : ignored, "failures": failures }
+
+
+
+
+        
+
+    
     def chat(self, text):
+
         text = self.preparedata(text)
         filtered = []
         for t in text.split(' '):
-            if len(t)>5:
+            if len(t)>1:
                 filtered.append(t)
         text = ' '.join(filtered)
+        
+        language =self.detectLanguage(text)
+        
+        model = self.getLanguageModel(language)
 
-  
+        if model == False:
+            return False
 
         try:
-            words = self.unsupModel.get_numpy_sentence_vector(text)
+            words = model.get_numpy_sentence_vector(text)
         except Exception as ex:
             template = "An exception of type {0} occurred. Arguments:\n{1!r}"
             message = template.format(type(ex).__name__, ex.args)
             logging.error(message)
         
-        #logging.error(dir(words))
-
         try:
-            result = self.unsupModel.words_for_vector(words, k=20)
+            result = model.unsupModel.words_for_vector(words, k=20)
         
-        # try:
-        #     nearest = find_nearest_neighbor(words)
         except Exception as ex:
             template = "An exception of type {0} occurred. Arguments:\n{1!r}"
             message = template.format(type(ex).__name__, ex.args)
@@ -93,105 +179,131 @@ class AiManager(object):
             results.append(d)
         logging.error(results)
         return results
+        
 
-       
+
+    def train(self, buildJson=False, loadfile=""):
+        """Main function for training a dataset can rebuild a json dataset based on the GetData method, or just prepare the data and train all models"""
+        if loadfile!="":
+            try:
+                f = open(loadfile, 'r')
+                jsonfile = json.load(f)
+            except:
+                logger.error("failed to load file")
+        if buildJson ==True:
+            jsonfile = self.getData()
+        
+        self.splitJson(jsonfile)
+        print(self.modelname)
+        for language in self.languages.keys():
+            filename = f'{language!s}_{self.modelname!s}.json'
+            self.splitTrainingData(f'{self.jsonFolder!s}{filename!s}') 
+            self.createFastText(f'{self.jsonFolder!s}{filename!s}.train')
+            self.createFastText(f'{self.jsonFolder!s}{filename!s}.test')
+            testfile = f"{self.textfolder!s}{language!s}_{self.modelname!s}.txt.test"
+            trainfile = f"{self.textfolder!s}{language!s}_{self.modelname!s}.txt.train"
+            print(trainfile)
+            modelfile = f"{self.modelsFolder!s}{language!s}_{self.modelname!s}"
+            self.startTraining(trainfile, modelfile)
+            self.test(testfile, modelfile)
+            
+
+    
+    def load_config(self, config):
+        """Loads a config files to get the fields and model name to train"""
+        f=open(f'{self.configFolder!s}config.json' ,'r')
+        configs = json.load(f)
+        if config in configs.keys():
+            return configs[config]
+
+        return config
+
+    def detectLanguage(self, text):
+        """Detects language, or returns defaultLanguage, as a 2 letters laguage identifier"""
+        lang = self.langdetect.predict_proba_single(text,k=1)
+        # we only need to return the first language and probability should be useless at this point.
+        # could be used later to default to english ??
+        try:
+            lang = lang[0][0]
+        except:
+            lang = self.defaultlanguage
+        #keeping track on all languages used
+        return lang
+
+    def splitJson(self, jsondata):
+        """Split json data into separate languge files"""
+
+        for entry in jsondata['entries']:
+            lang = self.detectLanguage(entry['text'])
+            if lang not in self.languages.keys():
+                f = open(f'{self.jsonFolder!s}{lang!s}_{self.modelname!s}.json', 'w')
+                self.languages.update({ lang: { "data" : {'entries': []}, "file":f}})
+
+
+            self.languages[lang]['data']['entries'].append(entry)
+            
+        
+        for lang in self.languages.keys():
+            #print (self.languages[lang]['data'])
+            json.dump(self.languages[lang]['data'],self.languages[lang]['file'])
+            self.languages[lang]['file'].close()
+        
+    
+    def splitTrainingData(self, jsonfile):
+        """Split data in two based on ratio, training and testing files"""
+
+        trainjf = open(f"{jsonfile!s}.train",'w')
+        testjf = open(f"{jsonfile!s}.test",'w')
+        with open(jsonfile) as f:
+            jf = json.load(f)
+            count = len(jf['entries'])
+        
+            breakpoint = int(count * self.ratio /100)
+            print (breakpoint)
+            train = { "entries": jf['entries'][0:breakpoint]}
+            test = { "entries": jf['entries'][breakpoint:-1]}
+
+
+            
+            json.dump(train,trainjf)
+            json.dump(test,testjf)
+            trainjf.close()
+            testjf.close()
+
+        
+    def createFastText(self, jsonfile):
+        """Creates Fasttext Based syntax files for supervised training : __label__category text
+        Takes Json file as input"""
+        
+        textfile =jsonfile.split('/')[-1].replace('.json','.txt')
+        with open(f'{self.textfolder}{textfile!s}', 'w') as f:
+            jsfile = open(f'{jsonfile!s}')
+            for entry in json.load(jsfile)['entries']:
+                #logging.error(entry)
+                text = entry['text']
+                label= entry['label']
+                text = self.preparedata(text)
+                text = self.removeShort(text)
+
+                #we will not need all the email. Taking 75% of the words should cut most signatures / end of email garbage
+                linearray = text.split(' ')
+                lwords = len(linearray)
+                nbWords= int(lwords*self.percentkept/100)
+                text = ' '.join(linearray[0:nbWords])
+                txt= f'__label__{label!s} {text!s} \n'
+                f.write(txt)
+        
 
 
 
     def getData(self):
-        if self.tool == "ot":
-            raw =  self.ts.getEmails("all_emails", [ "Subject","Body Plain Text"])
-        return raw
-
-    def train(self):
-        
-        self.training=True
-        if self.rebuildData ==True:
-            try:
-                self.buildTrainingData()
-            except:
-                logging.error("failed to build training data")
-                self.training=False
-
-        logging.error(f'Training started with : learningRate:{self.learningRate!s}, epochs:{self.epochs!s}, ngrams :{self.wordNgrams!s}')
-
-        model = train_supervised(input=self.completefile, epoch=200, lr=0.2, wordNgrams=self.wordNgrams, verbose=2, minCount=1)
-        #self.print_results(*model.test(self.completefile))
-        logging.error(f'finished training model with : learningRate:{self.learningRate!s}, epochs:{self.epochs!s}, ngrams :{self.wordNgrams!s}')
-        model.save_model("model.bin")
-        model.quantize(input=self.completefile, qnorm=True, retrain=True, cutoff=100000)
-        self.print_results(*model.test(self.completefile))
-        model.save_model("model.ftz")
-        self.training=False
-        return self.training
-
-
-    def print_results(self, N, p, r):
-        print("N\t" + str(N))
-        print("P@{}\t{:.3f}".format(1, p))
-        print("R@{}\t{:.3f}".format(1, r))
-
-    def buildTrainingData(self):
-        #raw should be an array with the fields dict["Title"] dict["Description"] and dict["AssociatedCategory"]
-
-        
-        raw = self.ts.getTrainingData()
-        
-        
-        ftdata = open('data.txt', 'w')
-        logging.error('created file')
-
-        for entry in raw:
-            #logging.error(entry)
-            subject = entry['data']['Title']
-            body = entry['data']['Description']
-            category= entry['data']['AssociatedCategory']
-            subject = self.preparedata(subject)
-            body = self.preparedata(body)
-            fulltext= f'{subject!s} {body!s}'
-            fulltext = self.removeShort(fulltext)
-            #we will not need all the email. Taking 75% of the words should cut most signatures / end of email garbage
-            linearray = fulltext.split(' ')
-            lwords = len(linearray)
-            nbWords= int(lwords*75/100)
-            fulltext = ' '.join(linearray[0:nbWords])
-            txt= f'__label__{category!s} {fulltext!s} \n'
-            if len(txt.split()) > 10:
-                ftdata.write(txt)
-        ftdata.close()
-
-    def formatdata(self,raw):
-        #raw should be a dictionnary with keys dict["Subject"] dict["Body Plain Text"]
-        subject = raw['Subject']
-        body = raw['Body Plain Text']
-        subject = self.preparedata(subject)
-        body = self.preparedata(body)
-        txt= f'{subject!s} {body!s}'
-        return txt
-          
-    def getCategory(self,text):
-        data = self.predict(text)
-        try:
-            data[0]=ts.getCategoryTitle(data[0])
-        except:
-            logging.error('getting category failed')
-
-        return data
-
-    def predict(self, text):
-        logging.error(f"trying to predict {text!s}")
-        logging.error(f"{self.model!s}")
-        text=self.preparedata(text)
-        prediction = self.model.predict(text, k=2)
-        logging.error(f"{prediction!s}")
-        cat = prediction[0][0].replace('__label__','')
-        cat2 = prediction[0][1].replace('__label__','')
-        confidence = prediction[1][0]
-        logging.error(f"{cat!s} / {confidence!s}")
-        data = [cat, confidence, cat2]
-        return data
+        """Gets data as a main data dump into usable form by the rest of the program to build """
+        jsondata = self.ts.getTrainingData(self.config['filter'], self.config['label'], self.config['fields'])
+        #jsondata is just [ { label : "13241", entry :"text"}]
+        return jsondata
     
     def removeShort(self, text):
+        """ I got better result with removing words of less than 2 characters, need to play around with this more, maybe filter out only other than [aA-zZ]"""
         t = text.split(' ')
         result= []
         for s in t:
@@ -201,65 +313,90 @@ class AiManager(object):
         result = ' '.join(result)
         return result
 
-
-    def updatebrain(self, text):
-        logging.error(f"trying to predict {text!s}")
-        logging.error(f"{self.model!s}")
-        text=self.preparedata(text)
-        prediction = self.model.predict(text, k=5)
-        logging.error(f"{prediction!s}")
-        results =[]
-      
-        i=0
-        for cat in prediction[0]:
-            d= {}
-            catid = cat.replace('__label__','')
-            logging.error(catid)
-            
-            #cattitle=self.ts.getCategoryTitle(catid)
-            cattitle = catid
-            logging.error(cattitle)
-            
-            d.update({"id":i})
-            d.update({"category":cattitle})
-            d.update({"confidence":prediction[1][i]})
-            i=i+1
-            results.append(d)
-        return results
-            
     def preparedata(self, s):
         """
         Given a text, cleans and normalizes it.
+        This really improves prediction by a lot.
+        Specific applications might not want to remove numbers for example though
         """
         s = s.lower()
         s= s.replace(".","")
-
-
         # Replace ips
         s = re.sub(r'\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}', ' _ip_ ', s)
-        # Isolate punctuation
+        # Isolate punctuation, remove numbers
         s = re.sub(r'([\'\"\.\(\)\!\?\-\\\/\,])', r' \1 ', s)
+        s = re.sub(r'([0-9])' , ' ', s)
         s = s.replace('*', '')
         s = s.replace('_', '')
         # Remove some special characters
         s = re.sub(r'([\;\:\|•«\n])', ' ', s)
 
-        # Replace numbers and symbols with language
         s = s.replace('&', ' and ')
         s = s.replace('@', ' at ')
-        s = s.replace('0', ' zero ')
-        s = s.replace('1', ' one ')
-        s = s.replace('2', ' two ')
-        s = s.replace('3', ' three ')
-        s = s.replace('4', ' four ')
-        s = s.replace('5', ' five ')
-        s = s.replace('6', ' six ')
-        s = s.replace('7', ' seven ')
-        s = s.replace('8', ' eight ')
-        s = s.replace('9', ' nine ')
+        return s
 
-        return s       
+    def startTraining(self, trainingfile, modelfile):
+        """Starts model building"""
+        
+        if self.reBuildModel==True:
+            logger.info(f'Training started with : learningRate:{self.learningRate!s}, epochs:{self.epochs!s}, ngrams :{self.ngrams!s}')
+            model = FastText()
+     
+            model.supervised(input=trainingfile, output=modelfile, epoch=self.epochs, lr=self.learningRate, wordNgrams=self.ngrams, verbose=2, minCount=1)
+            logger.error(f'finished training model with : learningRate:{self.learningRate!s}, epochs:{self.epochs!s}, ngrams :{self.ngrams!s}')
 
-    
+            
+           
+
+    def test(self, testfile, modelfilename, threshold=None):
+        """Takes a testfile in fasttext format, and a modelfile, and checks if we can successfully predict the label"""
+        
+        logger.error(f'testing {modelfilename!s}')
+        
+        if threshold ==None:
+            threshold = self.predictionThreshold
+
+        model= FastText(f'{modelfilename!s}.bin')
+        i=0
+        correct=0
+        
+        with open(testfile) as f:
+            lines = f.readlines()
+            percent = 0
+            for line in lines:
+                i=i+1
+                
+                words = line.split()
+                label = words[0]
+                line = line.replace(label, '')
+                #testing only the text, so we remove the label info
+                label = label.replace('__label__', '')
+                prediction = model.predict_proba_single(line, k=1)
+   
+                if prediction[0][1] > threshold:
+                    if prediction[0][0]==label:
+                        
+                        correct=correct+1
+                        
+                    percent = correct/i*100       
+                else:
+                    i=i-1
+                
+
+
+            logging.error(f"results : {correct!s}/{i!s}, {percent!s}%")
+
+api = AiManager('ot_emails')
+api.train(buildJson=False,loadfile='/trainingdata/jsonfiles/data2.json')
+
+#data = api.getData()
+#f = open(f'{api.modelname!s}.json','w')
+
+
+        
+        
+
+
+
 
 
