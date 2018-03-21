@@ -30,7 +30,7 @@ services:
 
     labels:
       - "traefik.backend=api"
-      - "traefik.frontend.SSLRedirect=true"
+      - "traefik.frontend.headers.SSLRedirect=true"
       - "traefik.frontend.entryPoints=https"
       - "traefik.docker.network=web"
       - "traefik.frontend.rule=PathPrefix:/swaggerui,/api"
