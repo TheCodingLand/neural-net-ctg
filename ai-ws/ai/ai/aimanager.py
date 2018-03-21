@@ -33,6 +33,7 @@ class AiManager(object):
 
     def __init__(self, config, json = None):
         self.modelname = config
+        modelfile = 
         self.langdetect = FastText(f'{self.modelsFolder!s}lid.176.ftz')
         self.config = self.load_config(config)
         #conditional import for ticketing system
