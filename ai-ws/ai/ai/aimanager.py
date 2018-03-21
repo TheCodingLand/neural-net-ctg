@@ -136,6 +136,8 @@ class AiManager(object):
             #testing only the text, so we remove the label info
             label = label.replace('__label__', '')
             prediction = model.predict_proba_single(line, k=1)
+            logging.error(prediction)
+                        
             if prediction[0][1] > threshold:
                 if prediction[0][0]==label:
                     correct=correct+1                    
