@@ -35,7 +35,7 @@ export default function userReducer(state = initialState
                 userName: "",
                 model: "",
                 words: [{id: 0, word:"none", confidence:0},],
-                brain: [ { id:0, category:"none", confidence :"0"}, ], 
+                brain: [ { id:0, label:"none", confidence :"0"}, ], 
                 conversationHistory: [
                     {
                     id: 0, 

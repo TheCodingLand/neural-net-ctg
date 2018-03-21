@@ -222,7 +222,15 @@ class UpdateBrain(Resource):
 
             # predict goes here
             logging.error(text)
-            items = am.run_model_multiple(text)
+            items = am.run_model_multiple(text,5)
+            i=0
+            d={}
+            for item in items:
+                i=i+1
+                d.update({"id":i})
+                d.update({"category":items[0]})
+                d.update({"confidence":item[1]})
+            
             
             #testing
             words = am.chat(text)
@@ -235,7 +243,7 @@ class UpdateBrain(Resource):
             if items:
                 response_object = {
                     'status': 'success',
-                    'results': items,
+                    'results': d,
                     'words' : words
                 }
                 return response_object, 201
