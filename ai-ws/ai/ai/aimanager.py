@@ -216,7 +216,7 @@ class AiManager(object):
             filename = f'{language!s}_{self.modelname!s}.json'
             f = open(f'{self.jsonFolder!s}{filename!s}', 'r')
             j = json.load(f)
-            if len(j['entries']) < 3000:
+            if len(j['entries']) < 1500:
                 f.close()
                 continue
             self.splitTrainingData(f'{self.jsonFolder!s}{filename!s}')
