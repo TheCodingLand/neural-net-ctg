@@ -1,5 +1,5 @@
 import json
-with open('/trainingdata/jsonfiles/data.json') as f:
+with open('data.json') as f:
     data=json.load(f)
     out=[]
     if data['status'] == "success":
@@ -24,5 +24,5 @@ with open('/trainingdata/jsonfiles/data.json') as f:
         
 
         result = { 'entries' : entries }
-        f = open('/trainingdata/jsonfiles/data2.json', 'w')
+        f = open('data2.json', 'w')
         json.dump(result, f)
