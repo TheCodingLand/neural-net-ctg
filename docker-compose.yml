@@ -23,10 +23,10 @@ services:
 
   ai-ws:
     build: ./ai-ws
-    expose:
+    expose: 
       - "5000"
     ports:
-      -"5008":"5000"
+      -"5008:5000"
     volumes:
       - aidata:/trainingdata
 
