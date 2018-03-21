@@ -23,6 +23,7 @@ defaultEntryPoints = [ "https"]
 # https is the default
 [entryPoints.https]
   address = ":443"
+  passHostHeader = true
   [entryPoints.https.tls]
 
 [entryPoints.ping]
