@@ -37,16 +37,7 @@ services:
     networks:
       - web
 
-  training: 
-    build: ./training
-    labels:
-      - "traefik.enable=true"
-      - "traefik.backend=training"
-      - "traefik.docker.network=web"
-    volumes:
-      - training:/trainingdata
-    networks:
-      - web
+
 
   frontend-ai:
     build: ./frontend-ai
