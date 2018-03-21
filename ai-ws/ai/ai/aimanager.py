@@ -179,7 +179,7 @@ class AiManager(object):
             logging.error(message)
         
         try:
-            result = model.unsupModel.words_for_vector(words, k=20)
+            result = model.words_for_vector(words, k=20)
         
         except Exception as ex:
             template = "An exception of type {0} occurred. Arguments:\n{1!r}"
