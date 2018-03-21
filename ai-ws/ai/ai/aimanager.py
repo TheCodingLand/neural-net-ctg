@@ -29,6 +29,7 @@ class AiManager(object):
     loadedModels={}
     defaultlanguage = 'en'
     predictionThreshold = .85
+    training=False
 
     def __init__(self, config, json = None):
         self.modelname = config
@@ -49,7 +50,7 @@ class AiManager(object):
 
 
     def run_model(self, text, threshold=None):
-        """returns takes text and threshold, returns a label prediction [label,confidence]"""
+        """takes text and threshold, returns a label prediction [label,confidence]"""
 
         if threshold == None:
             threshold=self.predictionThreshold
@@ -128,10 +129,16 @@ class AiManager(object):
         return { "language" : language, "total": total, "success" : correct, "ignored" : ignored, "failures": failures }
 
 
+    def getCategory(self, text):
+        """Returns the title of a category instead of the label id"""
+        data = self.run_model(text)
+        try:
+            data[0]=self.ts.getCategoryTitle(data[0])
+        except:
+            logging.error('getting category failed')
 
-
+        return data
         
-
     
     def chat(self, text):
 
@@ -184,6 +191,7 @@ class AiManager(object):
 
     def train(self, buildJson=False, loadfile=""):
         """Main function for training a dataset can rebuild a json dataset based on the GetData method, or just prepare the data and train all models"""
+        self.training = True
         if loadfile!="":
             try:
                 f = open(loadfile, 'r')
@@ -206,6 +214,7 @@ class AiManager(object):
             modelfile = f"{self.modelsFolder!s}{language!s}_{self.modelname!s}"
             self.startTraining(trainfile, modelfile)
             self.test(testfile, modelfile)
+        self.training = False
             
 
     

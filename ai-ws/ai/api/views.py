@@ -18,7 +18,7 @@ import time
 
 
 ns = api.namespace('/', description='Ai Api for TINA, virtual agent')
-am = AiManager(mode="prediction")
+am = AiManager('ot_emails')
 
 @ns.route('/schema')
 class Swagger(Resource):
@@ -42,8 +42,9 @@ class Train(Resource):
     def get(self):
         try: 
             d = {} 
+            #check if training is already in progress
             if am.training==False:
-                am.train()
+                am.train(buildJson=True)
                 d.update({'training': 'Started !'})
             else:
                 d.update({'training': 'Already in progress !'})
@@ -81,15 +82,14 @@ class Prediction(Resource):
             text = post_data.get('text')
             # predict goes here
             logging.error(text)
-            items = am.predict(text)
+            items = am.run_model(text)
             #here we will establish a context for the bot to talk into
             #user can guide the bot into several contexts. context will be displayed. 
             # starting with small talk
 
             logging.error(items)
             d = {}
-            d.update({'category': items[0]})
-            d.update({'category2': items[2]})
+            d.update({'label': items[0]})
             d.update({'confidence': items[1]})
             if d:
                 response_object = {
@@ -179,6 +179,7 @@ class getCategory(Resource):
             # predict goes here
             logging.error(text)
             items = am.getCategory(text)
+            
             #here we will establish a context for the bot to talk into
             #user can guide the bot into several contexts. context will be displayed. 
             # starting with small talk
@@ -220,7 +221,7 @@ class UpdateBrain(Resource):
 
             # predict goes here
             logging.error(text)
-            items = am.updatebrain(text)
+            items = am.run_model_multiple(text)
             
             #testing
             words = am.chat(text)
