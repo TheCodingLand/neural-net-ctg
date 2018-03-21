@@ -121,7 +121,7 @@ class AiManager(object):
         
         if language==False:
             return False
-        
+        model = FastText(model)
 
         i = 0
         correct = 0
