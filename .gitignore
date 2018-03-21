@@ -3,6 +3,9 @@
 # dependencies
 ai-frontend/node_modules
 
+#editor
+/.vscode
+
 # testing
 /coverage
 
