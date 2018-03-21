@@ -11,20 +11,19 @@ logLevel = "ERROR"
   exposedbydefault = false
 defaultEntryPoints = [ "https" ]
 
-# Entrypoints, http and https
 [entryPoints]
-
-# http should be redirected to https
-[entryPoints.http]
+ [entryPoints.http]
   address = ":80"
   [entryPoints.http.redirect]
-   entryPoint = "https"
-
-# https is the default
-[entryPoints.https]
+   entrypoint = "https"
+ [entryPoints.https]
   address = ":443"
-  passHostHeader = true
   [entryPoints.https.tls]
+
+
+
+
+
 
 [entryPoints.ping]
   address = ":8082"
