@@ -32,6 +32,10 @@ RUN chmod 777 /usr/src/app/fastText/fasttext
 WORKDIR /usr/src/app
 RUN pip install -r requirements.txt
 RUN pip install pyfasttext
+
+WORKDIR /trainingdata/models/
+RUN wget https://s3-us-west-1.amazonaws.com/fasttext-vectors/supervised_models/lid.176.ftz
+WORKDIR /usr/src/app
 # run server
 ADD . /usr/src/app/
 CMD python manage.py runserver -h '0.0.0.0'
