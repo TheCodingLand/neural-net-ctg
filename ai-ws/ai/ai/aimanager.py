@@ -103,7 +103,7 @@ class AiManager(object):
     
 
     def getLanguageModel(self, language):
-        if language in self.models.keys():
+        if language not in self.models.keys():
             if self.defaultlanguage in self.models.keys():
                 language = self.defaultlanguage
             else:
@@ -113,12 +113,12 @@ class AiManager(object):
         return self.models[language]
 
     
-    def testRun(self, language, threshold, data):
+    def testRun(self, language, threshold, data, model):
         """this takes a model, and tests it with various paramaters. returns a result dictionnary, 
         {language : "", total : 133, threshold: 85, ignoredEntries : 10, success: 110, failures : 13 }"""
         
     
-        model = self.getLanguageModel(language)
+        
         if language==False:
             return False
         
@@ -239,7 +239,7 @@ class AiManager(object):
             modelfile = f"{self.modelsFolder!s}{language!s}_{self.modelname!s}"
             self.startTraining(trainfile, modelfile)
             #testresult.append(self.test(testfile, modelfile))
-            testresult.append(self.testRun(language, .85, trainfile))
+            testresult.append(self.testRun(language, .85, testfile,f'{modelfile!s}.bin'))
         self.training = False
         logging.error(testresult)
             
