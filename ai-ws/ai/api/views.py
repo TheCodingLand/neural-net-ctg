@@ -224,9 +224,10 @@ class UpdateBrain(Resource):
             logging.error(text)
             items = am.run_model_multiple(text,5)
             i=0
-            d={}
+            
             results = []
             for item in items:
+                d={}
                 i=i+1
                 d.update({"id":i , "category":items[0], "confidence":item[1]})
 
