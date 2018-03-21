@@ -93,7 +93,7 @@ class AiManager(object):
         results = []
         
         predictions = model.predict_proba_single(text, k=k)
-        logging.error(predictions[0])
+        logging.error(predictions)
         for prediction in predictions:
             if len(prediction) ==2:
                 results.append(prediction)
