@@ -386,8 +386,8 @@ class AiManager(object):
 
             logging.error(f"results : {correct!s}/{i!s}, {percent!s}%")
 
-api = AiManager('ot_emails')
-api.train(buildJson=False,loadfile='/trainingdata/jsonfiles/data2.json')
+#api = AiManager('ot_emails')
+#api.train(buildJson=False,loadfile='/trainingdata/jsonfiles/data2.json')
 
 #data = api.getData()
 #f = open(f'{api.modelname!s}.json','w')
