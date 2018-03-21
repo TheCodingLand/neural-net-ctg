@@ -6,7 +6,7 @@ logLevel = "ERROR"
 
 [docker]
   endpoint = "unix:///var/run/docker.sock"
-  domain = "julien.tech"
+  domain = "docker.rcsl.lu"
   watch = true
   exposedbydefault = false
 defaultEntryPoints = [ "https"]
@@ -14,11 +14,9 @@ defaultEntryPoints = [ "https"]
 # Entrypoints, http and https
 [entryPoints]
 
-# http should be redirected to https
+# http should not be redirected to https
 [entryPoints.http]
   address = ":80"
-  [entryPoints.http.redirect]
-   entryPoint = "https"
 
 # https is the default
 [entryPoints.https]
