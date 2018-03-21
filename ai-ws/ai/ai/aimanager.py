@@ -254,6 +254,7 @@ class AiManager(object):
     def detectLanguage(self, text):
         """Detects language, or returns defaultLanguage, as a 2 letters laguage identifier"""
         lang = self.langdetect.predict_proba_single(text,k=1)
+        logging.error(lang)
         # we only need to return the first language and probability should be useless at this point.
         # could be used later to default to english ??
         try:
