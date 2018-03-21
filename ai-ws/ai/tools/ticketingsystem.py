@@ -36,39 +36,35 @@ class ot(object):
         }
         try:
             request=requests.post(url=self.queryObjectsUrl, json=payload, headers=self.headers)
-
         except:
-
             return False
-        
-        
         data = request.json()
-       
-       
         if data['status'] == "success":
             data = data['Ticket']
-       
-        
-        entries = []
-        for item in data:
-            text = ""
+            entries = []
+            for item in data:
+                item=item['data']
+                text = ""
+                fields= ["Title", "Description",'AssociatedCategory']
+                labelfield = "AssociatedCategory"
 
-            for field in fields:
-                if field !=labelfield:
-                    text = text + item[field]
-                if field == labelfield:
-                    label = item[field]
+                for field in fields:
+                    if field !=labelfield:
+                        text = text + item[field]
+                    if field == labelfield:
+                        label = item[field]
+                
+                entry = {"label":label, "text":text}
+                entries.append(entry)
             
-            entry = {label:label, text:text}
-            entries.append(entry)
-        
 
-        result = { 'entries' : entries }
-        return result
-
-
-
-        
+            result = { 'entries' : entries }
+            return result
+        else:
+            return False
+            
+            
+            
 
 
     def getEmails(self, filtername, fields):
