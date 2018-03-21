@@ -27,7 +27,7 @@ class AiManager(object):
     epochs = 100
     ngrams = 3
     json=None
-    loadedModels={}
+    models={}
     defaultlanguage = 'en'
     predictionThreshold = .85
     training=False
@@ -48,6 +48,7 @@ class AiManager(object):
         if self.config['tool']=='ot':
             from ai.tools.ticketingsystem import ot as ts
         self.ts = ts()
+        self.load_all_models()
         
     def load_all_models(self):
         """Loads all models in the models folder, and creates a dictionnary {lang:model}"""
@@ -67,7 +68,7 @@ class AiManager(object):
         lang = self.detectLanguage(text)
         if lang == False:
             lang = self.defaultlanguage
-        model = self.loadedModels[lang]
+        model = self.models[lang]
 
         prediction = model.predict_proba_single(text, k=1)
         if prediction:
@@ -81,7 +82,7 @@ class AiManager(object):
         lang = self.detectLanguage(text)
         if lang == False:
             lang = self.defaultlanguage
-        model = self.loadedModels[lang]
+        model = self.models[lang]
         results = []
         predictions = model.predict_proba_single(text, k=k)
         for prediction in predictions:
@@ -92,14 +93,14 @@ class AiManager(object):
     
 
     def getLanguageModel(self, language):
-        if language in self.loadedModels.keys():
-            if self.defaultlanguage in self.loadedModels.keys():
+        if language in self.models.keys():
+            if self.defaultlanguage in self.models.keys():
                 language = self.defaultlanguage
             else:
                 logging.error('model with specified language not found. Error.')
                 return False
             
-        return self.loadedModels[language]
+        return self.models[language]
 
     
     def testRun(self, language, threshold, data):
@@ -227,7 +228,8 @@ class AiManager(object):
             print(trainfile)
             modelfile = f"{self.modelsFolder!s}{language!s}_{self.modelname!s}"
             self.startTraining(trainfile, modelfile)
-            testresult.append(self.test(testfile, modelfile))
+            #testresult.append(self.test(testfile, modelfile))
+            testresult.append(self.testRun(language, .85, trainfile))
         self.training = False
         logging.error(testresult)
             
