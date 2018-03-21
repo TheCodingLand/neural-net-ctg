@@ -40,12 +40,12 @@ class SanityCheck(Resource):
 class Train(Resource):
     @api.response(201, 'train : ok')
     def get(self):
+        d = {} 
+        if am.training==False:
+            am.train(buildJson=False,loadfile="/trainingdata/trainingdata/data.json")
+            d.update({'training': 'Started !'})
         try: 
-            d = {} 
             #check if training is already in progress
-            if am.training==False:
-                am.train(buildJson=False,loadfile="/trainingdata/trainingdata/data.json")
-                d.update({'training': 'Started !'})
             else:
                 d.update({'training': 'Already in progress !'})
 
