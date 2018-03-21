@@ -18,9 +18,8 @@ defaultEntryPoints = [ "http"]
 [entryPoints.http]
   address = ":80"
 
-# https is the default
-[entryPoints.https]
-  address = ":80"
+
+
 
 
 [entryPoints.ping]
@@ -47,12 +46,4 @@ defaultEntryPoints = [ "http"]
        [backends.backend1.servers.server1]
         url = "http://127.0.0.1:8081"
 
-[acme]
- email = "aureussz@gmail.com"
- storage = "/etc/traefik/acme.json"
- entryPoint = "https"
- onHostRule = true
 
-    
- [acme.httpChallenge]
- entryPoint = "http"
