@@ -38,7 +38,7 @@ RUN mkdir -p /trainingdata/models
 RUN mkdir -p /trainingdata/jsonfiles
 RUN mkdir -p /trainingdata/config
 
-ADD ./config.json /trainingdata/config/
+ADD ./config.json /trainingdata/config/config.json
 
 WORKDIR /trainingdata/models
 RUN wget https://s3-us-west-1.amazonaws.com/fasttext-vectors/supervised_models/lid.176.ftz -O /trainingdata/models/lid.176.ftz
