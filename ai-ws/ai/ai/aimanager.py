@@ -5,7 +5,8 @@ import re
 from pyfasttext import FastText
 import logging
 import glob, os
-
+#need to move this to a worker instance, for now we simulate
+import asyncio
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
@@ -208,7 +209,7 @@ class AiManager(object):
         
 
 
-    def train(self, buildJson=False, loadfile=""):
+    async def train(self, buildJson=False, loadfile=""):
         """Main function for training a dataset can rebuild a json dataset based on the GetData method, or just prepare the data and train all models"""
         self.training = True
         if loadfile!="":

@@ -37,7 +37,7 @@ RUN mkdir -p /trainingdata/textfiles
 RUN mkdir -p /trainingdata/models
 RUN mkdir -p /trainingdata/jsonfiles
 RUN mkdir -p /trainingdata/config
-
+RUN mkdir -p /trainingdata/trainingdata
 
 
 WORKDIR /trainingdata/models
