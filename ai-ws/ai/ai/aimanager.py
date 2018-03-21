@@ -207,7 +207,7 @@ class AiManager(object):
         print(self.modelname)
         for language in self.languages.keys():
             filename = f'{language!s}_{self.modelname!s}.json'
-            f = open(filename, 'r')
+            f = open(f'{self.jsonFolder!s}{filename!s}', 'r')
             j = json.load(f)
             if len(j['entries']) < 3000:
                 f.close()
