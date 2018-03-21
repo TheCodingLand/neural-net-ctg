@@ -2,12 +2,14 @@
 
 import os
 from flask import Flask, jsonify, Blueprint
-
+from werkzeug.contrib.fixers import ProxyFix
 from flask import Flask
 from ai.api.restplus import api
 from ai.api.views import ns as ot_events_namespace
 
 from flask_cors import CORS
+
+
 
 
 import logging
@@ -18,6 +20,7 @@ log.setLevel(logging.ERROR)
 def create_app():
 
     app = Flask(__name__)
+    app.wsgi_app = ProxyFix(app.wsgi_app)
     CORS(app)
     blueprint = Blueprint('api', __name__, url_prefix='/api')
     # instantiate the app
