@@ -70,8 +70,10 @@ class AiManager(object):
         if lang == False:
             lang = self.defaultlanguage
         model = self.models[lang]
+        logging.error(lang)
 
         prediction = model.predict_proba_single(text, k=1)
+        logging.error(prediction)
         if prediction:
             if prediction[0][1] > threshold:
                 return prediction[0]
