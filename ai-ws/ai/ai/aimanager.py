@@ -13,7 +13,6 @@ logger.setLevel(logging.INFO)
 class AiManager(object):
     version=1
     modelsFolder = '/trainingdata/models/'
-    
     jsonFolder  = '/trainingdata/jsonfiles/'
     textfolder = '/trainingdata/textfiles/'
     configFolder = '/trainingdata/config/'
@@ -33,14 +32,15 @@ class AiManager(object):
     training=False
 
     def __init__(self, config, json = None, version = version):
-        self.modelsFolder=f"{self.modelsFolder!s}/{version!s}/"
-
+        modelfile = f'{self.modelsFolder!s}lid.176.ftz'
+        
+        self.modelsFolder=f"{self.modelsFolder!s}{version!s}/"
         try:
             os.mkdir(self.modelsFolder)
         except FileExistsError:
             pass
         self.modelname = config
-        modelfile = f'{self.modelsFolder!s}lid.176.ftz'
+        
         logger.error(f"loading {modelfile!s}")
         self.langdetect = FastText(modelfile)
         self.config = self.load_config(config)
