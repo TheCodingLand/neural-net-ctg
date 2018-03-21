@@ -9,7 +9,7 @@ logLevel = "ERROR"
   domain = "julien.tech"
   watch = true
   exposedbydefault = false
-defaultEntryPoints = [ "https"]
+defaultEntryPoints = [ "https" ]
 
 # Entrypoints, http and https
 [entryPoints]
