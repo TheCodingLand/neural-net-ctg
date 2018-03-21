@@ -56,7 +56,8 @@ class AiManager(object):
         os.chdir(f"{self.modelsFolder!s}")
         for f in glob.glob("*.bin"):
             lang=f.split('_')[0]
-            self.models.update({lang : FastText.load_model(f)})
+            ftmodel = f"{self.modelsFolder!s}{f!s}"
+            self.models.update({lang : FastText(ftmodel)})
 
 
     def run_model(self, text, threshold=None):
