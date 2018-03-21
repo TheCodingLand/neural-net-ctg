@@ -58,7 +58,7 @@ services:
       - "traefik.docker.network=web"
       - "traefik.frontend.rule=PathPrefix:/tina"
       - "traefik.enable=true"
-      - "traefik.port=8080"
+      - "traefik.port=8080" 
       
     networks:
       - web

@@ -1,0 +1,9 @@
+{ 
+    "ot_emails" : { 
+    "tool":"ot",
+    "fields" : ["Title", "Description"],
+    "label" : "AssociatedCategory",
+    "filter" : "emails last 2 years"
+        }
+
+}
