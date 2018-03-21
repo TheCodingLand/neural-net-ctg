@@ -13,6 +13,7 @@ logger.setLevel(logging.INFO)
 class AiManager(object):
     version=1
     modelsFolder = '/trainingdata/models/'
+    languageFolder = '/trainingdata/models/'
     languagemodelfile = f'{modelsFolder!s}lid.176.ftz'
     jsonFolder  = '/trainingdata/jsonfiles/'
     textfolder = '/trainingdata/textfiles/'
@@ -58,6 +59,7 @@ class AiManager(object):
             lang=f.split('_')[0]
             ftmodel = f"{self.modelsFolder!s}{f!s}"
             self.models.update({lang : FastText(ftmodel)})
+        
 
 
     def run_model(self, text, threshold=None):
@@ -102,7 +104,7 @@ class AiManager(object):
             else:
                 logging.error('model with specified language not found. Error.')
                 return False
-            
+        logging.error(language)
         return self.models[language]
 
     
