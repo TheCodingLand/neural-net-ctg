@@ -224,7 +224,7 @@ class UpdateBrain(Resource):
             logging.error(text)
             items = am.run_model_multiple(text,5)
             i=0
-            
+            logging.error(items)
             results = []
             for item in items:
                 d={}
