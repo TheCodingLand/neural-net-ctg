@@ -18,10 +18,11 @@ log.setLevel(logging.ERROR)
 def create_app():
 
     app = Flask(__name__)
+    CORS(app)
     blueprint = Blueprint('api', __name__, url_prefix='/api')
     # instantiate the app
     api.init_app(blueprint)
-    #CORS(app)
+    
     # set config
     app_settings = os.getenv('APP_SETTINGS')
     app.config.from_object(app_settings)
