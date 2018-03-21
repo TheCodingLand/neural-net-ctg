@@ -122,7 +122,7 @@ class AiManager(object):
         if language==False:
             return False
         model = FastText(model)
-
+        data=open(data,'r').readlines()
         i = 0
         correct = 0
         percent = 0
@@ -136,12 +136,11 @@ class AiManager(object):
             #testing only the text, so we remove the label info
             label = label.replace('__label__', '')
             prediction = model.predict_proba_single(line, k=1)
-            logging.error(prediction)
-            if len(prediction[0])==2:
-                if prediction[0][1] > threshold:
-                    if prediction[0][0]==label:
-                        correct=correct+1                    
-                    percent = correct/i*100       
+            
+            if prediction[0][1] > threshold:
+                if prediction[0][0]==label:
+                    correct=correct+1                    
+                percent = correct/i*100       
             else:
                 i=i-1
         total = len(data)
