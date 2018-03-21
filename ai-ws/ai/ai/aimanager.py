@@ -209,7 +209,7 @@ class AiManager(object):
         
 
 
-    async def train(self, buildJson=False, loadfile=""):
+    def train(self, buildJson=False, loadfile=""):
         """Main function for training a dataset can rebuild a json dataset based on the GetData method, or just prepare the data and train all models"""
         self.training = True
         if loadfile!="":
