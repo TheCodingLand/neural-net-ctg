@@ -29,6 +29,13 @@ def detectLanguage(text):
     #keeping track on all languages used
     return lang
 
+class BrokerTasks(object):
+    def __init__(self):
+        #build a task object
+        #send tasks to reddis
+        logging.error('nothing here')
+
+
 
 class Config(object):
     def __init__(self, configname):
