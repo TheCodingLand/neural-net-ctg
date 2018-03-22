@@ -38,6 +38,7 @@ class ot(object):
             request=requests.post(url=self.queryObjectsUrl, json=payload, headers=self.headers)
         except:
             return False
+        logging.error(request.content)
         data = request.json()
         if data['status'] == "success":
             data = data['Ticket']
