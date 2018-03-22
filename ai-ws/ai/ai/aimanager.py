@@ -35,10 +35,11 @@ class Config(object):
         self.configFolder = '/trainingdata/config/'
         f=open(f'{self.configFolder!s}config.json' ,'r')
         j = json.load(f)
+        
         try:
-            config = j[configname]
+            config = j['configs'][configname]
         except KeyError:
-            logging.error(f"could not load config name {configname!s} in {j.keys()!s}")
+            logging.error(f"could not load config name {configname!s} in {j['configs'].keys()!s}")
         
 
         self.name= configname
