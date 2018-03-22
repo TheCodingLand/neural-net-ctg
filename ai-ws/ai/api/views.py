@@ -83,7 +83,7 @@ class Prediction(Resource):
             text = post_data.get('text')
             # predict goes here
             logging.error(text)
-            items = am.run_model(text,.5)
+            items = am.run_model(text,5)
             #here we will establish a context for the bot to talk into
             #user can guide the bot into several contexts. context will be displayed. 
             # starting with small talk
