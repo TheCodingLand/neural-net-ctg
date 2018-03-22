@@ -46,7 +46,7 @@ class ot(object):
             for item in data:
                 item=item['data']
                 text = ""
-                fields= ["Title", "Description",'AssociatedCategory']
+                fields= ["Title", "Description","AssociatedCategory"]
                 labelfield = "AssociatedCategory"
 
                 for field in fields:
