@@ -144,9 +144,9 @@ class AiManager(object):
             else:
                 i=i-1
         total = len(data)
-        ignored = i-total
+        ignored = total-i
         failures = total - ignored- correct
-
+        
         return { "language" : language, "total": total, "success" : correct, "ignored" : ignored, "failures": failures, "percent" : percent }
 
 
