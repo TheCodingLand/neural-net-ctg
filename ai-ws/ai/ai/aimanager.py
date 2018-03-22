@@ -256,6 +256,7 @@ class Ai(object):
 
     def train(self, buildJson=False, loadfile=""):
         """Main function for training a dataset can rebuild a json dataset based on the GetData method, or just prepare the data and train all models"""
+        self.languages = {}
         self.training = True
         if loadfile!="":
             try:
@@ -311,6 +312,8 @@ class Ai(object):
             #print (self.languages[lang]['data'])
             json.dump(self.languages[lang]['data'],self.languages[lang]['file'])
             self.languages[lang]['file'].close()
+        
+
         
     
     def splitTrainingData(self, jsonfile):
