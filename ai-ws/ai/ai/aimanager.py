@@ -12,7 +12,7 @@ logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 
 class AiManager(object):
-    version=1
+    version=2
     modelsFolder = '/trainingdata/models/'
     languageFolder = '/trainingdata/models/'
     languagemodelfile = f'{modelsFolder!s}lid.176.ftz'
@@ -22,16 +22,16 @@ class AiManager(object):
     #either { "fr" : fileobject } or { "fr" : null}
     languages = {}
     #percentage of the message to keep for prediction
-    percentkept=75
+    percentkept=80
     reBuildModel=True
     ratio = 95
     learningRate = 0.2
-    epochs = 100
+    epochs = 200
     ngrams = 3
     json=None
     models={}
     defaultlanguage = 'en'
-    predictionThreshold = .85
+    predictionThreshold = .75
     training=False
 
     def __init__(self, config, json = None, version = version):
