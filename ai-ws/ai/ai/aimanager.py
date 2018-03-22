@@ -76,7 +76,7 @@ class Ai(object):
         self.textfolder = f'{self.config.baseFolder!s}textfiles/'
         
         try:
-            os.mkdir(self.modelsFolder)
+            os.mkdirs(self.modelsFolder)
         except FileExistsError:
             pass
 
