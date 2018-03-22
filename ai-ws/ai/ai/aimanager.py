@@ -79,6 +79,7 @@ class AiManager(object):
         self.models={}
         os.chdir(f"{self.modelsFolder!s}")
         for f in glob.glob("*.bin"):
+            logging.error(f'loading {f!s}')
             lang=f.split('_')[0]
             ftmodel = f"{self.modelsFolder!s}{f!s}"
             self.models.update({lang : FastText(ftmodel)})
