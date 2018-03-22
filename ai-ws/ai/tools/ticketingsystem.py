@@ -61,6 +61,7 @@ class ot(object):
             result = { 'entries' : entries }
             return result
         else:
+            logging.error(data)
             return False
             
             

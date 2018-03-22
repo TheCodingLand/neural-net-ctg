@@ -268,7 +268,7 @@ class Ai(object):
             jsonfile = self.getData()
         testresult = []
         self.splitJson(jsonfile)
-        
+
         print(self.config.name)
         for language in self.languages.keys():
             filename = f'{language!s}_{self.config.name!s}.json'
@@ -367,6 +367,7 @@ class Ai(object):
     def getData(self):
         """Gets data as a main data dump into usable form by the rest of the program to build """
         jsondata = self.ts.getTrainingData(self.config.filter, self.config.label, self.config.fields)
+        logging.error(jsondata)
         #jsondata is just [ { label : "13241", entry :"text"}]
         return jsondata
     
