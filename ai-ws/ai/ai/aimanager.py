@@ -58,7 +58,7 @@ class AiManager(object):
 
         configs = json.load(f)
         if config in configs.keys():
-            self.config=configs
+            self.config=configs[config]
 
             self.version = self.config['version']
             #amount ot words to cut out of the text string to train on.
