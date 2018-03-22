@@ -54,7 +54,7 @@ class Config(object):
         self.tool= config['tool']
         self.predictionThreshold = config['epochs']
         self.filter = config['filter']
-        self.labels = config['labels']
+        self.label = config['label']
         self.fields = config['fields']
         self.type=config['type']
         self.ai=None
