@@ -1,5 +1,6 @@
-
+{ "configs" : [
 { "ot_emails" : {
+    "type": "supervised",
     "tool" : "ot",
     "fields" : ["Title", "Description"],
     "label" : "AssociatedCategory",
@@ -12,6 +13,38 @@
     "toolurl": "",
     "predictionThreshold" : 0.75,
     "percentkept": 80
-}
+} },
+{
+"ot_tickets_solutions" : {
+    "type": "supervised",
+    "tool" : "ot",
+    "fields" : ["Title", "Description", "SolutionDescription"],
+    "label" : "AssociatedCategory",
+    "filter" : "ticketsyear",
+    "version" : 2,
+    "epochs" : 200,
+    "ngrams" : 3,
+    "learningRate": 0.2,
+    "ratio" : 95,
+    "toolurl": "",
+    "predictionThreshold" : 0.75,
+    "percentkept": 80
+}},
+{
+    "ot_solutions" : {
+        "type": "supervised",
+        "tool" : "ot",
+        "fields" : ["SolutionDescription"],
+        "label" : "AssociatedCategory",
+        "filter" : "ticketsyear",
+        "version" : 2,
+        "epochs" : 200,
+        "ngrams" : 3,
+        "learningRate": 0.2,
+        "ratio" : 95,
+        "toolurl": "",
+        "predictionThreshold" : 0.75,
+        "percentkept": 80
+    }
 
-}
+} ] }

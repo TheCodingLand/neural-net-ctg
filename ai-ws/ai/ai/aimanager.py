@@ -8,72 +8,82 @@ import glob, os
 #need to move this to a worker instance, for now we simulate
 import asyncio
 
+defaultlanguage = 'en'
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 
-class AiManager(object):
-    version=0
-    modelsFolder = '/trainingdata/models/'
-    languageFolder = '/trainingdata/models/'
-    languagemodelfile = f'{modelsFolder!s}lid.176.ftz'
-    jsonFolder  = '/trainingdata/jsonfiles/'
-    textfolder = '/trainingdata/textfiles/'
-    configFolder = '/trainingdata/config/'
-    #either { "fr" : fileobject } or { "fr" : null}
+languagemodelfile = f'/trainingdata/models/lid.176.ftz'
+logger.error(f"loading {languagemodelfile!s}")
+langdetect = FastText(languagemodelfile)
+
+def detectLanguage(text):
+    """Detects language, or returns defaultLanguage, as a 2 letters laguage identifier"""
+    lang = langdetect.predict_proba_single(text,k=1)
+    logging.error(lang)
+    # we only need to return the first language and probability should be useless at this point.
+    # could be used later to default to english ??
+    try:
+        lang = lang[0][0]
+    except:
+        lang = defaultlanguage
+    #keeping track on all languages used
+    return lang
+
+
+class Config(object):
+    def __init__(self, configname):
+        self.configFolder = '/trainingdata/config/'
+        f=open(f'{self.configFolder!s}config.json' ,'r')
+        j = json.load(f)
+        try:
+            config = j[configname]
+        except KeyError:
+            logging.error(f"could not load config name {configname!s} in {j.keys()!s}")
+        
+
+        self.name= configname
+        self.version = config['version']
+        self.baseFolder=f'/trainingdata/{self.name!s}/{self.version!s}/' 
+        #amount ot words to cut out of the text string to train on.
+        self.percentkept = config['percentkept']
+        self.ratio = config['ratio']
+        self.learningRate = config['learningRate']
+        self.epochs = config['epochs']
+        self.ngrams = config['ngrams']
+        self.tool= config['tool']
+        self.predictionThreshold = config['epochs']
+        self.type=config['type']
+        self.ai=None
+        self.start()
+    def start(self):
+     
+        self.ai=Ai(self)
+
+
+
+class Ai(object):
+
     languages = {}
-    #percentage of the message to keep for prediction
-    percentkept=80
-    reBuildModel=True
-    ratio = 95
-    learningRate = 0.2
-    epochs = 200
-    ngrams = 3
-    json=None
     models={}
-    defaultlanguage = 'en'
-    predictionThreshold = .75
+    
     training=False
 
-    def __init__(self, config, json = None):
+    def __init__(self, config):
+        self.config=config
+        self.modelsFolder = f'{self.config.baseFolder!s}models/'
+        self.jsonFolder  = f'{self.config.baseFolder!s}jsonfiles/'
+        self.textfolder = f'{self.config.baseFolder!s}textfiles/'
         
-        self.config = self.load_config(config)
-        self.modelsFolder=f"{self.modelsFolder!s}{self.version!s}/"
         try:
             os.mkdir(self.modelsFolder)
         except FileExistsError:
             pass
 
-        logger.error(f"loading {self.languagemodelfile!s}")
-        self.langdetect = FastText(self.languagemodelfile)
-        if self.tool=='ot':
+
+        if self.config.tool=='ot':
             from ai.tools.ticketingsystem import ot as ts
-        self.ts = ts()
-        self.load_all_models()
-    
-    def load_config(self, config):
-        """Loads a config files to get the fields and model name to train"""
         
-        self.modelname = config
-        f=open(f'{self.configFolder!s}config.json' ,'r')
-
-        configs = json.load(f)
-        if config in configs.keys():
-            self.config=configs[config]
-
-            self.version = self.config['version']
-       
-            #amount ot words to cut out of the text string to train on.
-            self.percentkept = self.config['percentkept']
-            self.ratio = self.config['ratio']
-            self.learningRate = self.config['learningRate']
-            self.epochs = self.config['epochs']
-            self.ngrams = self.config['ngrams']
-            self.tool= self.config['tool']
-            self.predictionThreshold = self.config['epochs']
-            self.modelname = config
-            
-
-        return config
+        self.ts = ts()
         
     def load_all_models(self):
         """Loads all models in the models folder, and creates a dictionnary {lang:model}"""
@@ -92,14 +102,13 @@ class AiManager(object):
         """takes text and threshold, returns a label prediction [label,confidence]"""
 
         if threshold == None:
-            threshold=self.predictionThreshold
+            threshold=self.config.predictionThreshold
 
-        lang = self.detectLanguage(text)
+        lang = detectLanguage(text)
         if lang == False:
-            lang = self.defaultlanguage
+            lang = defaultlanguage
         model = self.models[lang]
         logging.error(lang)
-
         prediction = model.predict_proba_single(text, k=1)
         logging.error(prediction)
         if prediction:
@@ -110,10 +119,10 @@ class AiManager(object):
     def run_model_multiple(self, text, k=1):
         """builds a list of possible labels, ignores confidence threshold takes text and threshold, returns a label prediction [[label,confidence]]"""
 
-        lang = self.detectLanguage(text)
+        lang = detectLanguage(text)
         logging.error(lang)
         if lang == False:
-            lang = self.defaultlanguage
+            lang = defaultlanguage
         model = self.models[lang]
         results = []
         
@@ -128,8 +137,8 @@ class AiManager(object):
 
     def getLanguageModel(self, language):
         if language not in self.models.keys():
-            if self.defaultlanguage in self.models.keys():
-                language = self.defaultlanguage
+            if defaultlanguage in self.models.keys():
+                language = defaultlanguage
             else:
                 logging.error('model with specified language not found. Error.')
                 return False
@@ -194,7 +203,7 @@ class AiManager(object):
                 filtered.append(t)
         text = ' '.join(filtered)
         
-        language =self.detectLanguage(text)
+        language = detectLanguage(text)
         
         model = self.getLanguageModel(language)
 
@@ -247,9 +256,9 @@ class AiManager(object):
             jsonfile = self.getData()
         testresult = []
         self.splitJson(jsonfile)
-        print(self.modelname)
+        print(self.config.name)
         for language in self.languages.keys():
-            filename = f'{language!s}_{self.modelname!s}.json'
+            filename = f'{language!s}_{self.config.name!s}.json'
             f = open(f'{self.jsonFolder!s}{filename!s}', 'r')
             j = json.load(f)
             if len(j['entries']) < 1500:
@@ -258,10 +267,10 @@ class AiManager(object):
             self.splitTrainingData(f'{self.jsonFolder!s}{filename!s}')
             self.createFastText(f'{self.jsonFolder!s}{filename!s}.train')
             self.createFastText(f'{self.jsonFolder!s}{filename!s}.test')
-            testfile = f"{self.textfolder!s}{language!s}_{self.modelname!s}.txt.test"
-            trainfile = f"{self.textfolder!s}{language!s}_{self.modelname!s}.txt.train"
+            testfile = f"{self.textfolder!s}{language!s}_{self.config.name!s}.txt.test"
+            trainfile = f"{self.textfolder!s}{language!s}_{self.config.name!s}.txt.train"
             print(trainfile)
-            modelfile = f"{self.modelsFolder!s}{language!s}_{self.modelname!s}"
+            modelfile = f"{self.modelsFolder!s}{language!s}_{self.config.name!s}"
             self.startTraining(trainfile, modelfile)
             #testresult.append(self.test(testfile, modelfile))
             testresult.append(self.testRun(language, .85, testfile,f'{modelfile!s}.bin'))
@@ -272,26 +281,15 @@ class AiManager(object):
     
 
 
-    def detectLanguage(self, text):
-        """Detects language, or returns defaultLanguage, as a 2 letters laguage identifier"""
-        lang = self.langdetect.predict_proba_single(text,k=1)
-        logging.error(lang)
-        # we only need to return the first language and probability should be useless at this point.
-        # could be used later to default to english ??
-        try:
-            lang = lang[0][0]
-        except:
-            lang = self.defaultlanguage
-        #keeping track on all languages used
-        return lang
+
 
     def splitJson(self, jsondata):
         """Split json data into separate languge files"""
 
         for entry in jsondata['entries']:
-            lang = self.detectLanguage(entry['text'])
+            lang = detectLanguage(entry['text'])
             if lang not in self.languages.keys():
-                f = open(f'{self.jsonFolder!s}{lang!s}_{self.modelname!s}.json', 'w')
+                f = open(f'{self.jsonFolder!s}{lang!s}_{self.config.name!s}.json', 'w')
                 self.languages.update({ lang: { "data" : {'entries': []}, "file":f}})
 
 
@@ -313,7 +311,7 @@ class AiManager(object):
             jf = json.load(f)
             count = len(jf['entries'])
         
-            breakpoint = int(count * self.ratio /100)
+            breakpoint = int(count * self.config.ratio /100)
             print (breakpoint)
             train = { "entries": jf['entries'][0:breakpoint]}
             test = { "entries": jf['entries'][breakpoint:-1]}
@@ -343,7 +341,7 @@ class AiManager(object):
                 #we will not need all the email. Taking 75% of the words should cut most signatures / end of email garbage
                 linearray = text.split(' ')
                 lwords = len(linearray)
-                nbWords= int(lwords*self.percentkept/100)
+                nbWords= int(lwords*self.config.percentkept/100)
                 text = ' '.join(linearray[0:nbWords])
                 txt= f'__label__{label!s} {text!s} \n'
                 f.write(txt)
@@ -393,12 +391,10 @@ class AiManager(object):
     def startTraining(self, trainingfile, modelfile):
         """Starts model building"""
         
-        if self.reBuildModel==True:
-            logger.info(f'Training started with : learningRate:{self.learningRate!s}, epochs:{self.epochs!s}, ngrams :{self.ngrams!s}')
-            model = FastText()
-     
-            model.supervised(input=trainingfile, output=modelfile, epoch=self.epochs, lr=self.learningRate, wordNgrams=self.ngrams, verbose=2, minCount=1)
-            logger.error(f'finished training model with : learningRate:{self.learningRate!s}, epochs:{self.epochs!s}, ngrams :{self.ngrams!s}')
+        logger.info(f'Training started with : learningRate:{self.config.learningRate!s}, epochs:{self.config.epochs!s}, ngrams :{self.config.ngrams!s}')
+        model = FastText()
+        model.supervised(input=trainingfile, output=modelfile, epoch=self.config.epochs, lr=self.config.learningRate, wordNgrams=self.config.ngrams, verbose=2, minCount=1)
+        logger.error(f'finished training model with : learningRate:{self.config.learningRate!s}, epochs:{self.config.epochs!s}, ngrams :{self.config.ngrams!s}')
 
             
            
@@ -409,7 +405,7 @@ class AiManager(object):
         logger.error(f'testing {modelfilename!s}')
         
         if threshold ==None:
-            threshold = self.predictionThreshold
+            threshold = self.config.predictionThreshold
 
         model= FastText(f'{modelfilename!s}.bin')
         i=0

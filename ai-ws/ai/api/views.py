@@ -11,14 +11,18 @@ RECAST_TOKEN="78ceb95a23a923c4b6fd1afbde85ac85"
 from ai.api.restplus import api
 from ai.api.models.apimodels import prediction
 
-from ai.ai.aimanager import AiManager
+from ai.ai.aimanager import Config
 
 # these hold our data model folder, fields list, required fields
 import time
 
 
 ns = api.namespace('/', description='Ai Api for TINA, virtual agent')
-am = AiManager('ot_emails')
+
+am = Config('ot_emails')
+um = Config('ot_solutions')
+
+
 
 @ns.route('/schema')
 class Swagger(Resource):
@@ -41,8 +45,8 @@ class Train(Resource):
     @api.response(201, 'train : ok')
     def get(self):
         d = {} 
-        if am.training==False:
-            am.train(buildJson=False,loadfile="/trainingdata/trainingdata/data2.json")
+        if am.ai.training==False:
+            am.ai.train(buildJson=False,loadfile="/trainingdata/trainingdata/data2.json")
             d.update({'training': 'Started !'})
         else:
             d.update({'training': 'Already in progress !'})
@@ -81,7 +85,7 @@ class Prediction(Resource):
         text = post_data.get('text')
             # predict goes here
         logging.error(text)
-        items = am.run_model(text,.5)
+        items = am.ai.run_model(text,.5)
         # log.info(request.get_json())
         try:
             
@@ -180,7 +184,7 @@ class getCategory(Resource):
             text = post_data.get('text')
             # predict goes here
             logging.error(text)
-            items = am.getCategory(text)
+            items = am.ai.getCategory(text)
             
             #here we will establish a context for the bot to talk into
             #user can guide the bot into several contexts. context will be displayed. 
@@ -221,7 +225,7 @@ class UpdateBrain(Resource):
 
         
         logging.error(text)
-        items = am.run_model_multiple(text,5)
+        items = am.ai.run_model_multiple(text,5)
         i=0
         logging.error(items)
         results = []
@@ -237,7 +241,7 @@ class UpdateBrain(Resource):
             
             
             #testing
-            words = am.chat(text)
+            words = am.ai.chat(text)
             #here we will establish a context for the bot to talk into
             #user can guide the bot into several contexts. context will be displayed. 
             # starting with small talk
