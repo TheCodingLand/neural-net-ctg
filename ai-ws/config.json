@@ -1,40 +1,23 @@
-{ "configs" : [
-{ "ot_emails" : {
-    "type": "supervised",
-    "tool" : "ot",
-    "fields" : ["Title", "Description"],
-    "label" : "AssociatedCategory",
-    "filter" : "emails last 2 years",
-    "version" : 2,
-    "epochs" : 200,
-    "ngrams" : 3,
-    "learningRate": 0.2,
-    "ratio" : 95,
-    "toolurl": "",
-    "predictionThreshold" : 0.75,
-    "percentkept": 80
-} },
-{
-"ot_tickets_solutions" : {
-    "type": "supervised",
-    "tool" : "ot",
-    "fields" : ["Title", "Description", "SolutionDescription"],
-    "label" : "AssociatedCategory",
-    "filter" : "ticketsyear",
-    "version" : 2,
-    "epochs" : 200,
-    "ngrams" : 3,
-    "learningRate": 0.2,
-    "ratio" : 95,
-    "toolurl": "",
-    "predictionThreshold" : 0.75,
-    "percentkept": 80
-}},
-{
-    "ot_solutions" : {
+{ "configs" : {
+    "ot_emails" : {
         "type": "supervised",
         "tool" : "ot",
-        "fields" : ["SolutionDescription"],
+        "fields" : ["Title", "Description"],
+        "label" : "AssociatedCategory",
+        "filter" : "emails last 2 years",
+        "version" : 2,
+        "epochs" : 200,
+        "ngrams" : 3,
+        "learningRate": 0.2,
+        "ratio" : 95,
+        "toolurl": "",
+        "predictionThreshold" : 0.75,
+        "percentkept": 80
+    }},
+     "ot_tickets_solutions" : {
+        "type": "supervised",
+        "tool" : "ot",
+        "fields" : ["Title", "Description", "SolutionDescription"],
         "label" : "AssociatedCategory",
         "filter" : "ticketsyear",
         "version" : 2,
@@ -45,6 +28,21 @@
         "toolurl": "",
         "predictionThreshold" : 0.75,
         "percentkept": 80
+    },
+    "ot_solutions" : {
+            "type": "supervised",
+            "tool" : "ot",
+            "fields" : ["SolutionDescription"],
+            "label" : "AssociatedCategory",
+            "filter" : "ticketsyear",
+            "version" : 2,
+            "epochs" : 200,
+            "ngrams" : 3,
+            "learningRate": 0.2,
+            "ratio" : 95,
+            "toolurl": "",
+            "predictionThreshold" : 0.75,
+            "percentkept": 80
+        }
+    
     }
-
-} ] }
