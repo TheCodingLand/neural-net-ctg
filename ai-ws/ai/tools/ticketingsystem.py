@@ -25,7 +25,7 @@ class ot(object):
         #filtername="emails last 2 years"
         
         #fields = ["Title","Description",labelfield]
-        
+              
         payload = {"objectclass": "Ticket",
             "filter": f"{filtername!s}",
             "variables": [
