@@ -230,7 +230,7 @@ class UpdateBrain(Resource):
             for item in items:
                 d={}
                 i=i+1
-                d.update({"id":i , "label":items[0], "confidence":item[1]})
+                d.update({"id":i , "label":item[0], "confidence":item[1]})
 
                 results.append(d)
             
