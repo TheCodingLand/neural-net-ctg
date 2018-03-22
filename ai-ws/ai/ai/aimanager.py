@@ -61,7 +61,7 @@ class AiManager(object):
             self.config=configs[config]
 
             self.version = self.config['version']
-            self.modelsFolder = f'/trainingdata/models/{version!s}/'
+            self.modelsFolder = f'/trainingdata/models/{self.version!s}/'
             #amount ot words to cut out of the text string to train on.
             self.percentkept = self.config['percentkept']
             self.ratio = self.config['ratio']
