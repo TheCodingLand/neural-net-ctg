@@ -20,7 +20,7 @@ class ot(object):
         self.labelfield = None
 
     def getTrainingData(self, filtername, labelfield, fields):
-
+        
         fields.append(labelfield)
         #filtername="emails last 2 years"
         
@@ -34,6 +34,7 @@ class ot(object):
             ],
             "requiredfields": fields
         }
+        logging.error(payload)
         try:
             request=requests.post(url=self.queryObjectsUrl, json=payload, headers=self.headers)
         except:
