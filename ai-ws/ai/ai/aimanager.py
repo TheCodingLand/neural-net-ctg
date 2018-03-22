@@ -29,7 +29,7 @@ def detectLanguage(text):
     #keeping track on all languages used
     return lang
 
-class BrokerTasks(object):
+class TasksBroker(object):
     def __init__(self):
         #build a task object
         #send tasks to reddis
