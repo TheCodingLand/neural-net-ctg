@@ -76,10 +76,17 @@ class Ai(object):
         self.textfolder = f'{self.config.baseFolder!s}textfiles/'
         
         try:
-            os.mkdirs(self.modelsFolder)
+            os.makedirs(self.modelsFolder)
         except FileExistsError:
             pass
-
+        try:
+            os.makedirs(self.textfolder)
+        except FileExistsError:
+            pass
+        try:
+            os.makedirs(self.jsonFolder)
+        except FileExistsError:
+            pass
 
         if self.config.tool=='ot':
             from ai.tools.ticketingsystem import ot as ts
