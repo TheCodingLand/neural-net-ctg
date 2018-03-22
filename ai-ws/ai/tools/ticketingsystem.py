@@ -34,7 +34,11 @@ class ot(object):
             ],
             "requiredfields": fields
         }
-        logging.error(payload)
+
+        logging.error(json(payload))
+     
+
+
         try:
             request=requests.post(url=self.queryObjectsUrl, json=payload, headers=self.headers)
         except:
