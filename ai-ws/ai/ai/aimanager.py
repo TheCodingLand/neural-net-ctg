@@ -45,7 +45,7 @@ class AiManager(object):
 
         logger.error(f"loading {self.languagemodelfile!s}")
         self.langdetect = FastText(self.languagemodelfile)
-        if self.config['tool']=='ot':
+        if self.tool=='ot':
             from ai.tools.ticketingsystem import ot as ts
         self.ts = ts()
         self.load_all_models()
@@ -58,7 +58,7 @@ class AiManager(object):
 
         configs = json.load(f)
         if config in configs.keys():
-            self.config=configs[config]
+            self.config=configs
 
             self.version = self.config['version']
             #amount ot words to cut out of the text string to train on.
@@ -67,8 +67,10 @@ class AiManager(object):
             self.learningRate = self.config['learningRate']
             self.epochs = self.config['epochs']
             self.ngrams = self.config['ngrams']
+            self.tool= self.config['tool']
             self.predictionThreshold = self.config['epochs']
             self.modelname = config
+            
 
         return config
         
