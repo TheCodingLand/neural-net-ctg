@@ -4,7 +4,7 @@
         "tool" : "ot",
         "fields" : ["Title", "Description"],
         "label" : "AssociatedCategory",
-        "filter" : "emails last 2 years",
+        "filter" : "weeks",
         "version" : 2,
         "epochs" : 200,
         "ngrams" : 3,
