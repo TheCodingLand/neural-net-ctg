@@ -12,7 +12,7 @@ logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 
 class AiManager(object):
-    version=2
+    version=0
     modelsFolder = '/trainingdata/models/'
     languageFolder = '/trainingdata/models/'
     languagemodelfile = f'{modelsFolder!s}lid.176.ftz'
@@ -35,22 +35,42 @@ class AiManager(object):
     training=False
 
     def __init__(self, config, json = None, version = version):
-    
+        
+        self.config = self.load_config(config)
         self.modelsFolder=f"{self.modelsFolder!s}{version!s}/"
         try:
             os.mkdir(self.modelsFolder)
         except FileExistsError:
             pass
-        self.modelname = config
-        
+
         logger.error(f"loading {self.languagemodelfile!s}")
         self.langdetect = FastText(self.languagemodelfile)
-        self.config = self.load_config(config)
-        #conditional import for ticketing system
         if self.config['tool']=='ot':
             from ai.tools.ticketingsystem import ot as ts
         self.ts = ts()
         self.load_all_models()
+    
+    def load_config(self, config):
+        """Loads a config files to get the fields and model name to train"""
+        
+        self.modelname = config
+        f=open(f'{self.configFolder!s}config.json' ,'r')
+
+        configs = json.load(f)
+        if config in configs.keys():
+            self.config=configs[config]
+
+            self.version = self.config['version']
+            #amount ot words to cut out of the text string to train on.
+            self.percentkept = self.config['percentkept']
+            self.ratio = self.config['ratio']
+            self.learningRate = self.config['learningRate']
+            self.epochs = self.config['epochs']
+            self.ngrams = self.config['ngrams']
+            self.predictionThreshold = self.config['epochs']
+            self.modelname = config
+
+        return config
         
     def load_all_models(self):
         """Loads all models in the models folder, and creates a dictionnary {lang:model}"""
@@ -246,14 +266,7 @@ class AiManager(object):
             
 
     
-    def load_config(self, config):
-        """Loads a config files to get the fields and model name to train"""
-        f=open(f'{self.configFolder!s}config.json' ,'r')
-        configs = json.load(f)
-        if config in configs.keys():
-            return configs[config]
 
-        return config
 
     def detectLanguage(self, text):
         """Detects language, or returns defaultLanguage, as a 2 letters laguage identifier"""

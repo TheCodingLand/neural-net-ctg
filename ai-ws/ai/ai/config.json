@@ -1,7 +1,15 @@
 { "ot_emails" : {
                 "tool" : "ot",
                 "fields" : ["Title", "Description"],
-                "label" : "AssociatedCategory"
+                "label" : "AssociatedCategory",
+                "version" : 2,
+                "epochs" : 200,
+                "ngrams" : 3,
+                "learningrate": 0.2,
+                "ratio" : 95,
+                "toolurl": "",
+                "predictionThreshold" : 0.75,
+                "percentkept": 80
             }
 
 }
