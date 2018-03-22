@@ -53,6 +53,9 @@ class Config(object):
         self.ngrams = config['ngrams']
         self.tool= config['tool']
         self.predictionThreshold = config['epochs']
+        self.filter = config['filter']
+        self.labels = config['labels']
+        self.fields = config['fields']
         self.type=config['type']
         self.ai=None
         self.start()
@@ -359,7 +362,7 @@ class Ai(object):
 
     def getData(self):
         """Gets data as a main data dump into usable form by the rest of the program to build """
-        jsondata = self.ts.getTrainingData(self.config['filter'], self.config['label'], self.config['fields'])
+        jsondata = self.ts.getTrainingData(self.config.filter, self.config.label, self.config.fields])
         #jsondata is just [ { label : "13241", entry :"text"}]
         return jsondata
     
