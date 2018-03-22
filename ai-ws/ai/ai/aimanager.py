@@ -34,10 +34,10 @@ class AiManager(object):
     predictionThreshold = .75
     training=False
 
-    def __init__(self, config, json = None, version = version):
+    def __init__(self, config, json = None):
         
         self.config = self.load_config(config)
-        self.modelsFolder=f"{self.modelsFolder!s}{version!s}/"
+        self.modelsFolder=f"{self.modelsFolder!s}{self.version!s}/"
         try:
             os.mkdir(self.modelsFolder)
         except FileExistsError:
@@ -61,7 +61,7 @@ class AiManager(object):
             self.config=configs[config]
 
             self.version = self.config['version']
-            self.modelsFolder = f'/trainingdata/models/{self.version!s}/'
+       
             #amount ot words to cut out of the text string to train on.
             self.percentkept = self.config['percentkept']
             self.ratio = self.config['ratio']
