@@ -10,3 +10,8 @@ prediction = api.model('prediction:', {
 
 
 
+
+training = api.model('training:', {
+    'config': fields.String(description='name of the configuration model'),
+    
+})

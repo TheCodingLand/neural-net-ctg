@@ -9,7 +9,7 @@ from flask import request
 import recastai
 RECAST_TOKEN="78ceb95a23a923c4b6fd1afbde85ac85"
 from ai.api.restplus import api
-from ai.api.models.apimodels import prediction
+from ai.api.models.apimodels import prediction, training
 
 from ai.ai.aimanager import Config
 
@@ -19,9 +19,19 @@ import time
 
 ns = api.namespace('/', description='Ai Api for TINA, virtual agent')
 
-am = Config('ot_emails')
-um = Config('ot_solutions')
+class ModelDefinition(object):
+    def __init__(self, name):
+        self.name = name
+        self.type = ""
+        self.config = Config(name)
 
+
+
+
+am = ModelDefinition('ot_emails')
+um = ModelDefinition('ot_solutions')
+
+models = [am, um]
 
 
 @ns.route('/schema')
@@ -40,16 +50,25 @@ class SanityCheck(Resource):
         }
 
 
-@ns.route('/train')
+@ns.route('/train', methods=['POST'])
 class Train(Resource):
     @api.response(201, 'train : ok')
-    def get(self):
+    @api.expect(training)
+    def post(self):
         d = {} 
-        if am.ai.training==False:
-            am.ai.train(buildJson=False,loadfile="/trainingdata/trainingdata/data2.json")
-            d.update({'training': 'Started !'})
-        else:
-            d.update({'training': 'Already in progress !'})
+        post_data = request.get_json()
+        config = post_data.get('config')
+        for conf in models:
+            if conf.name == config:
+                if conf.config.ai.training==False:
+                    conf.config.ai.train(buildJson=True,loadfile="")
+                    d.update({'training': 'Started !'})
+                else:
+                    d.update({'training': 'Already in progress !'})
+                    
+        
+       
+        
         try: 
             #check if training is already in progress
             
@@ -85,7 +104,8 @@ class Prediction(Resource):
         text = post_data.get('text')
             # predict goes here
         logging.error(text)
-        items = am.ai.run_model(text,.5)
+
+        items = am.config.ai.run_model(text,.5)
         # log.info(request.get_json())
         try:
             
@@ -184,7 +204,7 @@ class getCategory(Resource):
             text = post_data.get('text')
             # predict goes here
             logging.error(text)
-            items = am.ai.getCategory(text)
+            items = am.config.ai.getCategory(text)
             
             #here we will establish a context for the bot to talk into
             #user can guide the bot into several contexts. context will be displayed. 
@@ -225,7 +245,7 @@ class UpdateBrain(Resource):
 
         
         logging.error(text)
-        items = am.ai.run_model_multiple(text,5)
+        items = am.config.ai.run_model_multiple(text,5)
         i=0
         logging.error(items)
         results = []
@@ -241,7 +261,7 @@ class UpdateBrain(Resource):
             
             
             #testing
-            words = am.ai.chat(text)
+            words = am.config.ai.chat(text)
             #here we will establish a context for the bot to talk into
             #user can guide the bot into several contexts. context will be displayed. 
             # starting with small talk
