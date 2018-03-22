@@ -13,7 +13,7 @@
         "toolurl": "",
         "predictionThreshold" : 0.75,
         "percentkept": 80
-    }},
+    },
      "ot_tickets_solutions" : {
         "type": "supervised",
         "tool" : "ot",
@@ -46,3 +46,4 @@
         }
     
     }
+}
