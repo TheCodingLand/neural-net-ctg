@@ -268,6 +268,7 @@ class Ai(object):
             jsonfile = self.getData()
         testresult = []
         self.splitJson(jsonfile)
+        
         print(self.config.name)
         for language in self.languages.keys():
             filename = f'{language!s}_{self.config.name!s}.json'

@@ -24,13 +24,17 @@ class ModelDefinition(object):
         self.name = name
         self.type = ""
         self.config = Config(name)
+    def load(self):
+        self.config.ai.load_all_models()
+
 
 
 
 
 am = ModelDefinition('ot_emails')
 um = ModelDefinition('ot_solutions')
-
+#am.load()
+#um.load()
 models = [am, um]
 
 
