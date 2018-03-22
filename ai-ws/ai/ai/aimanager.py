@@ -362,7 +362,7 @@ class Ai(object):
 
     def getData(self):
         """Gets data as a main data dump into usable form by the rest of the program to build """
-        jsondata = self.ts.getTrainingData(self.config.filter, self.config.label, self.config.fields])
+        jsondata = self.ts.getTrainingData(self.config.filter, self.config.label, self.config.fields)
         #jsondata is just [ { label : "13241", entry :"text"}]
         return jsondata
     
