@@ -35,7 +35,7 @@ class ot(object):
             "requiredfields": fields
         }
 
-        logging.error(json(payload))
+        logging.error(json.dumps(payload))
      
 
 
