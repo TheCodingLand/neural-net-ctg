@@ -21,7 +21,13 @@ class ot(object):
 
     def getTrainingData(self, filtername, labelfield, fields):
         
+        
+
         fields.append(labelfield)
+        
+
+        entries = []
+        
         #filtername="emails last 2 years"
         
         #fields = ["Title","Description",labelfield]
@@ -43,17 +49,16 @@ class ot(object):
             request=requests.post(url=self.queryObjectsUrl, json=payload, headers=self.headers)
         except:
             return False
+
+        
         logging.error(request.content)
         data = request.json()
         if data['status'] == "success":
-            data = data['Ticket']
+            data = data['Ticket'] #TODO :variable in configuration
             entries = []
             for item in data:
                 item=item['data']
                 text = ""
-                fields= ["Title", "Description","AssociatedCategory"]
-                labelfield = "AssociatedCategory"
-
                 for field in fields:
                     if field !=labelfield:
                         text = text + item[field]
