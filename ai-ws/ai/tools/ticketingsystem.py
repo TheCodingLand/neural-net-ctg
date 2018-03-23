@@ -7,7 +7,7 @@
 # some other utility fonction to help with data can be defined. I needed for example to get the category object's title for omnitracker.
 import logging
 import requests
-
+import json
 class ot(object):
     def __init__(self):
         self.url = 'http://148.110.107.15:5001/api/ot/'
