@@ -32,10 +32,11 @@ class ModelDefinition(object):
 
 
 am = ModelDefinition('ot_emails')
+tm = ModelDefinition('ot_tickets_solutions')
 um = ModelDefinition('ot_solutions')
 #am.load()
 #um.load()
-models = [am, um]
+models = [am, um, tm]
 
 
 @ns.route('/schema')
