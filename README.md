@@ -24,12 +24,11 @@ docker-compose <service> scale=x
 
 localhost:10000/ : dashboard for load balancer.
 
-localhost:9999/api
-
+localhost/api
 ![alt text](https://github.com/TheCodingLand/neural-net-ctg/blob/master/restapi.png?raw=true)
 
 
-localhost:9999/tina
+localhost/tina
 
 ![alt text](https://github.com/TheCodingLand/neural-net-ctg/blob/master/tinaaifrontend-wip.png?raw=true)
 
