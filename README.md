@@ -1,4 +1,5 @@
-This is a complete infrastructure for hosting a fasttext based text classification algorithm.
+This is a complete infrastructure for hosting a fasttext based text classification algorithm, and should be extensible to train other types of models on various data sets.
+
 Part rewrite of training api is in progress, refactoring training using settings file, and changing trigger mecanism
 The system is sitting behind a traefik reverse load balancer.
 
@@ -32,49 +33,6 @@ localhost:9999/tina
 
 ![alt text](https://github.com/TheCodingLand/neural-net-ctg/blob/master/tinaaifrontend-wip.png?raw=true)
 
-
-Progress: it's now thinking about possible issues, notifying users of the progress of finding a solution : 
-![alt text](https://github.com/TheCodingLand/neural-net-ctg/blob/master/brain.png?raw=true)
-
-
-
-Done : 
-API :
-- api calls to the fasttext AI
-- returning predicted category based on loaded models
-- implement the possibility to support several ticketing backends for data importing.
-
-
-AI:
-- make it possible to start in predicting mode, or in training mode
-- added sample trained model
-
-Frontend : 
-- basic ui frontend with CTG colors and material ui
-- conversation with bot saved to localStorage of the browser
-- Redux implementation for state management and future developments
-
-TODO :
-
-- link models together using another AI.
-- demonstrate https, webhooks
-
-
-Frontend :
-- uploads of data, training mode
-- model selection
-- brain visualization
-
-
-API:
-- HTTPS implementation for webhook support
-- model selection
-- return meaningful data for the client instead of labels and confidence
-
-
-AI:
-- model selection
-- pre train model using skipgram on other unclassified data
 
 for example using pre trained vectors :
 
