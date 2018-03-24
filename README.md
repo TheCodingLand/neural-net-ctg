@@ -1,7 +1,7 @@
 This is a complete infrastructure for hosting a fasttext based text classification algorithm, and should be extensible to train other types of models on various data sets.
 
-Part rewrite of training api is in progress, refactoring training using settings file, and changing trigger mecanism
-The system is sitting behind a traefik reverse load balancer.
+It's still a bit far from being fully functional. the goad is to be able to test different modems quickly, and configure training for various / data structures.
+
 
 ![alt text](https://github.com/TheCodingLand/neural-net-ctg/blob/master/architecture.png?raw=true)
 
