@@ -1,6 +1,6 @@
 This is a complete infrastructure for hosting a fasttext based text classification algorithm, and should be extensible to train other types of models on various data sets.
 
-It's still a bit far from being fully functional. the goad is to be able to test different modems quickly, and configure training for various / data structures.
+It's still a bit far from being fully functional. the goal is to be able to test different models quickly, and configure training for various / data structures. Some sample use case will be provided. (email classification, virtual assistant)
 
 
 ![alt text](https://github.com/TheCodingLand/neural-net-ctg/blob/master/architecture.png?raw=true)
