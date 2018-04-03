@@ -30,7 +30,7 @@ services:
       - "traefik.frontend.rule=PathPrefix:/swaggerui,/api"
       - "traefik.enable=true"
       - "traefik.port=5000"
-      - "traefik.default.protocol=http"
+      - "traefik.default.protocol=https"
       
     networks:
       - web
@@ -45,11 +45,42 @@ services:
       - "traefik.frontend.rule=PathPrefix:/tina,/static"
       - "traefik.enable=true"
       - "traefik.port=3000"
-      - "traefik.default.protocol=http"
+      - "traefik.default.protocol=https"
       
     networks:
       - web
       
+  redis:
+    env_file:
+      - prod_env
+    restart: always
+    image: redis:latest
+    expose:
+      - "6379"
+    
+    volumes:
+    - ./redis:/data
+
+
+  php-redis-admin:
+    env_file:
+      - prod_env
+    image: faktiva/php-redis-admin
+    container_name: pra
+    environment:
+    - PHPREDMIN_DATABASE_REDIS_0_HOST=redis
+    expose:
+    - "80"
+    
+    labels:
+      - "traefik.backend=tina"
+      - "traefik.docker.network=web"
+      - "traefik.frontend.rule=PathPrefix:/pra"
+      - "traefik.enable=true"
+      - "traefik.port=80"
+      - "traefik.default.protocol=https"
+    depends_on:
+    - redis
 
 networks:
   web:
