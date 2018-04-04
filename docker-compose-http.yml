@@ -96,7 +96,8 @@ services:
       - "traefik.port=80"
       - "traefik.frontend.rule=Host:pra.docker.rcsl.lu"
       - "traefik.frontend.entryPoints=http"
-
+    networks:
+      - web
     depends_on:
     - redis
   
