@@ -90,13 +90,11 @@ services:
      - "80"
     
     labels:
-      - "traefik.backend=pra"
       - "traefik.docker.network=web"
-      - "traefik.frontend.rule=PathPrefix:/pra"
       - "traefik.enable=true"
       - "traefik.port=80"
-      - "traefik.default.protocol=http"
-      
+      - "traefik.frontend.rule=Host:pra.docker.rcsl.lu"
+
     depends_on:
     - redis
   
