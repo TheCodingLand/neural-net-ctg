@@ -83,7 +83,7 @@ services:
     env_file:
       - prod_env
     image: faktiva/php-redis-admin
-    container_name: pra
+
     environment:
     - PHPREDMIN_DATABASE_REDIS_0_HOST=redis
     expose:
