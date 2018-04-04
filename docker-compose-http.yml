@@ -19,7 +19,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - /opt/traefik/traefik.toml:/etc/traefik/traefik.toml
       - /opt/traefik/acme.json:/etc/traefik/acme.json
-    container_name: traefik
+   
 
   ai-ws:
     build: ./ai-ws
@@ -54,7 +54,53 @@ services:
       
     networks:
       - web
+  portainer:
+    image: portainer/portainer
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+      - "portainerdata:/data"
+    networks:
+      - traefik-net
+    deploy:
+      placement:
+        constraints: [node.role == manager]
+      labels:
+        - "traefik.enable=true"
+        - "traefik.port=9000"
+        - "traefik.docker.network=web"
+        - "traefik.frontend.rule=Host:portainer.docker.rcsl.lu"
 
+  redis:
+    env_file:
+      - prod_env
+    restart: always
+    image: redis:latest
+    expose:
+      - "6379"
+  
+    volumes:
+    - ./redis:/data
+
+  php-redis-admin:
+    env_file:
+      - prod_env
+    image: faktiva/php-redis-admin
+    container_name: pra
+    environment:
+    - PHPREDMIN_DATABASE_REDIS_0_HOST=redis
+    expose:
+    - "80"
+    
+    labels:
+      - "traefik.backend=tina"
+      - "traefik.docker.network=web"
+      - "traefik.frontend.rule=PathPrefix:/pra"
+      - "traefik.enable=true"
+      - "traefik.port=80"
+      - "traefik.default.protocol=http"
+    depends_on:
+    - redis
+  
 networks:
   web:
     external: true
