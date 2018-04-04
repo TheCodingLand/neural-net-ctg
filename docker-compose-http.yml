@@ -88,6 +88,8 @@ services:
      - PHPREDMIN_DATABASE_REDIS_0_HOST=redis
     expose:
      - "80"
+    ports:
+      - "9889:80"
     labels:
       - "traefik.docker.network=web"
       - "traefik.enable=true"
