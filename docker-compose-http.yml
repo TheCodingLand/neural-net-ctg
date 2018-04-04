@@ -81,21 +81,22 @@ services:
 
   php-redis-admin:
     env_file:
-      - prod_env
+     - prod_env
     image: faktiva/php-redis-admin
 
     environment:
-    - PHPREDMIN_DATABASE_REDIS_0_HOST=redis
+     - PHPREDMIN_DATABASE_REDIS_0_HOST=redis
     expose:
-    - "80"
+     - "80"
     
     labels:
-      - "traefik.backend=tina"
+      - "traefik.backend=pra"
       - "traefik.docker.network=web"
       - "traefik.frontend.rule=PathPrefix:/pra"
       - "traefik.enable=true"
       - "traefik.port=80"
       - "traefik.default.protocol=http"
+      
     depends_on:
     - redis
   
