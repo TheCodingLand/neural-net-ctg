@@ -136,6 +136,9 @@ class Ai(object):
         lang = detectLanguage(text)
         if lang == False:
             lang = defaultlanguage
+        if lang not in self.models.keys():
+            return False
+
         model = self.models[lang]
         logging.error(lang)
         prediction = model.predict_proba_single(text, k=1)
