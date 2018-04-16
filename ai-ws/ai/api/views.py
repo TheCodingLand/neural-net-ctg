@@ -24,8 +24,10 @@ class ModelDefinition(object):
         self.name = name
         self.type = ""
         self.config = Config(name)
+
     def load(self):
         self.config.ai.load_all_models()
+
 
 
 
@@ -107,7 +109,6 @@ class loadmodel(Resource):
 
         post_data = request.get_json()
         model = post_data.get('model')
-        am = ModelDefinition(model)
         am.load()
         logging.error(model)
         try:      
