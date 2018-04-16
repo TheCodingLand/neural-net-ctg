@@ -105,10 +105,12 @@ class Ai(object):
     
     def load_model(self, model):
         """ Loads models dynamically"""    
+        
         os.chdir(f"{self.modelsFolder!s}/{model!s}/{self.config.version!s}")
         for f in glob.glob("*.bin"):
             logging.error(f'loading {f!s}')
             lang=f.split('_')[0]
+            logging.error(f'new language : {lang!s}')
             ftmodel = f"{self.modelsFolder!s}/{model!s}/{self.config.version!s}/{f!s}"
             self.models.update({lang : FastText(ftmodel)})
         logging.error('finished loading models')
