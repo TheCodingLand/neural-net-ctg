@@ -2,7 +2,7 @@
             
 import requests
 import time
-import os
+import os, re
 
 def getCategoryTitle(cat):
     c_url = 'http://148.110.107.15:5001/api/ot/object/'
