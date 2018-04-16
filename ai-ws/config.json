@@ -11,7 +11,7 @@
         "learningRate": 0.2,
         "ratio" : 95,
         "toolurl": "",
-        "predictionThreshold" : 0.75,
+        "predictionThreshold" : 0.70,
         "percentkept": 80
     },
      "ot_tickets_solutions" : {
