@@ -101,7 +101,6 @@ while True:
 
 
 
-
                     print (prediction1)
 
                     categ_title=getCategoryTitle(prediction1).split(':')[-1].strip()
@@ -112,17 +111,18 @@ while True:
                     cat = categ_title
 
                     print(cat)
-
+            else:
+                cat = "Unpredictable"
             
                 
                 
 
-                    modurl=f'http://148.110.107.15:5001/api/ot/objectmod/{id!s}'
-                    print(modurl)
-                    payloadmod = { 'PredictedCategory' : f'{cat!s}' }
-                    print (payloadmod)
-                    headers = {'Content-type': 'application/json',
-                        'Accept': 'text/plain'}
+            modurl=f'http://148.110.107.15:5001/api/ot/objectmod/{id!s}'
+            print(modurl)
+            payloadmod = { 'PredictedCategory' : f'{cat!s}' }
+            print (payloadmod)
+            headers = {'Content-type': 'application/json',
+                'Accept': 'text/plain'}
 
-                    r = requests.put(url=modurl, json=payloadmod, headers=headers)
-                    print(r.json())
+            r = requests.put(url=modurl, json=payloadmod, headers=headers)
+            print(r.json())
