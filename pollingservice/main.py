@@ -94,14 +94,8 @@ while True:
             if prediction['status'] == "success":
                 cat = "-"
                 prediction1 = prediction['results']['label']
-
                 confidence = prediction['results']['confidence']
                 if confidence > 0.7:
-
-
-
-
-
                     print (prediction1)
 
                     categ_title=getCategoryTitle(prediction1).split(':')[-1].strip()
