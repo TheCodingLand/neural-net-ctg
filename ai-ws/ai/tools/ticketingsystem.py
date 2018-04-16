@@ -45,15 +45,14 @@ class ot(object):
      
 
 
-        try:
-            request=requests.post(url=self.queryObjectsUrl, json=payload, headers=self.headers)
-        except:
-            return False
+        request=requests.post(url=self.queryObjectsUrl, json=payload, headers=self.headers)
+        
 
         
         logging.error(request.content)
         data = request.json()
         if data['status'] == "success":
+            logging.error("query is a success")
             data = data['Ticket'] #TODO :variable in configuration
             entries = []
             for item in data:
@@ -72,6 +71,7 @@ class ot(object):
             result = { 'entries' : entries }
             return result
         else:
+            logging.error("query is a failure")
             logging.error(data)
             return False
             
