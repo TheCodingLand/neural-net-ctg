@@ -45,7 +45,7 @@ def getEmails():
 
     payload = {
         "objectclass": "Email",
-        "filter": "today email",
+        "filter": "emailstopredict",
         "variables": [
             {
             }
