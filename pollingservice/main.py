@@ -105,11 +105,13 @@ while True:
                     print (prediction1)
 
                     categ_title=getCategoryTitle(prediction1).split(':')[-1].strip()
+
                     if categ_title =="":
                         categ_title=getCategoryTitle(prediction1).strip()
 
-                        prediction = categ_title
-                    print(prediction)
+                    cat = categ_title
+
+                    print(cat)
 
             
                 
@@ -117,7 +119,7 @@ while True:
 
                     modurl=f'http://148.110.107.15:5001/api/ot/objectmod/{id!s}'
                     print(modurl)
-                    payloadmod = { 'PredictedCategory' : f'{prediction!s}' }
+                    payloadmod = { 'PredictedCategory' : f'{cat!s}' }
                     print (payloadmod)
                     headers = {'Content-type': 'application/json',
                         'Accept': 'text/plain'}
