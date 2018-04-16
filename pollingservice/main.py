@@ -120,4 +120,4 @@ while True:
                     headers = {'Content-type': 'application/json',
                         'Accept': 'text/plain'}
 
-                #r = requests.put(url=modurl, json=payloadmod, headers=headers)
+                    r = requests.put(url=modurl, json=payloadmod, headers=headers)
