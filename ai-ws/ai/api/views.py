@@ -34,7 +34,7 @@ class ModelDefinition(object):
 am = ModelDefinition('ot_emails')
 tm = ModelDefinition('ot_tickets_solutions')
 um = ModelDefinition('ot_solutions')
-#am.load()
+am.load()
 #um.load()
 models = [am, um, tm]
 
