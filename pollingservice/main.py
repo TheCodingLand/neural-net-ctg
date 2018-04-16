@@ -43,7 +43,7 @@ def getEmails():
 
 
 def predict(text):
-    url = 'http://148.110.107.15/api/predict'
+    url = 'http://ai-api.lbr.lu/predict'
     headers = {'Content-type': 'application/json',
                    'Accept': 'text/plain'}
     payload = {"text": text }
@@ -98,4 +98,4 @@ while True:
             headers = {'Content-type': 'application/json',
                    'Accept': 'text/plain'}
 
-            r = requests.put(url=modurl, json=payloadmod, headers=headers)
+            #r = requests.put(url=modurl, json=payloadmod, headers=headers)
