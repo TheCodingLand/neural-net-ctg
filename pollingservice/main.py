@@ -92,7 +92,7 @@ while True:
             prediction = prediction.json()
             #print(prediction)
             if prediction['status'] == "success":
-                cat = "Unpredictable"
+                cat = "-"
                 prediction1 = prediction['results']['label']
 
                 confidence = prediction['results']['confidence']
