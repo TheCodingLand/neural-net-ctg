@@ -72,7 +72,7 @@ def predict(text):
 while True:
     time.sleep(10)
     data = getEmails()
-    print (data['status'])
+    #print (data['status'])
     if data['status'] == "success":
         for email in data['Email']:
             id = email['id']
@@ -84,13 +84,13 @@ while True:
             value = ' '.join(value)
             value = preparedata(value)
             
-            print(value)
+            #print(value)
             
             prediction = predict(value)
             
 
             prediction = prediction.json()
-            print(prediction)
+            #print(prediction)
             if prediction['status'] == "success":
                 prediction1 = prediction['results']['label']
 
