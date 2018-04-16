@@ -274,7 +274,10 @@ class Ai(object):
         if buildJson ==True:
             jsonfile = self.getData()
         testresult = []
-        self.splitJson(jsonfile)
+        if jsonfile:
+            self.splitJson(jsonfile)
+        else:
+            logging.error("failed to get data")
 
         print(self.config.name)
         for language in self.languages.keys():
