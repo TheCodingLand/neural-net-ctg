@@ -15,7 +15,7 @@ services:
       - "traefik.backend=api"
       - "traefik.frontend.entryPoints=http"
       - "traefik.docker.network=web"
-      - "traefik.frontend.rule=PathPrefix:/swaggerui,/api"
+      - "traefik.frontend.rule=Host:ai-api.lbr.lu"
       - "traefik.enable=true"
       - "traefik.port=5000"
     networks:
@@ -29,7 +29,7 @@ services:
       - "traefik.backend=tina"
       - "traefik.frontend.entryPoints=http"
       - "traefik.docker.network=web"
-      - "traefik.frontend.rule=PathPrefix:/tina"
+      - "traefik.frontend.rule=Host:ai.lbr.lu"
       - "traefik.enable=true"
       - "traefik.port=8080"
       
@@ -58,13 +58,11 @@ services:
      - PHPREDMIN_DATABASE_REDIS_0_HOST=redis
     expose:
      - "80"
-    ports:
-      - "9889:80"
     labels:
       - "traefik.docker.network=web"
       - "traefik.enable=true"
       - "traefik.port=80"
-      - "traefik.frontend.rule=Host:pra.docker.rcsl.lu"
+      - "traefik.frontend.rule=Host:pra.lbr.lu"
       - "traefik.frontend.entryPoints=http"
     networks:
       - web
