@@ -80,7 +80,7 @@ while True:
             body = email['data']['Body Plain Text']
             value = f'{subject!s} {body!s}'.replace('\n',' ').strip()
             value = value.split(' ')
-            value = value[0:int(len(value)*75/100)]
+            value = value[0:int(len(value)*55/100)]
             value = ' '.join(value)
             value = preparedata(value)
             
