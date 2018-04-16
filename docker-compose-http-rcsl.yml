@@ -1,0 +1,80 @@
+version: '3'
+
+services:
+
+  ai-ws:
+    build: ./ai-ws
+    expose: 
+      - "5000"
+    ports:
+      - 5008:5000
+    volumes:
+      - aidata:/trainingdata
+
+    labels:
+      - "traefik.backend=api"
+      - "traefik.frontend.entryPoints=http"
+      - "traefik.docker.network=web"
+      - "traefik.frontend.rule=PathPrefix:/swaggerui,/api"
+      - "traefik.enable=true"
+      - "traefik.port=5000"
+    networks:
+      - web
+
+  frontend-ai:
+    build: ./frontend-ai
+    expose:
+      - "8080"
+    labels:
+      - "traefik.backend=tina"
+      - "traefik.frontend.entryPoints=http"
+      - "traefik.docker.network=web"
+      - "traefik.frontend.rule=PathPrefix:/tina"
+      - "traefik.enable=true"
+      - "traefik.port=8080"
+      
+    networks:
+      - web
+  
+  redis:
+    env_file:
+      - prod_env
+    restart: always
+    image: redis:latest
+    expose:
+      - "6379"
+    networks:
+      - web
+  
+    volumes:
+    - ./redis:/data
+
+  php-redis-admin:
+    env_file:
+     - prod_env
+    image: faktiva/php-redis-admin
+
+    environment:
+     - PHPREDMIN_DATABASE_REDIS_0_HOST=redis
+    expose:
+     - "80"
+    ports:
+      - "9889:80"
+    labels:
+      - "traefik.docker.network=web"
+      - "traefik.enable=true"
+      - "traefik.port=80"
+      - "traefik.frontend.rule=Host:pra.docker.rcsl.lu"
+      - "traefik.frontend.entryPoints=http"
+    networks:
+      - web
+    depends_on:
+    - redis
+  
+networks:
+  web:
+    external: true
+
+volumes:
+  aidata: {}
+  portainerdata: {}
