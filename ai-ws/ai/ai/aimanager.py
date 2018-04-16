@@ -136,7 +136,10 @@ class Ai(object):
         lang = detectLanguage(text)
         if lang == False:
             lang = defaultlanguage
+        
+        logging.error(f"finiding {lang!s} in {self.models.keys()!s}")
         if lang not in self.models.keys():
+            logging.error(self.models.keys())
             return False
 
         model = self.models[lang]
