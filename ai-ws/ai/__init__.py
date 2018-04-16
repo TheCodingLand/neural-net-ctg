@@ -22,7 +22,7 @@ def create_app():
     app = Flask(__name__)
     app.wsgi_app = ProxyFix(app.wsgi_app)
     CORS(app)
-    blueprint = Blueprint('api', __name__, url_prefix='/')
+    blueprint = Blueprint('api', __name__)
     # instantiate the app
     api.init_app(blueprint)
     
