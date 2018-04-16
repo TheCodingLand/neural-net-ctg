@@ -9,7 +9,7 @@ logging.warning("Connected to Redis, Database 2, port 6379")
 
 while True:
 
-    keys = b.keys('*')
+    keys = b.keys('train*')
     if len(keys) == 0:
         #easier on CPU usage
         time.sleep(0.1)
