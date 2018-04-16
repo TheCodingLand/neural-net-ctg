@@ -107,7 +107,9 @@ while True:
                     categ_title=getCategoryTitle(prediction1).split(':')[-1].strip()
                     if categ_title =="":
                         categ_title=getCategoryTitle(prediction1).strip()
+
                         prediction = categ_title
+                    print(prediction)
 
             
                 
@@ -121,3 +123,4 @@ while True:
                         'Accept': 'text/plain'}
 
                     r = requests.put(url=modurl, json=payloadmod, headers=headers)
+                    print(r.json())
