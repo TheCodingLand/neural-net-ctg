@@ -16,6 +16,25 @@ def getCategoryTitle(cat):
         title = data['data']['Title']
         return title
 
+def preparedata(s):
+    """
+    Given a text, cleans and normalizes it.
+    """
+    s = s.lower()
+    s= s.replace(".","")
+    # Replace ips
+    s = re.sub(r'\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}', ' _ip_ ', s)
+    # Isolate punctuation, remove numbers
+    s = re.sub(r'([\'\"\.\(\)\!\?\-\\\/\,])', r' \1 ', s)
+    s = re.sub(r'([0-9])' , ' ', s)
+    s = s.replace('*', '')
+    s = s.replace('_', '')
+    # Remove some special characters
+    s = re.sub(r'([\;\:\|•«\n])', ' ', s)
+
+    s = s.replace('&', ' and ')
+    s = s.replace('@', ' at ')
+    return s
 
 def getEmails():
 
@@ -59,10 +78,11 @@ while True:
             id = email['id']
             subject=email['data']['Subject']
             body = email['data']['Body Plain Text']
-            value = f'{subject!s}{body!s}'.replace('\n',' ').strip()
+            value = f'{subject!s} {body!s}'.replace('\n',' ').strip()
             value = value.split(' ')
             value = value[0:int(len(value)*75/100)]
             value = ' '.join(value)
+            value = preparedata(value)
             
             print(value)
             prediction = predict(value)
