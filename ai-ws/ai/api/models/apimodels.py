@@ -8,6 +8,10 @@ prediction = api.model('prediction:', {
     
 })
 
+model = api.model('model:', {
+    'text': fields.String(description='name of the model to laod'),
+    
+})
 
 
 

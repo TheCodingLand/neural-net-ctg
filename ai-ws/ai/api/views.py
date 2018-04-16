@@ -9,7 +9,7 @@ from flask import request
 import recastai
 RECAST_TOKEN="78ceb95a23a923c4b6fd1afbde85ac85"
 from ai.api.restplus import api
-from ai.api.models.apimodels import prediction, training
+from ai.api.models.apimodels import prediction, training, model
 
 from ai.ai.aimanager import Config
 
@@ -70,10 +70,7 @@ class Train(Resource):
                     d.update({'training': 'Started !'})
                 else:
                     d.update({'training': 'Already in progress !'})
-                    
-        
-       
-        
+
         try: 
             #check if training is already in progress
             
@@ -96,6 +93,52 @@ class Train(Resource):
                 'message': 'server error.'
             }
             return response_object, 500
+
+
+
+
+@api.response(400, 'failed.')
+@ns.route('/loadmodel', methods=['POST'])
+class Prediction(Resource):
+    @api.response(201, 'loaded')
+    @api.expect(model)
+    def post(self):
+
+        post_data = request.get_json()
+        model = post_data.get('model')
+            # predict goes here
+        logging.error(model)
+
+        items = am.config.ai.load_model(model)
+        # log.info(request.get_json())
+        try:
+            
+            #here we will establish a context for the bot to talk into
+            #user can guide the bot into several contexts. context will be displayed. 
+            # starting with small talk
+
+            logging.error(items)
+            d = {}
+            d.update({'label': items[0]})
+            d.update({'confidence': items[1]})
+            if d:
+                response_object = {
+                    'status': 'success',
+                    'results': d
+                }
+                return response_object, 201
+            else:
+                response_object = {
+                    'status': 'fail',
+                    'message': 'Sorry. failed.'
+                }
+                return response_object, 400
+        except:
+            response_object = {
+                'status': 'fail',
+                'message': 'Invalid payload.'
+            }
+            return response_object, 400
 
 
 @api.response(400, 'failed.')

@@ -48,7 +48,7 @@ class Config(object):
         except KeyError:
             logging.error(f"could not load config name {configname!s} in {j['configs'].keys()!s}")
         
-
+        self.models={}
         self.name= configname
         self.version = config['version']
         self.baseFolder=f'/trainingdata/{self.name!s}/{self.version!s}/' 
@@ -102,7 +102,18 @@ class Ai(object):
             from ai.tools.ticketingsystem import ot as ts
         
         self.ts = ts()
-        
+    
+    def load_model(self, model):
+        """ Loads models dynamically"""    
+        os.chdir(f"{self.modelsFolder!s}/{model!s}")
+        for f in glob.glob("*.bin"):
+            logging.error(f'loading {f!s}')
+            lang=f.split('_')[0]
+            ftmodel = f"{self.modelsFolder!s}{model!s}{f!s}"
+            self.models.update({lang : FastText(ftmodel)})
+        logging.error('finished loading models')
+        return True
+
     def load_all_models(self):
         """Loads all models in the models folder, and creates a dictionnary {lang:model}"""
         self.models={}
