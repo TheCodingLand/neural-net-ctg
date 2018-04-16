@@ -90,32 +90,32 @@ while True:
 
             prediction = prediction.json()
             print(prediction)
-            prediction1 = prediction['results']['category']
+            prediction1 = prediction['results']['label']
 
-            prediction2 = prediction['results']['category2']
+            confidence = prediction['results']['confidence']
+            if confidence > 0.7:
 
 
 
 
-            print (prediction1)
 
-            categ_title=getCategoryTitle(prediction1).split(':')[-1].strip()
-            if categ_title =="":
-                categ_title=getCategoryTitle(prediction1).strip()
-            prediction = categ_title
 
-            categ_title=getCategoryTitle(prediction2).split(':')[-1].strip()
-            if categ_title =="":
-                categ_title=getCategoryTitle(prediction2).strip()
-            prediction2 = categ_title
+                print (prediction1)
+
+                categ_title=getCategoryTitle(prediction1).split(':')[-1].strip()
+                if categ_title =="":
+                    categ_title=getCategoryTitle(prediction1).strip()
+                    prediction = categ_title
+
+          
             
             
 
-            modurl=f'http://148.110.107.15:5001/api/ot/objectmod/{id!s}'
-            print(modurl)
-            payloadmod = { 'PredictedCategory' : f'{prediction!s} / {prediction2!s}' }
-            print (payloadmod)
-            headers = {'Content-type': 'application/json',
-                   'Accept': 'text/plain'}
+                modurl=f'http://148.110.107.15:5001/api/ot/objectmod/{id!s}'
+                print(modurl)
+                payloadmod = { 'PredictedCategory' : f'{prediction!s}' }
+                print (payloadmod)
+                headers = {'Content-type': 'application/json',
+                    'Accept': 'text/plain'}
 
             #r = requests.put(url=modurl, json=payloadmod, headers=headers)
