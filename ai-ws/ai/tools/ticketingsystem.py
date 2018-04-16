@@ -19,9 +19,10 @@ class ot(object):
         self.request = None
         self.labelfield = None
 
-    def getTrainingData(self, filtername, labelfield, fields):
-        
-        
+    def getTrainingData(self, filtername, labelfield, trainingfields):
+
+        fields = []
+        fields = trainingfields
 
         fields.append(labelfield)
         
