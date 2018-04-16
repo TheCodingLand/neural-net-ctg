@@ -45,7 +45,7 @@ def getEmails():
 
     payload = {
         "objectclass": "Email",
-        "filter": "emailstopredict",
+        "filter": "emailtopredict",
         "variables": [
             {
             }
@@ -84,7 +84,7 @@ while True:
             value = ' '.join(value)
             value = preparedata(value)
             
-            #print(value)
+            #print(value)   
             
             prediction = predict(value)
             
