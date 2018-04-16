@@ -25,7 +25,7 @@ RUN mkdir -p /usr/app/tina/tina
 
 RUN yes | cp -rf /usr/src/app/build/* /usr/app/tina/tina
 
-WORKDIR /usr/app/tina/
+WORKDIR /usr/app/tina/tina
 #CMD ["npm", "start"]
 
 CMD ["http-server"]
