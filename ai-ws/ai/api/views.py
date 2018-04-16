@@ -100,7 +100,7 @@ class Train(Resource):
 
 @api.response(400, 'failed.')
 @ns.route('/loadmodel', methods=['POST'])
-class Prediction(Resource):
+class loadmodel(Resource):
     @api.response(201, 'loaded')
     @api.expect(model)
     def post(self):
