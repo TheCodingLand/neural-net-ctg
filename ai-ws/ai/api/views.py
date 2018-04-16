@@ -31,10 +31,11 @@ class ModelDefinition(object):
 
 
 
-am = ModelDefinition('ot_emails')
+
 tm = ModelDefinition('ot_tickets_solutions')
 um = ModelDefinition('ot_solutions')
-am.load()
+am = ModelDefinition('ot_emails')
+#am.load()
 #um.load()
 models = [am, um, tm]
 
@@ -106,33 +107,16 @@ class Prediction(Resource):
 
         post_data = request.get_json()
         model = post_data.get('model')
-            # predict goes here
+        am = ModelDefinition(model)
+        am.load()
         logging.error(model)
-
-        items = am.config.ai.load_model(model)
-        # log.info(request.get_json())
-        try:
-            
-            #here we will establish a context for the bot to talk into
-            #user can guide the bot into several contexts. context will be displayed. 
-            # starting with small talk
-
-            logging.error(items)
-            d = {}
-            d.update({'label': items[0]})
-            d.update({'confidence': items[1]})
-            if d:
-                response_object = {
+        try:      
+            response_object = {
                     'status': 'success',
-                    'results': d
+                    'model' : model
                 }
-                return response_object, 201
-            else:
-                response_object = {
-                    'status': 'fail',
-                    'message': 'Sorry. failed.'
-                }
-                return response_object, 400
+            return response_object, 201
+
         except:
             response_object = {
                 'status': 'fail',
