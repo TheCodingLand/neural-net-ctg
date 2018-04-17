@@ -1,14 +1,11 @@
 version: '2'
 
 services:
-  
-
   ai-ws:
     build: ./ai-ws
     expose:
       - "5000"
     labels:
-      labels:
       - "traefik.backend=api"
       - "traefik.frontend.entryPoints=http"
       - "traefik.docker.network=web"
