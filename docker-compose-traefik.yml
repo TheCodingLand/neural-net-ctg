@@ -12,7 +12,7 @@ services:
       - "traefik.frontend.rule=Host:ai-api.julien.tech"
       - "traefik.enable=true"
       - "traefik.port=5000"
-      - "traefik.default.protocol=https"
+    
       
     networks:
       - web
@@ -28,7 +28,7 @@ services:
       - "traefik.frontend.rule=Host:ai.julien.tech"
       - "traefik.enable=true"
       - "traefik.port=8080"
-      - "traefik.default.protocol=https"
+   
       
     networks:
       - web
@@ -63,7 +63,7 @@ services:
       - "traefik.frontend.entryPoints=https"
       - "traefik.port=80"
       - "traefik.frontend.rule=Host:pra.julien.tech"
-      - "traefik.default.protocol=https"
+      
     depends_on:
     - redis
 
