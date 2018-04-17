@@ -1,33 +1,18 @@
 version: '2'
 
 services:
-  traefik:
-    image: traefik:1.5
-    restart: always
-    ports:
-      - 9999:80
-      - 443:443
-      - 10002:8080
-      - 10000:8081
-    labels:
-      - "traefik.frontend.rule=Host:docker.rcsl.lu"
-      - "traefik.frontend.entryPoints=http-admin"
-    networks:
-      - web
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      - /opt/traefik/traefik.toml:/etc/traefik/traefik.toml
-      - /opt/traefik/acme.json:/etc/traefik/acme.json
-    container_name: traefik
+  
 
   ai-ws:
     build: ./ai-ws
     expose:
       - "5000"
     labels:
+      labels:
       - "traefik.backend=api"
+      - "traefik.frontend.entryPoints=http"
       - "traefik.docker.network=web"
-      - "traefik.frontend.rule=PathPrefix:/swaggerui,/api"
+      - "traefik.frontend.rule=Host:ai-api.julien.tech"
       - "traefik.enable=true"
       - "traefik.port=5000"
       - "traefik.default.protocol=https"
@@ -41,10 +26,11 @@ services:
       - "3000"
     labels:
       - "traefik.backend=tina"
+      - "traefik.frontend.entryPoints=http"
       - "traefik.docker.network=web"
-      - "traefik.frontend.rule=PathPrefix:/tina,/static"
+      - "traefik.frontend.rule=Host:ai.julien.tech"
       - "traefik.enable=true"
-      - "traefik.port=3000"
+      - "traefik.port=8080"
       - "traefik.default.protocol=https"
       
     networks:
@@ -73,11 +59,11 @@ services:
     - "80"
     
     labels:
-      - "traefik.backend=tina"
       - "traefik.docker.network=web"
-      - "traefik.frontend.rule=PathPrefix:/pra"
       - "traefik.enable=true"
       - "traefik.port=80"
+      - "traefik.frontend.rule=Host:pra.julien.tech"
+      - "traefik.frontend.entryPoints=http"
       - "traefik.default.protocol=https"
     depends_on:
     - redis
