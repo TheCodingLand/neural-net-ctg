@@ -1,4 +1,4 @@
-version: '2'
+version: '3'
 
 services:
   ai-ws:
@@ -7,7 +7,6 @@ services:
       - "5000"
     labels:
       - "traefik.backend=api"
-      - "traefik.frontend.entryPoints=http,https"
       - "traefik.docker.network=web"
       - "traefik.frontend.rule=Host:ai-api.julien.tech"
       - "traefik.enable=true"
@@ -23,7 +22,6 @@ services:
       - "3000"
     labels:
       - "traefik.backend=tina"
-      - "traefik.frontend.entryPoints=http,https"
       - "traefik.docker.network=web"
       - "traefik.frontend.rule=Host:ai.julien.tech"
       - "traefik.enable=true"
@@ -62,7 +60,6 @@ services:
       - "traefik.enable=true"
       - "traefik.port=80"
       - "traefik.frontend.rule=Host:pra.julien.tech"
-      - "traefik.frontend.entryPoints=http,https"
       - "traefik.default.protocol=https"
     depends_on:
     - redis
