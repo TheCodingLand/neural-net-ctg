@@ -40,7 +40,8 @@ services:
     image: redis:latest
     expose:
       - "6379"
-    
+    networks:
+      - web
     volumes:
     - ./redis:/data
 
@@ -54,7 +55,8 @@ services:
     - PHPREDMIN_DATABASE_REDIS_0_HOST=redis
     expose:
     - "80"
-    
+    networks:
+      - web
     labels:
       - "traefik.docker.network=web"
       - "traefik.enable=true"
