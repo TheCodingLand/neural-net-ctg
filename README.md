@@ -40,3 +40,15 @@ for example using pre trained vectors :
 ./fasttext supervised -input LABELED_DATA -output MODEL -pretrainedVectors UNSUP_VECTORS.vec
  
 
+I want a block coding interface to chain data exports, splitting, training and prediction based on data.
+
+for this an object will be spawned in the task manager :
+ - drawing : name, list of ids blocks (blocks are stored in DB), block instances : [level/hierarchy , links ,  position x/y on the UI]
+ - Action : spawn block, link block, run, test
+ - Block types : input (json, text, script based), output (text, label/text, image, ...), extract/build data, Train model, Test model, predict model, log, actions (plugin based actions like apis, execute javascript code)
+
+Extract : plugin based : specify type of data input and output (text, label/text, image, sounds, geographic, 3D...)
+Predict(model) : input-output is based on a trained model 
+Train(model) : input data specified in model, outputs model file
+Log: builds logs for elk type data analytics.
+
