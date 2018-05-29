@@ -23,7 +23,7 @@ SECRET_KEY = 'mh0j8avz_1(&b2*@nqcm88@wf)q%=2=#m2n=n+$4(eso)_q$s!'
 DEBUG = True
 
 ALLOWED_HOSTS = ["88.207.210.73", "148.110.107.15",
-                 "192.168.178.115", "192.168.1.22", "nginx", "docker.rcsl.lu", "pdf.lbr.lu"]
+                 "192.168.178.115", "192.168.1.22", "nginx", "docker.rcsl.lu", "julien.tech"]
 
 if 'PROJECT_URL' in os.environ:
     ALLOWED_HOSTS.append(os.environ['PROJECT_URL'])
