@@ -3,9 +3,9 @@ from django.urls import path
 
 
 
-urlpatterns = [
-    path('', ai-config, name='configs'),
-    path('errors/<int:pdf_id>/', errors, name='errors'),
-]
+# urlpatterns = [
+#     path('', ai-config, name='configs'),
+#     path('errors/<int:pdf_id>/', errors, name='errors'),
+# ]
 
 
