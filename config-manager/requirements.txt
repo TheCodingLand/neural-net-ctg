@@ -1,0 +1,6 @@
+Django
+redis
+psycopg2-binary
+gunicorn
+django-cors-headers
+django-redis

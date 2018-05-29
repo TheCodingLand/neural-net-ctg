@@ -1,0 +1,9 @@
+{% if DATA %}
+    <ul>
+    {% for pdf in DATA %}
+        <li><a href="errors/{{ pdf.id }}/">{{ pdf.lastDetectedChange }} ({{ pdf.pages }} pages)</a> : <b>{{ pdf.name|truncatechars:45 }}</b> LAST ERROR : <font color="red">{{ pdf.get_last_error|truncatechars:35 }}</font> type : <b>{{ pdf.profil|title }}</b></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No pdfs are available.</p>
+{% endif %}

@@ -1,0 +1,30 @@
+{% if DATA %}
+    <h1><font color="red">{{ PDF.profil|title  }}</font></h1>
+    <h1>{{ PDF.name }} </h1>
+    <table border="1">
+        <tr>
+            <td>NB of Pages</td><td>tool</td><td>Producer</td><td>PDF Version</td><td>User</td><td>size</td><td>Last Mod (intranet)</td><td>dernière mise ä jour detectée</td>
+        </tr>
+        <tr>
+            <td>{{ PDF.pages }} pages</td> <td>{{ PDF.tool }} </td><td>{{ PDF.producer }}</td> <td>{{PDF.pdfversion}}</td><td>{{PDF.lxt}}</td><td>{{ PDF.size|filesizeformat }} ( {{ PDF.size }} )<td>{{ PDF.lastmod }}</td><td>{{ PDF.lastDetectedChange }}</td>
+        </tr>
+    </table>
+    <h2>Solutions :</h2>
+    <ul>
+    {% for error in DATA %}
+        {% if error.solution %}
+        <li><font color="green"><b>{{ error.solution.title }} :</b> {{ error.solution.text }}</font> </li>
+       {% endif %}
+    {% endfor %}
+    </ul>
+    <h2>Détail des erreurs</h2>
+    <ul>
+            {% for error in DATA %}
+                
+                <li>{{ error.text }}</li>
+                
+            {% endfor %}
+            </ul>
+{% else %}
+    <p>No errors are available.</p>
+{% endif %}

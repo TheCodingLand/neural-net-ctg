@@ -7,5 +7,9 @@ class ManageKey(object):
         self.key = key
 
     def startTask():
+        logging.info("starting task")
+
+    
+
         
         

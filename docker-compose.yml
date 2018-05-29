@@ -2,6 +2,7 @@ version: '3'
 
 services:
 
+
   traefik:
     image: traefik:1.5.3
     restart: always
@@ -21,6 +22,61 @@ services:
       - /opt/traefik/traefik.toml:/etc/traefik/traefik.toml
       - /opt/traefik/acme.json:/etc/traefik/acme.json
     container_name: traefik
+
+
+  postgres-ai:
+    restart: always
+    image: postgres:latest
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_DB=${DB_NAME}
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASS}
+    labels:
+      - "traefik.docker.network=web"
+      - "traefik.frontend.rule=Host:ai-db.julien.tech"
+      - "traefik.enable=true"
+      - "traefik.port=5432"
+      - "traefik.frontend.entryPoints=https"
+    networks:
+      - web
+
+    volumes:
+      - ./postgres-ai/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
+    expose:
+      - "5432"
+
+  config-manager:
+
+    build: ./config-manager
+    expose:
+     - "8888"
+    command: sh -c 'python3 manage.py makemigrations && python3 manage.py migrate --run-syncdb && python3 createsuperuser.py & gunicorn mydjango.wsgi:application -w 2 -b :8888'
+    working_dir: /data/config-manager/server
+    environment:
+      - CREATE_SUPER_USER=${CREATE_SUPER_USER}
+      - SUPER_USER=${SUPER_USER}
+      - SUPER_USER_PASSWORD=${SUPER_USER_PASSWORD}
+      - SUPER_USER_EMAIL=${SUPER_USER_EMAIL}
+      - DB_NAME=${DB_NAME}
+      - DB_USER=${DB_USER}
+      - DB_PASS=${DB_PASS}
+      - DB_SERVICE=${DB_SERVICE}
+      - DB_PORT=${DB_PORT}
+    volumes:
+      - ./config-manager:/data/config-manager
+    
+    labels:
+      - "traefik.docker.network=web"
+      - "traefik.enable=true"
+      - "traefik.port=8888"
+      - "traefik.frontend.rule=Host:aimanager.julien.tech"
+      - "traefik.frontend.entryPoints=https"
+    depends_on:
+      - postgres-ai
+    networks:
+      - web
 
   ai-ws:
     build: ./ai-ws
