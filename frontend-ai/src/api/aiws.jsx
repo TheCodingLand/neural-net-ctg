@@ -1,9 +1,10 @@
 import { call, put } from 'redux-saga/effects'
 
-let hostname =window.location.hostname.split('.')[-2] + "." + window.location.hostname.split('.')[-1]
-console.log(hostname)
 
-export function* chat_api(text) { 
+export function* chat_api(text) {
+    let hostname =window.location.hostname.split('.')[-2] + "." + window.location.hostname.split('.')[-1]
+    console.log(hostname)
+ 
     const response= yield call(
         fetch,`http://ai-api.${hostname}/chat`,
         {
@@ -21,7 +22,10 @@ return result
 }
 
 
-export function* update_brain_api(conversation) { 
+export function* update_brain_api(conversation) {
+    let hostname =window.location.hostname.split('.')[-2] + "." + window.location.hostname.split('.')[-1]
+    console.log(hostname)
+  
     let convstring = conversation.map((s) => {  if (s.user != "Tina") {return s.content} })
     
     convstring = convstring.join(' ')
