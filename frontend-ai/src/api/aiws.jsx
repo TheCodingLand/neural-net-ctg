@@ -6,7 +6,7 @@ export function* chat_api(text) {
     console.log(hostname)
  
     const response= yield call(
-        fetch,`http://ai-api.julien.tech/chat`,
+        fetch,`https://ai-api.julien.tech/chat`,
         {
         body: JSON.stringify({text:text}),
         method:'POST',
@@ -31,7 +31,7 @@ export function* update_brain_api(conversation) {
     convstring = convstring.join(' ')
     console.log(convstring)
     const response = yield call(
-        fetch,`http://ai-api.julien.tech/updatebrain`,
+        fetch,`https://ai-api.julien.tech/updatebrain`,
         {
         body: JSON.stringify({text:convstring}),
         method:'POST',
