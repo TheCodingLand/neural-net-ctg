@@ -9,11 +9,12 @@ export function* chat_api(text) {
         fetch,`https://ai-api.julien.tech/chat`,
         {
         body: JSON.stringify({text:text}),
+        
         method:'POST',
         headers: {
             'content-type': 'application/json'
           },
-          mode: 'cors', // no-cors, cors, *same-origin
+          mode: 'no-cors', // no-cors, cors, *same-origin
     } )
     let result = yield response.json()
     result = result.results
@@ -38,7 +39,7 @@ export function* update_brain_api(conversation) {
         headers: {
             'content-type': 'application/json'
           },
-          mode: 'cors', // no-cors, cors, *same-origin
+          mode: 'no-cors', // no-cors, cors, *same-origin
     } )
  
 
